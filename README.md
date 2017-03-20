@@ -16,19 +16,19 @@ Updatere værdig for bruger nu logget ind.
 
 # Administrator:
 
-## `post:/user/`
+## `post:/users/`
 Opretter ny bruger.
 
-## `get:/user/`
+## `get:/users/`
 Returnere alle brugere.
 
-## `get:/user/:userid`
+## `get:/users/:userid`
 Returnere bruger.
 
-## `patch:/user/:userid`
+## `patch:/users/:userid`
 Updatere værdig for bruger logget ind.
 
-## `get:/user/:userid/reset-password`
+## `get:/users/:userid/reset-password`
 Nulstiller password for bruger.
 	
 
