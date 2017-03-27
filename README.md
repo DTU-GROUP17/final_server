@@ -1,39 +1,42 @@
-# CDIO_3_Server
+FORMAT: 1A
+
+# CDIO 3 Server
+
+# Group Authentication
+
+Has all the methods associated with authenticating a user.
+
+## Authenticate [/auth]
+
+### Authenticates the user [POST /auth/login]
 
 
-API kommandoer vi implementerer.
+# Group Users 
 
-# Almindelig bruger:
+## Self [/self]
 
-## `post:/auth/login`
-Bruger logger ind.
+### Views the currently authenticated user [POST]
 
-## `get:/self/`
-Returnere al information om den bruger der er logget ind.
+### Update the currently authenticated user [PATCH]
 
-## `patch:/self/`
-Updatere værdig for bruger nu logget ind.
+## Users [/users]
 
-# Administrator:
+### Creates a new user [POST]
 
-## `post:/users/`
-Opretter ny bruger.
+### Views all users [GET]
 
-## `get:/users/`
-Returnere alle brugere.
 
-## `get:/users/:userid`
-Returnere bruger.
 
-## `patch:/users/:userid`
-Updatere værdig for bruger logget ind.
+## User [/users/{user_id}]
 
-## `get:/users/:userid/reset-password`
-Nulstiller password for bruger.
-	
++ Parameters
+    + user_id (number, required) - ID of the user in form of an integer.
+    
+   
+### View a users information [GET]
 
-## JSON format
+### Update a user [PATCH]
 
-Vi har ikke besluttet os for hvordan vi repræsentere brugerene endnu, men det bliver noget meget simpelt ala:
+### Reset users password [GET /users/{user_id}/reset-password]
 
 `{id: 2, name: 'Wauw', job: 'Pharmasist'}`
