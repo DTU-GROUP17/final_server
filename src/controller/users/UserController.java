@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-@Path("users/{userId: [0-9]*}")
+@Path("users/{userId: [0-9]+}")
 public class UserController {
 
 	@PathParam("userId")
