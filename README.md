@@ -37,6 +37,8 @@ Has all the methods associated with authenticating a user.
 
 ### Update a user [PATCH]
 
++ Response 204 (application/json)
+
 ### Reset users password [GET /users/{user_id}/reset-password]
 
 `{id: 2, name: 'Wauw', job: 'Pharmasist'}`

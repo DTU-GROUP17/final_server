@@ -1,13 +1,9 @@
-import com.sun.net.httpserver.HttpServer;
-import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import java.io.IOException;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
 
 
-@Path("/helloworld")
+@Path("/auth")
 public class test {
 
     @GET
