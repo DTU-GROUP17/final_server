@@ -1,27 +1,22 @@
 package App;
 
 import com.sun.net.httpserver.HttpServer;
-import controller.users.UserController;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @ApplicationPath("")
 public class App extends ResourceConfig{
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
-
+		// Create the server.
 		ResourceConfig rc = ResourceConfig.forApplicationClass(App.class);
 		URI endpoint = new URI("http://localhost:9998/");
-
 		HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
 
 
@@ -35,7 +30,6 @@ public class App extends ResourceConfig{
 	}
 
 	public App() {
-		//this.registerClasses(UserController.class);
-		packages(true, "controller");
+		this.packages(true, "controller");
 	}
 }

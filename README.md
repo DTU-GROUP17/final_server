@@ -15,7 +15,7 @@ Has all the methods associated with authenticating a user.
 
 ## Self [/self]
 
-### Views the currently authenticated user [POST]
+### Views the currently authenticated user [GET]
 
 ### Update the currently authenticated user [PATCH]
 
