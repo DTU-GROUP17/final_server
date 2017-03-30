@@ -1,6 +1,6 @@
-package controller.users;
+package http.controllers.users;
 
-import annotation.PATCH;
+import annotations.http.PATCH;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,12 +12,12 @@ import javax.ws.rs.core.Response;
 public class SelfController {
 
 	@GET
-	public Response getSelf() {
+	public Response show() {
 		return Response.ok("found it!").build();
 	}
 
 	@PATCH
-	public Response updateSelf() {
+	public Response update() {
 		return Response.noContent().build();
 	}
 }

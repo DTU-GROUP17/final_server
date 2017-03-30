@@ -1,4 +1,4 @@
-package controller.auth;
+package http.controllers.auth;
 
 
 import javax.ws.rs.GET;
