@@ -3,6 +3,7 @@ package app;
 import com.sun.net.httpserver.HttpServer;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class App extends ResourceConfig{
 		URI endpoint = new URI("http://localhost:9998/");
 		HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
 
+
 		System.out.println("Server running");
 		System.out.println("Visit on: "+endpoint.toString());
 		System.out.println("Hit return to stop...");
@@ -30,5 +32,6 @@ public class App extends ResourceConfig{
 
 	public App() {
 		this.packages(true, "http/controllers");
+		register(RolesAllowedDynamicFeature.class);
 	}
 }
