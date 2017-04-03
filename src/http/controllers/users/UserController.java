@@ -1,7 +1,7 @@
 package http.controllers.users;
 
 
-import annotations.http.Authenticate;
+import annotations.http.Authenticated;
 import annotations.http.PATCH;
 
 import javax.ws.rs.*;
@@ -9,11 +9,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("users")
+@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 public class UserController {
 
 	@GET
-	@Authenticate
 	public String index() {
 		return "all users";
 	}
