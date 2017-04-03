@@ -14,11 +14,11 @@ public class AuthController {
 
 	@POST
 	@Path("login")
-	public Response authenticateUser(LoginInfo info) {
+	public Response loginUser(LoginInfo info) {
 		if (info == null) {
 			Response.status(403).build();
 		}
-		
+
 		System.out.println("works");
 
 		return Response.ok("works").build();
