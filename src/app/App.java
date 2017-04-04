@@ -5,6 +5,11 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import models.User;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
@@ -16,8 +21,33 @@ import java.security.Key;
 @ApplicationPath("")
 public class App extends ResourceConfig{
 	public final static Key key = MacProvider.generateKey();
+	public static SessionFactory factory;
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
+		try{
+			factory = new Configuration()
+					.configure()
+						.addAnnotatedClass(User.class)
+							.buildSessionFactory();
+		}catch (Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
+
+		Session session = factory.openSession();
+
+		try{
+			User user = new User();
+			user.setName("CE lugter");
+			session.save(user);
+			System.out.println(user.getId());
+		}catch (HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+
+
 		// Create the server.
 		ResourceConfig rc = ResourceConfig.forApplicationClass(App.class);
 		URI endpoint = new URI("http://localhost:9998/");

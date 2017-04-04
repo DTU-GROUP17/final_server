@@ -1,19 +1,23 @@
 package models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends Model {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, unique = true)
-	private int id;
+	@Getter private int id;
 
-	private ArrayList<Role> roles;
+	//@Getter @Setter private ArrayList<Role> roles;
 
-	private String name;
+	@Column(nullable = false)
+	@Getter @Setter private String name;
 
 }
