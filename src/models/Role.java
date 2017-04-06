@@ -17,8 +17,8 @@ public class Role extends Model{
 	@Getter
 	private int id;
 
-	//@ManyToMany(cascade=CascadeType.ALL, mappedBy = "roles")
-	//private Set<User> users = new HashSet<>(0);
+	@ManyToMany(cascade=CascadeType.ALL, mappedBy = "roles")
+	@Getter @Setter private Set<User> users = new HashSet<>(0);
 
 
 	@Column(nullable = false)

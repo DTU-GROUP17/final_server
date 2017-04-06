@@ -46,13 +46,14 @@ public class App extends ResourceConfig{
 			user.setName("din mor");
 
 			Role role = new Role();
-			role.setName("super admin");
+			role.setName("super admin 2");
 
-			HashSet<Role> roles = new HashSet<>();
-			roles.add(role);
+			HashSet<User> users = new HashSet<>();
+			users.add(user);
 
-			user.setRoles(roles);
-			session.save(user);
+			role.setUsers(users);
+
+			session.save(role);
 
 			tx.commit();
 

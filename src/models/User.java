@@ -27,19 +27,11 @@ public class User extends Model {
 	@ManyToMany()
 	@Cascade(value = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns =@JoinColumn(name = "user_id"), inverseJoinColumns =@JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+	@Getter @Setter private Set<Role> roles;
 
 
 	@Column(nullable = false)
 	@Getter @Setter private String name;
 
 
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
 }
