@@ -22,7 +22,5 @@
         </property>
         <property name="show_sql">true</property>
 
-        <mapping class="models.Role"/>
-        <mapping class="models.User"/>
     </session-factory>
 </hibernate-configuration>

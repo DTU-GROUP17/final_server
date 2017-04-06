@@ -18,9 +18,15 @@ public class User extends Model {
 	@Column(nullable = false, unique = true)
 	@Getter private int id;
 
+
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns =@JoinColumn(name = "user_id"), inverseJoinColumns =@JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+
+
+	@Column(nullable = false)
+	@Getter @Setter private String name;
 
 
 
@@ -31,8 +37,4 @@ public class User extends Model {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	@Column(nullable = false)
-	@Getter @Setter private String name;
-
 }
