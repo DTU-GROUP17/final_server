@@ -3,8 +3,12 @@ package models;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +24,8 @@ public class User extends Model {
 
 
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany()
+	@Cascade(value = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns =@JoinColumn(name = "user_id"), inverseJoinColumns =@JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 

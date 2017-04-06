@@ -41,6 +41,7 @@ public class App extends ResourceConfig{
 		Session session = factory.openSession();
 
 		try{
+			Transaction tx = session.beginTransaction();
 			User user = new User();
 			user.setName("din mor");
 
@@ -52,6 +53,9 @@ public class App extends ResourceConfig{
 
 			user.setRoles(roles);
 			session.save(user);
+
+			tx.commit();
+
 
 			System.out.println(user.getRoles());
 		}catch (HibernateException e) {
