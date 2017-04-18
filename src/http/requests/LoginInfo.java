@@ -1,14 +1,8 @@
 package http.requests;
 
+import lombok.Getter;
+
 public class LoginInfo {
-	private String user;
-	private String pass;
-
-	public String getUser() {
-		return user;
-	}
-
-	public String getPass() {
-		return pass;
-	}
+	@Getter private String user;
+	@Getter private String pass;
 }

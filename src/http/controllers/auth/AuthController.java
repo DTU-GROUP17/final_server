@@ -1,13 +1,17 @@
 package http.controllers.auth;
 
 
+import exceptions.auth.JWTException;
 import http.requests.LoginInfo;
+import models.User;
+import services.authentication.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-@Path("auth")
+@Path("authentication")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthController {
@@ -16,12 +20,22 @@ public class AuthController {
 	@Path("login")
 	public Response loginUser(LoginInfo info) {
 		if (info == null) {
-			Response.status(403).build();
+			Response.status(Status.FORBIDDEN).build();
+		}
+		assert info != null;
+
+		Guard guard = new JwtGuard(User.class);
+
+		try {
+			if(!guard.validate(info.getUser(), info.getPass())) {
+				return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
+			}
+		} catch (JWTException exception) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(exception.getMessage()).build();
 		}
 
-		System.out.println("works");
-
-		return Response.ok("works").build();
+		//TODO: Generate JWT token and return it.
+		return Response.status(200).entity("token here!").build();
 	}
 
 }

@@ -1,21 +1,20 @@
 package models;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.*;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import services.authentication.Authenticatable;
+import services.hash.Hasher;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends Model {
+@Accessors(chain = true)
+public class User extends Model implements Authenticatable<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +32,16 @@ public class User extends Model {
 	@Column(nullable = false)
 	@Getter @Setter private String name;
 
+	@Getter private String password;
+
+	public User setPassword(String password) {
+		this.password = Hasher.hash(password);
+		return this;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return String.valueOf(this.getId());
+	}
 
 }
