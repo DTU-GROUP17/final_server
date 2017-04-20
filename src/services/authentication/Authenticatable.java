@@ -4,7 +4,6 @@ import services.hash.Hasher;
 
 public interface Authenticatable<T extends Authenticatable<T>> {
 
-
 	/**
 	 * Get the unique identifier for the user.
 	 */

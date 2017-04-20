@@ -28,7 +28,8 @@ public class App extends ResourceConfig{
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
 		try{
-			factory = new Configuration()
+			factory =
+				new Configuration()
 					.configure()
 						.addAnnotatedClass(User.class)
 							.addAnnotatedClass(Role.class)
@@ -37,34 +38,6 @@ public class App extends ResourceConfig{
 			System.err.println("Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);
 		}
-
-		Session session = factory.openSession();
-
-		try{
-			Transaction tx = session.beginTransaction();
-			User user = new User();
-			user.setName("din mor");
-
-			Role role = new Role();
-			role.setName("super admin 2");
-
-			HashSet<User> users = new HashSet<>();
-			users.add(user);
-
-			role.setUsers(users);
-
-			session.save(role);
-
-			tx.commit();
-
-
-			System.out.println(user.getRoles());
-		}catch (HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-
 
 		// Create the server.
 		ResourceConfig rc = ResourceConfig.forApplicationClass(App.class);

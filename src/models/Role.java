@@ -14,12 +14,10 @@ public class Role extends Model{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, unique = true)
-	@Getter
-	private int id;
+	@Getter private int id;
 
 	@ManyToMany(cascade=CascadeType.ALL, mappedBy = "roles")
 	@Getter @Setter private Set<User> users = new HashSet<>(0);
-
 
 	@Column(nullable = false)
 	@Getter @Setter private String name;

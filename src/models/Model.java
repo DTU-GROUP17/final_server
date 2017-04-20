@@ -1,7 +1,11 @@
 package models;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.NAME,
+		property = "type"
+)
 public abstract class Model {
 
 }

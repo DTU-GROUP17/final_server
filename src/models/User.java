@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,8 +22,6 @@ public class User extends Model implements Authenticatable<User> {
 	@Column(nullable = false, unique = true)
 	@Getter private int id;
 
-
-
 	@ManyToMany()
 	@Cascade(value = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns =@JoinColumn(name = "user_id"), inverseJoinColumns =@JoinColumn(name = "role_id"))
@@ -34,11 +33,13 @@ public class User extends Model implements Authenticatable<User> {
 
 	@Getter private String password;
 
+	@JsonIgnore
 	public User setPassword(String password) {
 		this.password = Hasher.hash(password);
 		return this;
 	}
 
+	@JsonIgnore
 	@Override
 	public String getIdentifier() {
 		return String.valueOf(this.getId());
