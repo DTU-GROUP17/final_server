@@ -27,6 +27,7 @@ public class UserController {
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
+
 			List<User> users =
 				session
 					.createQuery("from User")

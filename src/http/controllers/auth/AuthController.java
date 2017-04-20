@@ -6,6 +6,7 @@ import http.requests.LoginInfo;
 import models.User;
 import services.authentication.*;
 
+import javax.json.Json;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ public class AuthController {
 		}
 		assert info != null;
 
-		Guard guard = new JwtGuard(User.class);
+		JwtGuard guard = new JwtGuard(User.class);
 
 		try {
 			if(!guard.validate(info.getUserName(), info.getPassword())) {
@@ -34,8 +35,12 @@ public class AuthController {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(exception.getMessage()).build();
 		}
 
-		//TODO: Generate JWT token and return it.
-		return Response.status(200).entity("token here!").build();
+		return Response.status(200)
+			.entity(
+				Json.createObjectBuilder()
+					.add("message", guard.generateToken().getToken())
+					.add("status", 200)
+			).build();
 	}
 
 }

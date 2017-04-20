@@ -2,6 +2,8 @@ package services.authentication;
 
 import app.App;
 import exceptions.auth.InvalidCredentials;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Accessors(chain = true)
 public class JwtGuard implements Guard<JwtGuard>{
+
+	private String jwtToken;
 
 	private Class<? extends Authenticatable> model;
 
@@ -33,6 +37,7 @@ public class JwtGuard implements Guard<JwtGuard>{
 		return !check();
 
 	}
+
 
 	@Override
 	public boolean validate(@NonNull String identifier, @NonNull String password) {
@@ -62,4 +67,15 @@ public class JwtGuard implements Guard<JwtGuard>{
 		}
 	}
 
+	public JwtGuard generateToken() {
+		this.jwtToken = Jwts.builder()
+				.setSubject(this.user.getIdentifier())
+					.signWith(SignatureAlgorithm.HS512, App.key)
+						.compact();
+		return this;
+	}
+
+	public String getToken() {
+		return this.jwtToken;
+	}
 }

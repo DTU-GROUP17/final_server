@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Accessors(chain = true)
-public class User extends Model implements Authenticatable<User> {
+public class User extends Model implements Authenticatable<User>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
