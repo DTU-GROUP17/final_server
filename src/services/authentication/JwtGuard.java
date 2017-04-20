@@ -6,7 +6,11 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import models.User;
 import org.hibernate.Session;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Accessors(chain = true)
 public class JwtGuard implements Guard<JwtGuard>{
@@ -42,19 +46,19 @@ public class JwtGuard implements Guard<JwtGuard>{
 
 	private Authenticatable retrieveByCredentials(String identifier, String password) throws InvalidCredentials {
 		try(Session session = App.factory.openSession()) {
-			
-			Authenticatable user = session.find(this.model, identifier);
 
-			if(!user.validateCredentials(password)) {
+			List<Authenticatable> users;
+
+			users = session
+				.createQuery("from User where userName=:username")
+					.setParameter("username", identifier)
+						.list();
+
+			if (users.size() > 0) {
+				return users.get(0);
+			} else {
 				throw new InvalidCredentials();
 			}
-			return user;
-		}
-		catch (Exception e) {
-
-			System.out.println(e);
-			System.out.println(e.getMessage());
-			throw new InvalidCredentials();
 		}
 	}
 
