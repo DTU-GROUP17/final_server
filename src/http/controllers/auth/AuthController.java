@@ -27,7 +27,7 @@ public class AuthController {
 		Guard guard = new JwtGuard(User.class);
 
 		try {
-			if(!guard.validate(info.getUser(), info.getPass())) {
+			if(!guard.validate(info.getUserName(), info.getPassword())) {
 				return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
 			}
 		} catch (JWTException exception) {

@@ -41,14 +41,21 @@ public class JwtGuard implements Guard<JwtGuard>{
 	}
 
 	private Authenticatable retrieveByCredentials(String identifier, String password) throws InvalidCredentials {
-		Session session = App.factory.openSession();
-		Authenticatable user = session.find(this.model, identifier);
+		try(Session session = App.factory.openSession()) {
+			
+			Authenticatable user = session.find(this.model, identifier);
 
-		if(!user.validateCredentials(password)) {
+			if(!user.validateCredentials(password)) {
+				throw new InvalidCredentials();
+			}
+			return user;
+		}
+		catch (Exception e) {
+
+			System.out.println(e);
+			System.out.println(e.getMessage());
 			throw new InvalidCredentials();
 		}
-
-		return user;
 	}
 
 }

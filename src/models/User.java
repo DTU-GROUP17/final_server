@@ -31,7 +31,11 @@ public class User extends Model implements Authenticatable<User> {
 	@Column(nullable = false)
 	@Getter @Setter private String name;
 
+	@Column(nullable = false)
 	@Getter private String password;
+
+	@Column(nullable = false, unique = true)
+	@Getter @Setter private String userName;
 
 	@JsonIgnore
 	public User setPassword(String password) {
@@ -42,7 +46,7 @@ public class User extends Model implements Authenticatable<User> {
 	@JsonIgnore
 	@Override
 	public String getIdentifier() {
-		return String.valueOf(this.getId());
+		return this.getUserName();
 	}
 
 }
