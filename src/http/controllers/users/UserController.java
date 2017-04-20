@@ -4,15 +4,19 @@ package http.controllers.users;
 import annotations.http.PATCH;
 import app.App;
 import http.requests.CreateUserInfo;
-import models.Role;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import models.Role;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Path("users")
 //@Authenticated
@@ -21,65 +25,60 @@ import java.util.HashSet;
 public class UserController {
 
 	@GET
-	public String index() {
-		return "all users";
+	public Response index() {
+		try (Session session = App.factory.openSession()) {
+			List<User> users =
+				session
+					.createQuery("from User")
+						.list();
+			return Response.ok(users).build();
+		}
 	}
 
 	@GET
-	@Path("{userId: [0-9]+}")
+	@Path("{userId: \\d+}")
 	public Response show(@PathParam("userId") String userId) {
-//		User user = new User();
-//		Role role1 = new Role();
-//		role1.setName("sej");
-//		Role role2 = new Role();
-//		role2.setName("type");
-//		Set<Role> roles = new HashSet<>();
-//		roles.add(role1);
-//		roles.add(role2);
-//		user.setPassword("hemmeligt");
-//		user.setName("Hans");
-//		user.setRoles(roles);
-		Session session = App.factory.openSession();
-		System.out.println("userId = " + userId);
-		int uid = Integer.parseInt(userId);
-		System.out.println("uid = " + uid);
-		User user = new User();
-		try {
-			user = session.get(User.class, 2);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		try (Session session = App.factory.openSession()) {
+			User user = session.find(User.class, Integer.parseInt(userId));
+			if (user!=null) {
+				return Response.ok(user).build();
+			}
+			return Response.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
 		}
-		System.out.println("user = " + user);
-		return Response.ok(user).build();
-//		if(userId.equals("10"))
-//			return Response.ok("found it!").build();
-//		return Response.status(Response.Status.NOT_FOUND).build();
 	}
-
 
 	@POST
 	public Response create(CreateUserInfo info) {
 		try (Session session = App.factory.openSession()) {
-			System.out.println(info.getName());
-			System.out.println(info.getPassword());
 			Transaction transaction = session.beginTransaction();
 			User user = new User();
+
 			user.setName(info.getName());
+			user.setUserName(info.getUserName());
 			user.setPassword(info.getPassword());
 
-			session.save(user);
+			Set<Role> roles = new HashSet<>(
+				session
+					.createQuery("from Role where name in (:roles)")
+						.setParameterList("roles", info.getRoles())
+							.list()
+			);
+
+			user.setRoles(roles);
+
+			session.persist(user);
 
 			transaction.commit();
 
 			return Response.ok(user).build();
+		} catch (PersistenceException e) {
+			return Response.notModified().build();
 		}
 	}
 
-
-
 	@PATCH
-	@Path("{userId: [0-9]+}")
-	public Response update() {
+	@Path("{userId: \\d+}")
+	public Response update(@PathParam("userId") String userId) {
 		return Response.noContent().build();
 	}
 }

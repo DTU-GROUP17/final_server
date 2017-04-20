@@ -6,19 +6,14 @@ import models.Role;
 import models.User;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Key;
-import java.util.HashSet;
 
 
 @ApplicationPath("")

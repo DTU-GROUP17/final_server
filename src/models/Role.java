@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,8 @@ public class Role extends Model{
 	@Column(nullable = false, unique = true)
 	@Getter private int id;
 
-	@ManyToMany(cascade=CascadeType.ALL, mappedBy = "roles")
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy = "roles")
 	@Getter @Setter private Set<User> users = new HashSet<>(0);
 
 	@Column(nullable = false)

@@ -22,9 +22,13 @@ public class User extends Model implements Authenticatable<User> {
 	@Column(nullable = false, unique = true)
 	@Getter private int id;
 
-	@ManyToMany()
+	@ManyToMany(fetch = FetchType.EAGER)
 	@Cascade(value = CascadeType.ALL)
-	@JoinTable(name = "users_roles", joinColumns =@JoinColumn(name = "user_id"), inverseJoinColumns =@JoinColumn(name = "role_id"))
+	@JoinTable(
+		name = "users_roles",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
 	@Getter @Setter private Set<Role> roles;
 
 
