@@ -4,10 +4,15 @@ import com.sun.net.httpserver.HttpServer;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import models.Role;
 import models.User;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
+import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import services.authentication.Guard;
+import services.authentication.GuardHandlerProvider;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
@@ -52,5 +57,16 @@ public class App extends ResourceConfig{
 	public App() {
 		this.packages(true, "http/controllers");
 		this.packages(true, "http/middleware");
+
+		this.register(RolesAllowedDynamicFeature.class);
+
+		register(new AbstractBinder(){
+			@Override
+			protected void configure() {
+				bindFactory(GuardHandlerProvider.class)
+						.to(Guard.class)
+						.in(RequestScoped.class);
+			}
+		});
 	}
 }

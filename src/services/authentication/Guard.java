@@ -1,6 +1,9 @@
 package services.authentication;
 
-public interface Guard<SELF extends Guard<SELF>> {
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
+
+public interface Guard<SELF extends Guard<SELF>> extends SecurityContext {
 	/**
 	 * Determine if the current user is authenticated.
 	 */
@@ -26,5 +29,23 @@ public interface Guard<SELF extends Guard<SELF>> {
 	 */
 	boolean validate(String identifier, String password);
 
+	@Override
+	default Principal getUserPrincipal() {
+		return this.getUser();
+	}
 
+	@Override
+	default boolean isUserInRole(String role) {
+		return this.getUser().hasRole(role);
+	}
+
+	@Override
+	default boolean isSecure() {
+		return true;
+	}
+
+	@Override
+	default String getAuthenticationScheme() {
+		return "Bearer";
+	}
 }

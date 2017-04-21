@@ -8,6 +8,7 @@ import services.authentication.*;
 
 import javax.json.Json;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -19,13 +20,11 @@ public class AuthController {
 
 	@POST
 	@Path("login")
-	public Response loginUser(LoginInfo info) {
+	public Response loginUser(LoginInfo info, @Context Guard guard) {
 		if (info == null) {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		assert info != null;
-
-		JwtGuard guard = new JwtGuard(User.class);
 
 		try {
 			if(!guard.validate(info.getUserName(), info.getPassword())) {
@@ -38,7 +37,7 @@ public class AuthController {
 		return Response.status(200)
 			.entity(
 				Json.createObjectBuilder()
-					.add("message", guard.generateToken().getToken())
+					.add("message", ((JwtGuard) guard).generateToken().getToken())
 					.add("status", 200)
 			).build();
 	}
