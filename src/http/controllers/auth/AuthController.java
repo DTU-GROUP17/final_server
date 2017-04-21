@@ -25,7 +25,6 @@ public class AuthController {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		assert info != null;
-
 		try {
 			if(!guard.validate(info.getUserName(), info.getPassword())) {
 				return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
