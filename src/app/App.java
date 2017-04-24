@@ -12,7 +12,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import services.authentication.Guard;
-import services.authentication.GuardHandlerProvider;
+import providers.GuardProvider;
 
 import javax.ws.rs.ApplicationPath;
 import java.io.IOException;
@@ -25,23 +25,14 @@ import java.security.Key;
 public class App extends ResourceConfig{
 	public final static Key key = MacProvider.generateKey();
 	public static SessionFactory factory;
+	public final static String endpoint = "http://localhost:9998/";
 
 	public static void main(String[] args) throws IOException, URISyntaxException {
-		try{
-			factory =
-				new Configuration()
-					.configure()
-						.addAnnotatedClass(User.class)
-							.addAnnotatedClass(Role.class)
-								.buildSessionFactory();
-		}catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
+		initHibernate();
 
 		// Create the server.
 		ResourceConfig rc = ResourceConfig.forApplicationClass(App.class);
-		URI endpoint = new URI("http://localhost:9998/");
+		URI endpoint = new URI(App.endpoint);
 		HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
 
 
@@ -54,6 +45,20 @@ public class App extends ResourceConfig{
 		System.out.println("Server stopped");
 	}
 
+	public static void initHibernate() {
+		try{
+			factory =
+				new Configuration()
+					.configure()
+						.addAnnotatedClass(User.class)
+							.addAnnotatedClass(Role.class)
+								.buildSessionFactory();
+		}catch (Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
+
 	public App() {
 		this.packages(true, "http/controllers");
 		this.packages(true, "http/middleware");
@@ -63,7 +68,7 @@ public class App extends ResourceConfig{
 		register(new AbstractBinder(){
 			@Override
 			protected void configure() {
-				bindFactory(GuardHandlerProvider.class)
+				bindFactory(GuardProvider.class)
 						.to(Guard.class)
 						.in(RequestScoped.class);
 			}

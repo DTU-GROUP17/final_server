@@ -1,6 +1,7 @@
 package http.controllers.users;
 
 
+import annotations.http.Authenticated;
 import annotations.http.PATCH;
 import app.App;
 import http.requests.CreateUserInfo;
@@ -19,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("users")
-//@Authenticated
+@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserController {

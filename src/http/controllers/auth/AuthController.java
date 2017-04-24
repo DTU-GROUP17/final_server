@@ -22,9 +22,11 @@ public class AuthController {
 	@Path("login")
 	public Response loginUser(LoginInfo info, @Context Guard guard) {
 		if (info == null) {
-			Response.status(Status.FORBIDDEN).build();
+			return Response.status(Status.FORBIDDEN).build();
 		}
-		assert info != null;
+		System.out.println(info.getUserName());
+		System.out.println(info.getPassword());
+
 		try {
 			if(!guard.validate(info.getUserName(), info.getPassword())) {
 				return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
