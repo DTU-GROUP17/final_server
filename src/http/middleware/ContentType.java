@@ -6,6 +6,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.List;
@@ -18,5 +19,11 @@ public class ContentType implements ContainerResponseFilter {
 		if(!responseContext.getHeaders().containsKey("Content-Type")) {
 			responseContext.getHeaders().putSingle("Content-Type", MediaType.APPLICATION_JSON);
 		}
+
+		MultivaluedMap<String, Object> headers = responseContext.getHeaders();
+
+		headers.add("Access-Control-Allow-Origin", "*");
+		headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+		headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
 	}
 }
