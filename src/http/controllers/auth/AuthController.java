@@ -21,11 +21,9 @@ public class AuthController {
 	@POST
 	@Path("login")
 	public Response loginUser(LoginInfo info, @Context Guard guard) {
-		if (info == null) {
-			return Response.status(Status.FORBIDDEN).build();
+		if (info == null || info.getUserName() == null || info.getPassword() == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
-		System.out.println(info.getUserName());
-		System.out.println(info.getPassword());
 
 		try {
 			if(!guard.validate(info.getUserName(), info.getPassword())) {

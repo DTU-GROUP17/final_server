@@ -54,12 +54,12 @@ public class AuthControllerTest extends BaseTest {
 		jsonAsMap.put("userName", "invalid");
 
 		given()
-				.contentType(ContentType.JSON)
-				.body(jsonAsMap)
-				.when()
-				.post("/authentication/login")
-				.then()
-				.statusCode(401)
-				.contentType(ContentType.JSON);
+			.contentType(ContentType.JSON)
+			.body(jsonAsMap)
+		.when()
+			.post("/authentication/login")
+		.then()
+			.statusCode(401)
+			.contentType(ContentType.JSON);
 	}
 }
