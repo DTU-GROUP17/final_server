@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import models.User;
 import org.hibernate.Session;
+
 import java.util.List;
 
 @Accessors(chain = true)
@@ -37,20 +38,19 @@ public class JwtGuard implements Guard<JwtGuard>{
 	@Override
 	public boolean isGuest() {
 		return !check();
-
 	}
 
 	@Override
 	public boolean validate(@NonNull String identifier, @NonNull String password) {
 		try {
-			this.user = this.retrieveByCredentials(identifier, password);
-			return true;
+			this.user = this.retrieveByIdentifier(identifier);
+			return this.user.validateCredentials(password);
 		} catch (InvalidCredentials invalidCredentials) {
 			return false;
 		}
 	}
 
-	private Authenticatable retrieveByCredentials(String identifier, String password) throws InvalidCredentials {
+	private Authenticatable retrieveByIdentifier(String identifier) throws InvalidCredentials {
 		try(Session session = App.factory.openSession()) {
 
 			List<Authenticatable> users;
