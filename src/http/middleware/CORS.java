@@ -18,6 +18,6 @@ public class CORS implements ContainerResponseFilter {
 
 		headers.add("Access-Control-Allow-Origin", "*");
 		headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH");
-		headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+		headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization");
 	}
 }
