@@ -8,15 +8,18 @@
             org.hibernate.dialect.MySQLDialect
         </property>
         <property name="hibernate.connection.driver_class">
-            com.mysql.cj.jdbc.Driver
+            <!--com.mysql.cj.jdbc.Driver-->
+            org.h2.Driver
         </property>
 
         <!-- Assume students is the database name -->
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3306/cdio_3?serverTimezone=UTC
+            jdbc:h2:mem:cdio_3;DB_CLOSE_DELAY=-1
+            <!--jdbc:mysql://localhost:3306/cdio_3?serverTimezone=UTC -->
         </property>
         <property name="hibernate.connection.username">
-            root
+            <!--root-->
+            sa
         </property>
         <property name="hibernate.connection.password">
         </property>

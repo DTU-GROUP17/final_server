@@ -4,25 +4,25 @@ package http.controllers.users;
 import annotations.http.Authenticated;
 import annotations.http.PATCH;
 import app.App;
+import exceptions.CreateUserException;
 import http.requests.CreateUserInfo;
+import models.Role;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import models.Role;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Path("users")
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({"admin"})
 public class UserController {
 
 	@GET
@@ -52,6 +52,8 @@ public class UserController {
 	@POST
 	public Response create(CreateUserInfo info) {
 		try (Session session = App.factory.openSession()) {
+			if (!info.isFull())
+				throw new CreateUserException();
 			Transaction transaction = session.beginTransaction();
 			User user = new User();
 
@@ -59,28 +61,38 @@ public class UserController {
 			user.setUserName(info.getUserName());
 			user.setPassword(info.getPassword());
 
-			Set<Role> roles = new HashSet<>(
-				session
-					.createQuery("from Role where name in (:roles)")
-						.setParameterList("roles", info.getRoles())
-							.list()
-			);
-
-			user.setRoles(roles);
+			user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
 
 			session.persist(user);
 
 			transaction.commit();
 
 			return Response.ok(user).build();
-		} catch (PersistenceException e) {
+		} catch (PersistenceException | CreateUserException e) {
 			return Response.notModified().build();
 		}
 	}
 
 	@PATCH
 	@Path("{userId: \\d+}")
-	public Response update(@PathParam("userId") String userId) {
-		return Response.noContent().build();
+	public Response update(@PathParam("userId") String userId, CreateUserInfo info) {
+		try (Session session = App.factory.openSession()) {
+			Transaction transaction = session.beginTransaction();
+			User user = session.find(User.class, Integer.parseInt(userId));
+			if (info.getName()!=null)
+				user.setName(info.getName());
+			if (info.getUserName()!=null)
+				user.setUserName(info.getUserName());
+			if (info.getPassword()!=null)
+				user.setPassword(info.getPassword());
+			if (info.getRoles()!=null){
+				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
+			}
+			session.persist(user);
+			transaction.commit();
+			return Response.ok().build();
+		} catch (PersistenceException e) {
+			return Response.notModified().build();
+		}
 	}
 }
