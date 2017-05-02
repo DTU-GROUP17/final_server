@@ -26,20 +26,97 @@ Has all the methods associated with authenticating a user.
 ## Self [/self]
 
 ### View the currently authenticated user [GET]
++ Headers
+    Authorization : {JWT token}
++ Response 200(application/json)
+{
+  "type": "User",
+  "id": 1,
+  "roles": [
+    {
+      "type": "Role",
+      "id": 1,
+      "name": "admin"
+    }
+  ],
+  "name": "testUser",
+  "userName": "testUser"
+}
 
 ### Update the currently authenticated user [PATCH]
 
 ## Users [/users]
++ Headers
+    Authorization : {JWT token}
 
 ### Creates a new user [POST]
++ Request (application/json)
+    {
+        "name" : "wtf",
+        "userName" : "test wtf",
+        "password" : "1234",
+        "roles" : ["admin"]
+    }
++ Response 200(application/json)
+{
+  "type": "User",
+  "id": 4,
+  "roles": [
+    {
+      "type": "Role",
+      "id": 1,
+      "name": "admin"
+    }
+  ],
+  "name": "wtf",
+  "userName": "test wtf"
+}
 
 
 ### Views all users [GET]
++ Response 200(application/json)
+[
+  {
+    "id": 1,
+    "roles": [
+      {
+        "type": "Role",
+        "id": 1,
+        "name": "admin"
+      }
+    ],
+    "name": "testUser",
+    "userName": "testUser"
+  },
+  {
+    "id": 2,
+    "roles": [
+      {
+        "type": "Role",
+        "id": 1,
+        "name": "admin"
+      }
+    ],
+    "name": "test",
+    "userName": "test"
+  },
+  {
+    "id": 4,
+    "roles": [
+      {
+        "type": "Role",
+        "id": 1,
+        "name": "admin"
+      }
+    ],
+    "name": "wtf",
+    "userName": "test wtf"
+  }
+]
 
 
 
 ## User [/users/{user_id}]
-
 + Parameters
     + user_id (number, required) - ID of the user in form of an integer.
     
@@ -47,9 +124,9 @@ Has all the methods associated with authenticating a user.
 ### View a users information [GET]
 
 ### Update a user [PATCH]
++ Headers
+    Authorization : {JWT token}
 
 + Response 204 (application/json)
 
 ### Reset users password [GET /users/{user_id}/reset-password]
-
-`{id: 2, name: 'Wauw', job: 'Pharmasist'}`
