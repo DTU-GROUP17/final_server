@@ -6,22 +6,33 @@ FORMAT: 1A
 
 Has all the methods associated with authenticating a user.
 
-## Authenticate [/auth]
+## Authenticate [/authentication]
 
-### Authenticates the user [POST /auth/login]
+### Authenticates the user [POST /authentication/login]
++ Request (application/json)
 
+        {
+            "userName": "Hans",
+            "password": "password"
+        }
++ Response 200 (application/json)
+        {
+            "message": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0VXNlciJ9.m_ap4_eXb0iIPNyyz0Da5PWNMd-dxw6miecHLKHxEczEWzugbNuvFN4n_Il1rTImSe7TKKo7EqxS_R2NteV_3w",
+            "status": 200
+        }
 
 # Group Users 
 
 ## Self [/self]
 
-### Views the currently authenticated user [GET]
+### View the currently authenticated user [GET]
 
 ### Update the currently authenticated user [PATCH]
 
 ## Users [/users]
 
 ### Creates a new user [POST]
+
 
 ### Views all users [GET]
 
