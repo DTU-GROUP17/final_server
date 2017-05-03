@@ -13,7 +13,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+
 *.war
 *.ear
 *.zip
@@ -172,3 +172,7 @@ $RECYCLE.BIN/
 *.lnk
 ### NotepadPP template
 # Notepad++ backups #
+.idea/artifacts/
+dependency-reduced-pom.xml
+target/
+tests/generated-assertions/

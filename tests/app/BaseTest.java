@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 
 import java.net.URI;
-import java.util.Arrays;
 
 import static app.App.initConfiguration;
 
