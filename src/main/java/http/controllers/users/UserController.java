@@ -95,4 +95,20 @@ public class UserController {
 			return Response.notModified().build();
 		}
 	}
+
+	@DELETE
+	@Path("{userId: \\d+}")
+	public Response delete(@PathParam("userId") String userId, CreateUserInfo info) {
+		try (Session session = App.factory.openSession()) {
+			Transaction transaction = session.beginTransaction();
+			User user = session.find(User.class, Integer.parseInt(userId));
+			session.delete(user);
+			transaction.commit();
+			return Response.ok().build();
+		} catch (PersistenceException e) {
+			return Response.notModified().build();
+		}
+	}
+
+
 }

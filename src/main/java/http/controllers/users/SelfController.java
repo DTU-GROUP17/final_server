@@ -11,9 +11,7 @@ import org.hibernate.Transaction;
 import services.authentication.Guard;
 
 import javax.persistence.PersistenceException;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -49,4 +47,18 @@ public class SelfController {
 			return Response.notModified().build();
 		}
 	}
+
+	@DELETE
+	public Response delete(@Context Guard guard) {
+		try (Session session = App.factory.openSession()) {
+			Transaction transaction = session.beginTransaction();
+			User user = (User) guard.getUser();
+			session.delete(user);
+			transaction.commit();
+			return Response.ok().build();
+		} catch (PersistenceException e) {
+			return Response.notModified().build();
+		}
+	}
+
 }
