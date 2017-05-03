@@ -40,10 +40,11 @@ public class SelfController {
 			if (info.getRoles()!=null){
 				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
 			}
-			session.persist(user);
+			session.saveOrUpdate(user);
 			transaction.commit();
 			return Response.ok().build();
 		} catch (PersistenceException e) {
+			System.out.println("e = " + e);
 			return Response.notModified().build();
 		}
 	}

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import services.authentication.Authenticatable;
 import services.hash.Hasher;
 
@@ -23,7 +21,6 @@ public class User extends Model implements Authenticatable<User>{
 	@Getter private int id;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Cascade(value = CascadeType.ALL)
 	@JoinTable(
 		name = "users_roles",
 		joinColumns = @JoinColumn(name = "user_id"),

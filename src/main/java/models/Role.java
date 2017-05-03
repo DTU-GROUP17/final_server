@@ -20,7 +20,7 @@ public class Role extends Model{
 	@Getter private int id;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy = "roles")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
 	@Getter @Setter private Set<User> users = new HashSet<>(0);
 
 	@Column(nullable = false)
