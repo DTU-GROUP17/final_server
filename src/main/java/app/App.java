@@ -46,7 +46,6 @@ public class App extends ResourceConfig {
 
 		this.register(RolesAllowedDynamicFeature.class);
 
-		//this.register(JacksonFeature.class);
 
 		register(new AbstractBinder(){
 			@Override
