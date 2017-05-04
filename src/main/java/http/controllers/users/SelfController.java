@@ -37,9 +37,7 @@ public class SelfController {
 				user.setUserName(info.getUserName());
 			if (info.getPassword()!=null)
 				user.setPassword(info.getPassword());
-			if (info.getRoles()!=null){
-				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
-			}
+			
 			session.saveOrUpdate(user);
 			transaction.commit();
 			return Response.ok().build();
