@@ -139,8 +139,8 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>4.1.2</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/cdio_3?serverTimezone=UTC</url>
-                    <user>sa</user>
+                    <url>jdbc:mysql://localhost:3306/cdio_f?serverTimezone=UTC</url>
+                    <user>root</user>
                     <locations>
                         <location>database.migrations</location>
                         <location>database.seeds</location>

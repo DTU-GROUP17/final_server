@@ -1,6 +1,7 @@
-CREATE TABLE roles (
-  id   INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL UNIQUE,
+CREATE TABLE weights (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  uri VARCHAR(255) NOT NULL UNIQUE,
 
   created_at TIMESTAMP NOT NULL,
   created_by INT UNSIGNED,
@@ -11,6 +12,6 @@ CREATE TABLE roles (
   FOREIGN KEY (created_by) REFERENCES users(id),
   FOREIGN KEY (updated_by) REFERENCES users(id),
   FOREIGN KEY (deleted_by) REFERENCES users(id),
-
-  PRIMARY KEY (id)
+  
+  PRIMARY Key (id)
 )
