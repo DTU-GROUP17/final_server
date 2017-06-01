@@ -22,7 +22,7 @@ import java.util.List;
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({"admin"})
+@RolesAllowed({"Admin"})
 public class UserController {
 
 	@GET

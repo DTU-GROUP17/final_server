@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>DTU-GROUP17</groupId>
-    <artifactId>CDIO_3_server</artifactId>
+    <artifactId>CDIO_Final_server</artifactId>
     <version>1.0</version>
     <dependencies>
 

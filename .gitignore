@@ -176,3 +176,5 @@ $RECYCLE.BIN/
 dependency-reduced-pom.xml
 target/
 tests/generated-assertions/
+/CDIO_3_Server.iml
+.idea
