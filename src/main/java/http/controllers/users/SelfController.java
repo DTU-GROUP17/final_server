@@ -4,7 +4,6 @@ import annotations.http.Authenticated;
 import annotations.http.PATCH;
 import app.App;
 import http.requests.CreateUserInfo;
-import models.Role;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

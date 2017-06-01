@@ -7,7 +7,6 @@ import app.App;
 import exceptions.CreateUserException;
 import http.requests.CreateUserInfo;
 import models.Role;
-import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

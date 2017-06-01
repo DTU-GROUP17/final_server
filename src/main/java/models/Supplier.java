@@ -8,9 +8,8 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "roles")
-public class Role {
-
+@Table(name = "suppliers")
+public class Supplier {
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
@@ -26,20 +25,13 @@ public class Role {
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
+	@OneToMany(mappedBy = "suppliers")
+	private Collection<Material> materials;
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
-
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
 	private User updatedBy;
-
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
-
-	@ManyToMany@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
-			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-	)
-	private Collection<User> users;
 
 }

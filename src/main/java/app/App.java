@@ -2,9 +2,7 @@ package app;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import models.Role;
-import models.User;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;

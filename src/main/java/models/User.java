@@ -1,53 +1,37 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import services.authentication.Authenticatable;
-import services.hash.Hasher;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.Collection;
 
+@Data
 @Entity
 @Table(name = "users")
-@Accessors(chain = true)
-public class User extends Model implements Authenticatable<User>{
+public class User {
+	@Id@Column(name = "id", nullable = false)
+	private int id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, unique = true)
-	@Getter private int id;
+	@Basic@Column(name = "name", nullable = false, length = 255)
+	private String name;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		name = "users_roles",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
-	@Getter @Setter private Set<Role> roles;
+	@Basic@Column(name = "username", nullable = false, length = 255)
+	private String username;
 
+	@Basic@Column(name = "password", nullable = false, length = 255)
+	private String password;
 
-	@Column(nullable = false)
-	@Getter @Setter private String name;
+	@Basic@Column(name = "created_at", nullable = false)
+	private Timestamp createdAt;
 
-	@Column(nullable = false)
-	@Getter private String password;
+	@Basic@Column(name = "updated_at", nullable = false)
+	private Timestamp updatedAt;
 
-	@Column(nullable = false, unique = true)
-	@Getter @Setter private String userName;
+	@Basic@Column(name = "deleted_at", nullable = false)
+	private Timestamp deletedAt;
 
-	@JsonIgnore
-	public User setPassword(String password) {
-		this.password = Hasher.hash(password);
-		return this;
-	}
-
-	@JsonIgnore
-	@Override
-	public String getIdentifier() {
-		return this.getUserName();
-	}
+	@ManyToMany(mappedBy = "users")
+	private Collection<Role> roles;
 
 }

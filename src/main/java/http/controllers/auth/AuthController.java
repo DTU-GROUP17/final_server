@@ -3,7 +3,6 @@ package http.controllers.auth;
 
 import exceptions.auth.JWTException;
 import http.requests.LoginInfo;
-import models.User;
 import services.authentication.*;
 
 import javax.json.Json;

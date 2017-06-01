@@ -8,14 +8,17 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "weights")
+public class Weight {
 
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
 	@Basic@Column(name = "name", nullable = false, length = 255)
 	private String name;
+
+	@Basic@Column(name = "uri", nullable = false, length = 255)
+	private String uri;
 
 	@Basic@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;
@@ -26,6 +29,9 @@ public class Role {
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
+	@OneToMany(mappedBy = "weight")
+	private Collection<Weighing> weighingsById;
+
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
 
@@ -34,12 +40,4 @@ public class Role {
 
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
-
-	@ManyToMany@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
-			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-	)
-	private Collection<User> users;
-
 }
