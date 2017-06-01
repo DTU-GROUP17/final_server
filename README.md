@@ -1,6 +1,6 @@
 FORMAT: 1A
 
-# CDIO 3 Server
+# CDIO Final Server
 
 # Group Authentication
 
