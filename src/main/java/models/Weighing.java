@@ -12,7 +12,7 @@ public class Weighing {
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
-	@Basic@Column(name = "amount", nullable = true, precision = 0)
+	@Basic@Column(name = "amount")
 	private Double amount;
 
 	@ManyToOne@JoinColumn(name = "product_batch_id", referencedColumnName = "id", nullable = false)

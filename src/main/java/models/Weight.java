@@ -14,10 +14,10 @@ public class Weight {
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
-	@Basic@Column(name = "name", nullable = false, length = 255)
+	@Basic@Column(name = "name", nullable = false)
 	private String name;
 
-	@Basic@Column(name = "uri", nullable = false, length = 255)
+	@Basic@Column(name = "uri", nullable = false)
 	private String uri;
 
 	@Basic@Column(name = "created_at", nullable = false)
@@ -30,7 +30,7 @@ public class Weight {
 	private Timestamp deletedAt;
 
 	@OneToMany(mappedBy = "weight")
-	private Collection<Weighing> weighingsById;
+	private Collection<Weighing> weighings;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
@@ -40,4 +40,5 @@ public class Weight {
 
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
+
 }

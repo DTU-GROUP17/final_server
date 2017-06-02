@@ -8,9 +8,11 @@ import java.io.Serializable;
 
 
 @Data
-public class IngredientPK implements Serializable {
+public class IngredientKey implements Serializable {
+
 	@Column(name = "recipe_id", nullable = false)@Id
 	private int recipeId;
+
 	@Column(name = "component_id", nullable = false)@Id
 	private int componentId;
 

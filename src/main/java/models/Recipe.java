@@ -13,7 +13,7 @@ public class Recipe {
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
-	@Basic@Column(name = "name", nullable = false, length = 255)
+	@Basic@Column(name = "name", nullable = false)
 	private String name;
 
 	@Basic@Column(name = "created_at", nullable = false)

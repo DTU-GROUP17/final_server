@@ -6,6 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 		use = JsonTypeInfo.Id.NAME,
 		property = "type"
 )
-public abstract class Model {
+abstract class Model {
 
 }

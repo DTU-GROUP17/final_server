@@ -18,7 +18,7 @@ public class Main {
 
 		Flyway flyway = new Flyway();
 		flyway.setLocations("database.migrations", "database.seeds");
-		flyway.setDataSource("jdbc:h2:mem:cdio_3;DB_CLOSE_DELAY=-1", "sa", "");
+		flyway.setDataSource("jdbc:h2:mem:final;DB_CLOSE_DELAY=-1", "sa", "");
 		flyway.migrate();
 
 		for (String arg : args) {

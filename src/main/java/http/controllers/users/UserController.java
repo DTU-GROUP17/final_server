@@ -7,6 +7,7 @@ import app.App;
 import exceptions.CreateUserException;
 import http.requests.CreateUserInfo;
 import models.Role;
+import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -57,10 +58,10 @@ public class UserController {
 			User user = new User();
 
 			user.setName(info.getName());
-			user.setUserName(info.getUserName());
+			user.setUsername(info.getUsername());
 			user.setPassword(info.getPassword());
 
-			user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
+//			user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
 
 			session.persist(user);
 
@@ -80,13 +81,13 @@ public class UserController {
 			User user = session.find(User.class, Integer.parseInt(userId));
 			if (info.getName()!=null)
 				user.setName(info.getName());
-			if (info.getUserName()!=null)
-				user.setUserName(info.getUserName());
+			if (info.getUsername()!=null)
+				user.setUsername(info.getUsername());
 			if (info.getPassword()!=null)
 				user.setPassword(info.getPassword());
-			if (info.getRoles()!=null){
-				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
-			}
+//			if (info.getRoles()!=null){
+//				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
+//			}
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();

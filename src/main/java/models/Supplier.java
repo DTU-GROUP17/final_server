@@ -13,7 +13,7 @@ public class Supplier {
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
-	@Basic@Column(name = "name", nullable = false, length = 255)
+	@Basic@Column(name = "name", nullable = false)
 	private String name;
 
 	@Basic@Column(name = "created_at", nullable = false)
@@ -27,10 +27,13 @@ public class Supplier {
 
 	@OneToMany(mappedBy = "suppliers")
 	private Collection<Material> materials;
+
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
+
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
 	private User updatedBy;
+
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 

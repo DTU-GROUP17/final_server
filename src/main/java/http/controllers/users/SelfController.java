@@ -26,22 +26,23 @@ public class SelfController {
 	}
 
 	@PATCH
-	public Response update(@Context Guard guard, CreateUserInfo info) {
+	public Response update(@Context Guard guard, User info) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = (User) guard.getUser();
+
 			if (info.getName()!=null)
 				user.setName(info.getName());
-			if (info.getUserName()!=null)
-				user.setUserName(info.getUserName());
+			if (info.getUsername()!=null)
+				user.setUsername(info.getUsername());
 			if (info.getPassword()!=null)
 				user.setPassword(info.getPassword());
 			
 			session.saveOrUpdate(user);
 			transaction.commit();
+
 			return Response.ok().build();
 		} catch (PersistenceException e) {
-			System.out.println("e = " + e);
 			return Response.notModified().build();
 		}
 	}

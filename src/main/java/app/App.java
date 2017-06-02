@@ -2,6 +2,7 @@ package app;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import models.Role;
+import models.User;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -33,9 +34,9 @@ public class App extends ResourceConfig {
 
 	public static void initConfiguration() {
 		configuration = new Configuration()
-				.configure()
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Role.class);
+			.configure()
+			.addAnnotatedClass(User.class)
+			.addAnnotatedClass(Role.class);
 	}
 
 	public App() {
@@ -43,7 +44,6 @@ public class App extends ResourceConfig {
 		this.packages(true, "http/middleware");
 
 		this.register(RolesAllowedDynamicFeature.class);
-
 
 		register(new AbstractBinder(){
 			@Override
