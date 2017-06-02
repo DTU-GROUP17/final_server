@@ -1,17 +1,22 @@
 package models;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.ColumnDefault;
 import services.authentication.Authenticatable;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Set;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name = "users")
-public class User implements Authenticatable<User>{
+public class User extends Model implements Authenticatable<User>{
 	@Id@Column(name = "id", nullable = false)
 	private int id;
 
@@ -21,44 +26,31 @@ public class User implements Authenticatable<User>{
 	@Basic@Column(name = "username", nullable = false)
 	private String username;
 
-	@Basic@Column(name = "password", nullable = false)
+	@JsonIgnore
+	@Basic@Column(name = "password")
 	private String password;
 
-	@Basic@Column(name = "created_at", nullable = false)
+	@Basic
+	@Column(
+			name = "created_at",
+			insertable = false,
+			columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+	)
 	private Timestamp createdAt;
 
-	@Basic@Column(name = "updated_at", nullable = false)
+	@Basic@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@Basic@Column(name = "deleted_at", nullable = false)
+	@Basic@Column(name = "deleted_at")
 	private Timestamp deletedAt;
 
-	@ManyToMany(mappedBy = "users")
-	private Collection<Role> roles;
+	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	private Set<Role> roles;
 
+	@JsonIgnore
 	@Override
 	public String getIdentifier() {
-		return null;
-	}
-
-	@Override
-	public User setRoles(Set<Role> roles) {
-		return null;
-	}
-
-	@Override
-	public Set<Role> getRoles(){
-		return null;
-	}
-
-	@Override
-	public String getPassword(){
-		return null;
-	}
-
-	@Override
-	public User setPassword(String password){
-		return this;
+		return this.username;
 	}
 
 }

@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,7 @@ public class Role {
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
+	@JsonIgnore
 	@ManyToMany@JoinTable(
 			name = "users_roles",
 			joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),

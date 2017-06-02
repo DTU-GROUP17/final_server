@@ -9,16 +9,19 @@ import org.hibernate.Hibernate;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class Main {
 	public static String port = "9998";
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
+	public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException {
+		Class.forName("org.h2.Driver");
+
 		App.initHibernate();
 
 		Flyway flyway = new Flyway();
 		flyway.setLocations("database.migrations", "database.seeds");
-		flyway.setDataSource("jdbc:h2:mem:final;DB_CLOSE_DELAY=-1", "sa", "");
+		flyway.setDataSource("jdbc:h2:mem:final;DB_CLOSE_DELAY=-1", "", "");
 		flyway.migrate();
 
 		for (String arg : args) {

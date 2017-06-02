@@ -22,7 +22,7 @@ public class Recipe {
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
-	@OneToMany(mappedBy = "Recipe")
+	@OneToMany(mappedBy = "recipe")
 	private Collection<ProductBatch> productBatches;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")

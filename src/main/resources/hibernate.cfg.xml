@@ -8,22 +8,25 @@
             org.hibernate.dialect.MySQLDialect
         </property>
         <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+        <!--<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>-->
 
         <property name="hibernate.connection.url">jdbc:h2:mem:final;DB_CLOSE_DELAY=-1</property>
+        <!--<property name="hibernate.connection.url">jdbc:mysql://localhost/final</property>-->
+        <property name="hibernate.connection.username"/>
+        <property name="hibernate.connection.password"/>
         <property name="show_sql">true</property>
+        <mapping package="models"/>
+
         <mapping class="models.User"/>
-        <mapping class="models.Role"/>
-        <mapping class="models.WeightsEntity"/>
-        <mapping class="models.Component"/>
-        <mapping class="models.Ingredient"/>
-        <mapping class="models.Material"/>
-        <mapping class="models.ProductBatch"/>
-        <mapping class="models.Recipe"/>
         <mapping class="models.Role"/>
         <mapping class="models.Supplier"/>
-        <mapping class="models.User"/>
-        <mapping class="models.Weighing"/>
+        <mapping class="models.Component"/>
+        <mapping class="models.Material"/>
+        <mapping class="models.Ingredient"/>
+        <mapping class="models.Recipe"/>
+        <mapping class="models.ProductBatch"/>
         <mapping class="models.Weight"/>
+        <mapping class="models.Weighing"/>
 
     </session-factory>
 </hibernate-configuration>

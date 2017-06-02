@@ -2,7 +2,7 @@ CREATE TABLE users_roles (
   user_id INT UNSIGNED NOT NULL,
   role_id INT UNSIGNED NOT NULL,
 
-  created_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_by INT UNSIGNED,
   deleted_at TIMESTAMP,
   deleted_by INT UNSIGNED,

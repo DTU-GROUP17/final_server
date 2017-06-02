@@ -19,10 +19,10 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("users")
-@Authenticated
+//@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({"Admin"})
+//@RolesAllowed({"Admin"})
 public class UserController {
 
 	@GET
@@ -34,6 +34,9 @@ public class UserController {
 					.createQuery("from User")
 						.list();
 			return Response.ok(users).build();
+		} catch (Exception e) {
+			System.out.println("e = " + e);
+			return Response.notModified().build();
 		}
 	}
 
@@ -46,29 +49,33 @@ public class UserController {
 				return Response.ok(user).build();
 			}
 			return Response.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
+		}catch (Exception e) {
+			System.out.println("e = " + e);
+			return Response.notModified().build();
 		}
 	}
 
 	@POST
-	public Response create(CreateUserInfo info) {
+	public Response create(User info) {
 		try (Session session = App.factory.openSession()) {
-			if (!info.isFull())
-				throw new CreateUserException();
+//			if (!info.isFull())
+//				throw new CreateUserException();
 			Transaction transaction = session.beginTransaction();
 			User user = new User();
 
 			user.setName(info.getName());
 			user.setUsername(info.getUsername());
 			user.setPassword(info.getPassword());
-
+			System.out.println(user);
 //			user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
-
 			session.persist(user);
 
 			transaction.commit();
 
 			return Response.ok(user).build();
-		} catch (PersistenceException | CreateUserException e) {
+
+		} catch (PersistenceException e) {
+			System.out.println("e = " + e);
 			return Response.notModified().build();
 		}
 	}

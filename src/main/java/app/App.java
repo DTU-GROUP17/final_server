@@ -1,8 +1,7 @@
 package app;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import models.Role;
-import models.User;
+import models.*;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -34,9 +33,17 @@ public class App extends ResourceConfig {
 
 	public static void initConfiguration() {
 		configuration = new Configuration()
-			.configure()
-			.addAnnotatedClass(User.class)
-			.addAnnotatedClass(Role.class);
+			.configure();
+//			.addAnnotatedClass(User.class)
+//			.addAnnotatedClass(Role.class)
+//			.addAnnotatedClass(Supplier.class)
+//			.addAnnotatedClass(Component.class)
+//			.addAnnotatedClass(Material.class)
+//			.addAnnotatedClass(Ingredient.class)
+//			.addAnnotatedClass(Recipe.class)
+//			.addAnnotatedClass(ProductBatch.class)
+//			.addAnnotatedClass(Weighing.class)
+//			.addAnnotatedClass(Weight.class);
 	}
 
 	public App() {
