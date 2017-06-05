@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/database/seeds/V1_10__seed_weights.sql" dialect="H2" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/database/migrations/V1_11__create_weighing_table.sql" dialect="H2" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/database/seeds/V2_10__seed_weights.sql" dialect="H2" />
   </component>
 </project>
