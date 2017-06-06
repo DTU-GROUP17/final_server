@@ -22,14 +22,15 @@ public class Main {
 	public static String port = "9998";
 
 	public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException {
-		Class.forName("org.h2.Driver");
+//		Class.forName("com.mysql.cj.jdbc.Driver");
+//		Class.forName("org.h2.Driver");
 
 		App.initHibernate();
 
-		Flyway flyway = new Flyway();
-		flyway.setLocations("database.migrations", "database.seeds");
-		flyway.setDataSource("jdbc:h2:mem:final;DB_CLOSE_DELAY=-1", "", "");
-		flyway.migrate();
+//		Flyway flyway = new Flyway();
+//		flyway.setLocations("database.migrations", "database.seeds");
+//		flyway.setDataSource("jdbc:mysql://localhost/final", "root", "");
+//		flyway.migrate();
 
 //		AndenRIP andenRIP = new AndenRIP();
 //		andenRIP.setNumber(10);
@@ -42,33 +43,33 @@ public class Main {
 //
 //		System.out.println("helevejen = " + helevejen.getNumber());
 
-		Role role = new Role();
-		role.setName("coolguy");
-		role.setId(10);
-
-		System.out.println("role = " + role);
-
-		Set<Role> roles = new HashSet<>();
-		roles.add(role);
-
-		Set<Integer> integers = new HashSet<>();
-		integers.add(12);
-
-		UserSchema schema = new UserSchema();
-		schema.setName("hans");
-		schema.setUsername("haard");
-		schema.setPassword("wauw");
-		schema.setRoles(integers);
-
-		System.out.println("schema = " + schema);
-
-		User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
-//		user.setRoles(roles);
-		System.out.println("user = " + user);
-
-		UserView view = UserMapper.INSTANCE.UserToUserView(user);
-
-		System.out.println("view = " + view);
+//		Role role = new Role();
+//		role.setName("coolguy");
+//		role.setId(10);
+//
+//		System.out.println("role = " + role);
+//
+//		Set<Role> roles = new HashSet<>();
+//		roles.add(role);
+//
+//		Set<Integer> integers = new HashSet<>();
+//		integers.add(12);
+//
+//		UserSchema schema = new UserSchema();
+//		schema.setName("hans");
+//		schema.setUsername("haard");
+//		schema.setPassword("wauw");
+//		schema.setRoles(integers);
+//
+//		System.out.println("schema = " + schema);
+//
+//		User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
+////		user.setRoles(roles);
+//		System.out.println("user = " + user);
+//
+//		UserView view = UserMapper.INSTANCE.UserToUserView(user);
+//
+//		System.out.println("view = " + view);
 
 		for (String arg : args) {
 			if(arg.startsWith("port=")) {

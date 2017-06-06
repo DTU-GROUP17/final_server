@@ -202,7 +202,8 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>4.1.2</version>
                 <configuration>
-                    <url>jdbc:h2:mem:final;DB_CLOSE_DELAY=-1</url>
+                    <url>jdbc:mysql://localhost/final</url>
+                    <user>root</user>
                     <locations>
                         <location>database.migrations</location>
                         <location>database.seeds</location>

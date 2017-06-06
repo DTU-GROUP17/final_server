@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
+//@EqualsAndHashCode(of = "id")
 @Data
 @Entity
 @Table(name = "roles")
@@ -20,7 +21,12 @@ public class Role {
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
 
-	@Basic@Column(name = "created_at", nullable = false)
+	@Basic
+	@Column(
+			name = "created_at",
+			insertable = false,
+			columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
+	)
 	private Timestamp createdAt;
 
 	@Basic@Column(name = "updated_at", nullable = false)
@@ -38,12 +44,11 @@ public class Role {
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
-	@JsonIgnore
-	@ManyToMany@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
-			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-	)
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	private Collection<User> users;
+
+	public String toString(){
+		return "Role Object";
+	}
 
 }

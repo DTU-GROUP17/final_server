@@ -6,6 +6,7 @@ import app.App;
 import http.requests.CreateUserInfo;
 import models.api.schemas.UserSchema;
 import models.api.views.UserView;
+import models.db.Role;
 import models.db.User;
 import models.mappers.UserMapper;
 import org.hibernate.Session;
@@ -15,7 +16,9 @@ import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Path("users")
 //@Authenticated
@@ -24,16 +27,16 @@ import java.util.List;
 //@RolesAllowed({"Admin"})
 public class UserController {
 
-
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
-
-			List<User> users =
-				session
-					.createQuery("from User")
-						.list();
-			return Response.ok(users).build();
+			return Response.ok(
+					UserMapper.INSTANCE.UsersToUserViews(
+						session
+							.createQuery("from User")
+								.list()
+					)
+			).build();
 		} catch (Exception e) {
 			System.out.println("e = " + e);
 			return Response.notModified().build();
@@ -58,14 +61,12 @@ public class UserController {
 	@POST
 	public Response create(UserSchema schema) {
 		try (Session session = App.factory.openSession()) {
-			System.out.println("create user");
 			Transaction transaction = session.beginTransaction();
 			User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (Exception e) {
-			System.out.println("e = " + e);
+		} catch (PersistenceException e) {
 			return Response.notModified().build();
 		}
 	}

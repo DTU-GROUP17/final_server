@@ -1,8 +1,6 @@
 package models.db;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import services.authentication.Authenticatable;
 
@@ -10,7 +8,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(of = "id", callSuper = false)
 @Data
 @Accessors(chain = true)
 @Entity
@@ -54,12 +52,21 @@ public class User extends Model implements Authenticatable<User>{
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
-	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "users_roles",
+			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+	)
 	private Set<Role> roles;
 
 	@Override
 	public String getIdentifier() {
 		return this.username;
+	}
+
+	public String toString(){
+		return "User Object";
 	}
 
 }
