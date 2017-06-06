@@ -24,6 +24,7 @@ import java.util.List;
 //@RolesAllowed({"Admin"})
 public class UserController {
 
+
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
