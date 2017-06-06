@@ -1,6 +1,6 @@
 package http.middleware;
 
-import annotations.http.Authenticated;
+import annotations_.http.Authenticated;
 import exceptions.auth.InvalidCredentials;
 import exceptions.auth.JWTException;
 import services.authentication.Guard;

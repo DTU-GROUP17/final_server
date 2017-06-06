@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -11,9 +11,9 @@ import java.io.Serializable;
 public class IngredientKey implements Serializable {
 
 	@Column(name = "recipe_id", nullable = false)@Id
-	private int recipeId;
+	private Integer recipeId;
 
 	@Column(name = "component_id", nullable = false)@Id
-	private int componentId;
+	private Integer componentId;
 
 }

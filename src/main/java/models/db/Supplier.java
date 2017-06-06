@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -8,11 +8,13 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "components")
-public class Component {
+@Table(name = "suppliers")
+public class Supplier {
 
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -20,16 +22,22 @@ public class Component {
 	@Basic@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;
 
+	@Basic@Column(name = "updated_at", nullable = false)
+	private Timestamp updatedAt;
+
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
+
+	@OneToMany(mappedBy = "suppliers")
+	private Collection<Material> materials;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
 
+	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
+	private User updatedBy;
+
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
-
-	@OneToMany(mappedBy = "components")
-	private Collection<Material> materials;
 
 }

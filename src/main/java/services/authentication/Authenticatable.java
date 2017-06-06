@@ -1,6 +1,6 @@
 package services.authentication;
 
-import models.Role;
+import models.db.Role;
 import services.hash.Hasher;
 
 import java.security.Principal;

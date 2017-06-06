@@ -1,17 +1,14 @@
 package http.controllers.users;
 
 
-import annotations.http.Authenticated;
-import annotations.http.PATCH;
+import annotations_.http.PATCH;
 import app.App;
-import exceptions.CreateUserException;
 import http.requests.CreateUserInfo;
-import models.Role;
-import models.User;
+import models.api.views.UserView;
+import models.db.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -56,28 +53,23 @@ public class UserController {
 	}
 
 	@POST
-	public Response create(User info) {
-		try (Session session = App.factory.openSession()) {
-//			if (!info.isFull())
-//				throw new CreateUserException();
-			Transaction transaction = session.beginTransaction();
-			User user = new User();
-
-			user.setName(info.getName());
-			user.setUsername(info.getUsername());
-			user.setPassword(info.getPassword());
-			System.out.println(user);
-//			user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
-			session.persist(user);
-
-			transaction.commit();
-
-			return Response.ok(user).build();
-
-		} catch (PersistenceException e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
-		}
+	public Response create(UserView view) {
+//		User user = UserMapper.INSTANCE.UserViewToUser(view);
+//		System.out.println("user = " + user);
+//		try (Session session = App.factory.openSession()) {
+//			System.out.println("create user");
+//			Transaction transaction = session.beginTransaction();
+//
+////			session.persist(user);
+//			transaction.commit();
+//			return Response.ok().build();
+////
+//
+//		} catch (Exception e) {
+//			System.out.println("e = " + e);
+//			return Response.notModified().build();
+//		}
+		return Response.ok().build();
 	}
 
 	@PATCH

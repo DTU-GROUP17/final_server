@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -8,10 +8,13 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(name = "recipes")
-public class Recipe {
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+@Table(name = "components")
+public class Component {
+
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -22,13 +25,13 @@ public class Recipe {
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
-	@OneToMany(mappedBy = "recipe")
-	private Collection<ProductBatch> productBatches;
-
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
 	private User createdBy;
 
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
+
+	@OneToMany(mappedBy = "components")
+	private Collection<Material> materials;
 
 }

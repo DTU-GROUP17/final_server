@@ -1,10 +1,9 @@
 package http.controllers.users;
 
-import annotations.http.Authenticated;
-import annotations.http.PATCH;
+import annotations_.http.Authenticated;
+import annotations_.http.PATCH;
 import app.App;
-import http.requests.CreateUserInfo;
-import models.User;
+import models.db.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;

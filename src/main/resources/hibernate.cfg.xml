@@ -17,16 +17,16 @@
         <property name="show_sql">true</property>
         <mapping package="models"/>
 
-        <mapping class="models.User"/>
-        <mapping class="models.Role"/>
-        <mapping class="models.Supplier"/>
-        <mapping class="models.Component"/>
-        <mapping class="models.Material"/>
-        <mapping class="models.Ingredient"/>
-        <mapping class="models.Recipe"/>
-        <mapping class="models.ProductBatch"/>
-        <mapping class="models.Weight"/>
-        <mapping class="models.Weighing"/>
+        <mapping class="models.db.User"/>
+        <mapping class="models.db.Role"/>
+        <mapping class="models.db.Supplier"/>
+        <mapping class="models.db.Component"/>
+        <mapping class="models.db.Material"/>
+        <mapping class="models.db.Ingredient"/>
+        <mapping class="models.db.Recipe"/>
+        <mapping class="models.db.ProductBatch"/>
+        <mapping class="models.db.Weight"/>
+        <mapping class="models.db.Weighing"/>
 
     </session-factory>
 </hibernate-configuration>

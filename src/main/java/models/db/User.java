@@ -1,14 +1,11 @@
-package models;
+package models.db;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.ColumnDefault;
 import services.authentication.Authenticatable;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -17,8 +14,11 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User extends Model implements Authenticatable<User>{
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -26,7 +26,6 @@ public class User extends Model implements Authenticatable<User>{
 	@Basic@Column(name = "username", nullable = false)
 	private String username;
 
-	@JsonIgnore
 	@Basic@Column(name = "password")
 	private String password;
 
@@ -44,10 +43,18 @@ public class User extends Model implements Authenticatable<User>{
 	@Basic@Column(name = "deleted_at")
 	private Timestamp deletedAt;
 
+	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
+	private User createdBy;
+
+	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
+	private User updatedBy;
+
+	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
+	private User deletedBy;
+
 	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	private Set<Role> roles;
 
-	@JsonIgnore
 	@Override
 	public String getIdentifier() {
 		return this.username;

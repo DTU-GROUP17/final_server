@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -9,8 +9,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "weighings")
 public class Weighing {
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "amount")
 	private Double amount;

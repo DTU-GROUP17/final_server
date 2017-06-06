@@ -1,4 +1,4 @@
-package annotations.http;
+package annotations_.http;
 
 import javax.ws.rs.HttpMethod;
 import java.lang.annotation.ElementType;

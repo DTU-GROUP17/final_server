@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -10,8 +10,11 @@ import java.util.Collection;
 @Entity
 @Table(name = "product_batches")
 public class ProductBatch {
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "status", nullable = false)
 	private String status;

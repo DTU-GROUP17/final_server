@@ -54,7 +54,7 @@ local.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# Java annotations processor (APT)
+# Java annotations_ processor (APT)
 .factorypath
 
 # PDT-specific (PHP Development Tools)

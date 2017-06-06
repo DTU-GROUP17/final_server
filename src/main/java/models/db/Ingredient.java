@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -10,11 +10,13 @@ import javax.persistence.*;
 @IdClass(IngredientKey.class)
 public class Ingredient {
 
-	@Id@Column(name = "recipe_id", nullable = false)
-	private int recipeId;
+	@Id
+	@Column(name = "recipe_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer recipeId;
 
 	@Id@Column(name = "component_id", nullable = false)
-	private int componentId;
+	private Integer componentId;
 
 	@Basic@Column(name = "amount")
 	private Double amount;

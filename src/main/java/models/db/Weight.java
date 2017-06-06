@@ -1,4 +1,4 @@
-package models;
+package models.db;
 
 import lombok.*;
 
@@ -11,8 +11,10 @@ import java.util.Collection;
 @Table(name = "weights")
 public class Weight {
 
-	@Id@Column(name = "id", nullable = false)
-	private int id;
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
