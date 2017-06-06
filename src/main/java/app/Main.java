@@ -43,25 +43,27 @@ public class Main {
 //		System.out.println("helevejen = " + helevejen.getNumber());
 
 		Role role = new Role();
-
 		role.setName("coolguy");
+		role.setId(10);
+
+		System.out.println("role = " + role);
 
 		Set<Role> roles = new HashSet<>();
-
 		roles.add(role);
 
-		UserSchema schema = new UserSchema();
+		Set<Integer> integers = new HashSet<>();
+		integers.add(12);
 
+		UserSchema schema = new UserSchema();
 		schema.setName("hans");
 		schema.setUsername("haard");
 		schema.setPassword("wauw");
+		schema.setRoles(integers);
 
 		System.out.println("schema = " + schema);
 
 		User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
-
-		user.setRoles(roles);
-
+//		user.setRoles(roles);
 		System.out.println("user = " + user);
 
 		UserView view = UserMapper.INSTANCE.UserToUserView(user);

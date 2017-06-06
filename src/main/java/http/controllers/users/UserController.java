@@ -4,8 +4,10 @@ package http.controllers.users;
 import annotations_.http.PATCH;
 import app.App;
 import http.requests.CreateUserInfo;
+import models.api.schemas.UserSchema;
 import models.api.views.UserView;
 import models.db.User;
+import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -53,23 +55,18 @@ public class UserController {
 	}
 
 	@POST
-	public Response create(UserView view) {
-//		User user = UserMapper.INSTANCE.UserViewToUser(view);
-//		System.out.println("user = " + user);
-//		try (Session session = App.factory.openSession()) {
-//			System.out.println("create user");
-//			Transaction transaction = session.beginTransaction();
-//
-////			session.persist(user);
-//			transaction.commit();
-//			return Response.ok().build();
-////
-//
-//		} catch (Exception e) {
-//			System.out.println("e = " + e);
-//			return Response.notModified().build();
-//		}
-		return Response.ok().build();
+	public Response create(UserSchema schema) {
+		try (Session session = App.factory.openSession()) {
+			System.out.println("create user");
+			Transaction transaction = session.beginTransaction();
+			User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
+			session.persist(user);
+			transaction.commit();
+			return Response.ok().build();
+		} catch (Exception e) {
+			System.out.println("e = " + e);
+			return Response.notModified().build();
+		}
 	}
 
 	@PATCH
