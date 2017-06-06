@@ -14,7 +14,7 @@ public interface RoleMapper {
 
 	RoleView RoleToRoleView(Role role);
 
-//	RoleView RoleToRoleView(Role role);
+//	xdRoleView RoleToRoleView(Role role);
 
 	Set<RoleView> RolesToRoleViews(Set<Role> roles);
 
