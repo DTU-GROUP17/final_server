@@ -13,6 +13,7 @@ import models.mappers.WeightUpdater;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
+import services.response.ApiResponse;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
@@ -43,11 +44,11 @@ public class WeightController {
 	@Path("{weightId: \\d+}")
 	public Response show(@PathParam("weightId") String weightId) {
 		try (Session session = App.factory.openSession()) {
-			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-			if (weight!=null) {
-				return Response.ok(WeightMapper.INSTANCE.WeightToWeightView(weight)).build();
-			}
-			return Response.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
+			return ApiResponse.item(
+					WeightMapper.INSTANCE.WeightToWeightView(
+							session.find(Weight.class, Integer.parseInt(weightId))
+					)
+			).build();
 		}
 	}
 
@@ -69,10 +70,9 @@ public class WeightController {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-			if (weight==null){
-				return Response
-					.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
-			}
+
+			ApiResponse.verifyItem(weight);
+
 			weight.setUpdatedBy((User)guard.getUser());
 			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);
@@ -89,10 +89,8 @@ public class WeightController {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-			if (weight==null){
-				return Response
-					.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
-			}
+			ApiResponse.verifyItem(weight);
+
 			weight.setDeletedBy((User)guard.getUser());
 			session.delete(weight);
 			transaction.commit();
