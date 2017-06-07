@@ -1,13 +1,9 @@
 package http.controllers.users;
 
-
 import annotations_.http.PATCH;
 import app.App;
-import exceptions.DeleteUserException;
-import exceptions.UpdateUserException;
-import http.requests.CreateUserInfo;
+import http.controllers.Controller;
 import models.api.schemas.UserSchema;
-import models.api.views.UserView;
 import models.db.User;
 import models.mappers.UserMapper;
 import models.mappers.UserUpdater;
@@ -26,11 +22,10 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Admin"})
-public class UserController {
+public class UserController implements Controller {
 
 	@GET
 	public Response index(@DefaultValue("false")@QueryParam("withDeleted") boolean withDeleted) {
-		System.out.println("get users");
 		try (Session session = App.factory.openSession()) {
 			return Response.ok(
 					UserMapper.INSTANCE.UsersToUserViews(
@@ -45,16 +40,12 @@ public class UserController {
 
 	@GET
 	@Path("{userId: \\d+}")
-	public Response show(@PathParam("userId") String userId) {
-		try (Session session = App.factory.openSession()) {
-			UserView view = UserMapper.INSTANCE.UserToUserView(
-				session.find(User.class, Integer.parseInt(userId))
-			);
-			if (view!=null) {
-				return Response.ok(view).build();
-			}
-			return Response.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
-		}
+	public Response show(@PathParam("userId") String id) {
+		return Response.ok(
+			UserMapper.INSTANCE.UserToUserView(
+				Controller.getVerfiedItem(User.class, id)
+			)
+		).build();
 	}
 
 	@POST
@@ -73,14 +64,10 @@ public class UserController {
 
 	@PATCH
 	@Path("{userId: \\d+}")
-	public Response update(@Context Guard guard, @PathParam("userId") String userId, UserSchema schema) {
+	public Response update(@Context Guard guard, @PathParam("userId") String id, UserSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			User user = session.find(User.class, Integer.parseInt(userId));
-			if (user==null){
-				return Response
-					.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
-			}
+			User user = Controller.getVerfiedItem(User.class, id, session);
 			user.setUpdatedBy((User)guard.getUser());
 			UserUpdater.INSTANCE.updateUserFromUserSchema(
 				schema,
@@ -89,25 +76,13 @@ public class UserController {
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException  e) {
-			return Response.notModified().build();
 		}
 	}
 
 	@DELETE
 	@Path("{userId: \\d+}")
-	public Response delete(@PathParam("userId") String userId, CreateUserInfo info) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			User user = session.find(User.class, Integer.parseInt(userId));
-			if (user==null){
-				return Response
-					.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
-			}
-			session.delete(user);
-			transaction.commit();
-			return Response.ok().build();
-		}
+	public Response delete(@Context Guard guard, @PathParam("userId") String id) {
+		return Controller.delete(User.class, id);
 	}
 
 }

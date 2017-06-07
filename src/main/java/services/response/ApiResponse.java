@@ -15,9 +15,7 @@ public abstract class ApiResponse extends Response{
 		throw new ModelNotFoundException();
 	}
 
-	public static void verifyItem(Model model) throws ModelNotFoundException {
-		if(model == null) {
-			throw new ModelNotFoundException();
-		}
-	}
+//	public static void verifyItem(Model model) throws ModelNotFoundException {
+//
+//	}
 }

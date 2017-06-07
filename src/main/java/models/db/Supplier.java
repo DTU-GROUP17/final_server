@@ -1,26 +1,20 @@
 package models.db;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name = "suppliers")
-public class Supplier extends Model{
-
-//	@Id
-//	@Column(name = "id", nullable = false)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Integer id;
+public class Supplier extends Model implements SoftDeletable<Supplier>, Updateable<Supplier> {
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
-
-	@Basic@Column(name = "created_at", nullable = false)
-	private Timestamp createdAt;
 
 	@Basic@Column(name = "updated_at", nullable = false)
 	private Timestamp updatedAt;
@@ -30,9 +24,6 @@ public class Supplier extends Model{
 
 	@OneToMany(mappedBy = "suppliers")
 	private Collection<Material> materials;
-
-	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
-	private User createdBy;
 
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
 	private User updatedBy;

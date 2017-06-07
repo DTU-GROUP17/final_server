@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
@@ -20,7 +19,7 @@ import java.util.Set;
 @SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
-public class User extends Model implements SoftDeletable, Authenticatable<User>{
+public class User extends Model implements SoftDeletable<User>, Updateable<User>, Authenticatable<User>{
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -32,22 +31,15 @@ public class User extends Model implements SoftDeletable, Authenticatable<User>{
 	private String password;
 
 	@Basic
-	@CreationTimestamp
-	@Column(name = "created_at")
-	@Setter(AccessLevel.NONE)
-	private Timestamp createdAt;
-
-	@Basic
 	@UpdateTimestamp
 	@Column(name = "updated_at")
 	@Setter(AccessLevel.NONE)
 	private Timestamp updatedAt;
 
-	@Basic@Column(name = "deleted_at")
+	@Basic
+	@Column(name = "deleted_at")
+	@Setter(AccessLevel.NONE)
 	private Timestamp deletedAt;
-
-	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
-	private User createdBy;
 
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
 	private User updatedBy;

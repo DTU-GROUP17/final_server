@@ -2,9 +2,23 @@ package http.controllers;
 
 import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
+import app.App;
+import models.api.schemas.SupplierMapper;
+import models.api.schemas.SupplierSchema;
+import models.db.Supplier;
+import models.db.User;
+import models.mappers.SupplierUpdater;
+import models.mappers.UserMapper;
+import models.mappers.UserUpdater;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import services.authentication.Guard;
+import services.response.ApiResponse;
 
 import javax.annotation.security.RolesAllowed;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,29 +31,61 @@ public class SupplierController {
 
 	@GET
 	public Response index() {
-		return Response.serverError().build(); //TODO: create
+		try (Session session = App.factory.openSession()) {
+			return Response.ok(
+				SupplierMapper.INSTANCE.SuppliersToSupplierViews(
+					session
+						.createQuery(
+								"FROM Suppliers"
+						).list()
+				)
+			).build();
+		}
 	}
 
 	@GET
 	@Path("{supplierId: \\d+}")
-	public Response show(@PathParam("supplierId") String supplierId) {
-		return Response.serverError().build(); //TODO: create
+	public Response show(@PathParam("supplierId") String id) {
+		try (Session session = App.factory.openSession()){
+			Supplier supplier = Controller.getVerfiedItem(Supplier.class, id);
+			return Response.ok(
+					SupplierMapper.INSTANCE.SupplierToSupplierView(supplier)
+			).build();
+		}
 	}
 
 	@POST
-	public Response create() {
-		return Response.serverError().build(); //TODO: create
+	public Response create(@Context Guard guard, SupplierSchema schema) {
+		try (Session session = App.factory.openSession()) {
+			Transaction transaction = session.beginTransaction();
+			Supplier supplier = SupplierMapper.INSTANCE.SupplierSchemaToSupplier(schema);
+			supplier.setCreatedBy((User)guard.getUser());
+			session.persist(session);
+			transaction.commit();
+			return Response.ok().build();
+		}
 	}
 
 	@PATCH
 	@Path("{supplierId: \\d+}")
-	public Response update(@PathParam("supplierId") String supplierId) {
-		return Response.serverError().build(); //TODO: create
+	public Response update(@Context Guard guard, @PathParam("supplierId") String id, SupplierSchema schema) {
+		try (Session session = App.factory.openSession()) {
+			Transaction transaction = session.beginTransaction();
+			Supplier supplier = Controller.getVerfiedItem(Supplier.class, id);
+			supplier.setUpdatedBy((User)guard.getUser());
+			SupplierUpdater.INSTANCE.updateSupplierFromSupplierSchema(
+					schema,
+					supplier
+			);
+			session.persist(supplier);
+			transaction.commit();
+			return Response.ok().build();
+		}
 	}
 
 	@DELETE
 	@Path("{supplierId: \\d+}")
-	public Response delete(@PathParam("supplierId") String supplierId) {
-		return Response.serverError().build(); //TODO: create
+	public Response delete(@Context Guard guard, @PathParam("supplierId") String id) {
+		return Controller.delete(Supplier.class, id);
 	}
 }

@@ -3,11 +3,9 @@ package http.controllers;
 import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
-import http.requests.CreateWeightInfo;
 import models.api.schemas.WeightSchema;
 import models.db.User;
 import models.db.Weight;
-import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
 import models.mappers.WeightUpdater;
 import org.hibernate.Session;
@@ -66,13 +64,10 @@ public class WeightController {
 
 	@PATCH
 	@Path("{weightId: \\d+}")
-	public Response update(@Context Guard guard, @PathParam("weightId") String weightId, WeightSchema schema) {
+	public Response update(@Context Guard guard, @PathParam("weightId") String id, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-
-			ApiResponse.verifyItem(weight);
-
+			Weight weight = Controller.getVerfiedItem(Weight.class, id);
 			weight.setUpdatedBy((User)guard.getUser());
 			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);
@@ -85,18 +80,7 @@ public class WeightController {
 
 	@DELETE
 	@Path("{weightId: \\d+}")
-	public Response delete(@Context Guard guard, @PathParam("weightId") String weightId) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-			ApiResponse.verifyItem(weight);
-
-			weight.setDeletedBy((User)guard.getUser());
-			session.delete(weight);
-			transaction.commit();
-			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
-		}
+	public Response delete(@Context Guard guard, @PathParam("weightId") String id) {
+		return Controller.delete(Weight.class, id);
 	}
 }

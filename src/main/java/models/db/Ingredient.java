@@ -1,10 +1,12 @@
 package models.db;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends Model {

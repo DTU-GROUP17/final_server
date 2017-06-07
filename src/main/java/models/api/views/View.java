@@ -6,6 +6,7 @@ public interface View {
 	enum Type {
 		User ,
 		Weight,
-		Role
+		Role,
+		Supplier
 	}
 }

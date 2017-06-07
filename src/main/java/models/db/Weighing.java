@@ -1,19 +1,16 @@
 package models.db;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 
 @Data
+@Accessors(chain = true)
 @Entity
 @Table(name = "weighings")
 public class Weighing extends Model{
-
-//	@Id
-//	@Column(name = "id", nullable = false)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Integer id;
 
 	@Basic@Column(name = "amount")
 	private Double amount;
@@ -26,4 +23,5 @@ public class Weighing extends Model{
 
 	@ManyToOne@JoinColumn(name = "weight_id", referencedColumnName = "id", nullable = false)
 	private Weight weight;
+
 }
