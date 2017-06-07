@@ -30,15 +30,11 @@ public class WeightController {
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
-			Weight weight = (Weight) session.createQuery("FROM Weight").list().get(0);
-			return Response.ok(UserMapper.INSTANCE.UserToBasicUserView(weight.getCreatedBy())).build();
-
-
-//			return Response.ok(
-//					WeightMapper.INSTANCE.WeightsToWeightViews(
-//							session.createQuery("FROM Weight").list()
-//					)
-//			).build();
+			return Response.ok(
+					WeightMapper.INSTANCE.WeightsToWeightViews(
+							session.createQuery("FROM Weight").list()
+					)
+			).build();
 		}
 	}
 

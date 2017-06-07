@@ -228,8 +228,9 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
             <plugin>
-                <!-- Build an executable JAR -->
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
@@ -277,6 +278,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
         <defaultGoal>install</defaultGoal>
     </build>
