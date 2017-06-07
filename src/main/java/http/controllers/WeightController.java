@@ -23,20 +23,17 @@ import java.util.List;
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({"Admin"})   // will change it later
+@RolesAllowed({"Admin"})
 public class WeightController {
 
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
-
-			List<Weight> weights = session
-							.createQuery("from Weight")
-								.list();
-			return Response.ok(weights).build();
-		} catch (Exception e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
+			return Response.ok(
+					WeightMapper.INSTANCE.WeightsToWeightViews(
+							session.createQuery("FROM Weight").list()
+					)
+			).build();
 		}
 	}
 
@@ -61,7 +58,7 @@ public class WeightController {
 		try (Session session = App.factory.openSession()) {
 			System.out.println("create weight");
 			Transaction transaction = session.beginTransaction();
-			Weight weight = WeightMapper.INSTANCE.WieghtSchemaToWeight(schema);
+			Weight weight = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
 			session.persist(weight);
 			transaction.commit();
 			return Response.ok().build();

@@ -2,6 +2,7 @@ package models.api.views;
 
 
 import lombok.Data;
+import models.api.views.Basic.BasicUserView;
 import models.db.Weight;
 import models.db.User;
 import java.sql.Timestamp;
@@ -13,16 +14,16 @@ public class WeightView implements View{
     private Integer id;
     private String name;
     private String uri;
-    private User createdBy;
+    private BasicUserView createdBy;
     private Timestamp createdAt;
-    private User updatedBy;
+    private BasicUserView updatedBy;
     private Timestamp updatedAt;
-    private User deletedBy;
+    private BasicUserView deletedBy;
     private Timestamp deletedAt;
 
 
     @Override
-    public String getType() {
-        return "weight";
+    public Type getType() {
+        return Type.Weight;
     }
 }

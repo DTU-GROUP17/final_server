@@ -17,7 +17,7 @@ public class RoleView implements View {
 	private User deletedBy;
 
 	@Override
-	public String getType() {
-		return "role";
+	public Type getType() {
+		return Type.Role;
 	}
 }

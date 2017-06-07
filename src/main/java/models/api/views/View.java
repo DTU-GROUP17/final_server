@@ -1,5 +1,11 @@
 package models.api.views;
 
 public interface View {
-	String getType();
+	Type getType();
+
+	enum Type {
+		User ,
+		Weight,
+		Role
+	}
 }

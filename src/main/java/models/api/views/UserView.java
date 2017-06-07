@@ -20,7 +20,7 @@ public class UserView implements View {
 	private User deletedBy;
 
 	@Override
-	public String getType() {
-		return "user";
+	public Type getType() {
+		return Type.User;
 	}
 }

@@ -1,13 +1,16 @@
 package models.mappers;
 
 import models.api.schemas.WeightSchema;
+import models.api.views.Basic.BasicUserView;
 import models.api.views.WeightView;
 import models.db.Weight;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper()
+import java.util.List;
+
+@Mapper(uses = UserMapper.class)
 public interface WeightMapper {
 	WeightMapper INSTANCE = Mappers.getMapper(WeightMapper.class);
 
@@ -15,8 +18,10 @@ public interface WeightMapper {
 	})
 	WeightView WeightToWeightView(Weight weight);
 
+	List<WeightView> WeightsToWeightViews(List<Weight> users);
+
 	@Mappings({
 	})
-	Weight WieghtSchemaToWeight(WeightSchema schema);
+	Weight WeightSchemaToWeight(WeightSchema schema);
 
 }

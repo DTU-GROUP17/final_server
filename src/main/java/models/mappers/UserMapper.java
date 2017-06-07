@@ -1,6 +1,7 @@
 package models.mappers;
 
 import models.api.schemas.UserSchema;
+import models.api.views.Basic.BasicUserView;
 import models.api.views.UserView;
 import models.db.User;
 import org.mapstruct.Mapper;
@@ -19,6 +20,8 @@ public interface UserMapper {
 	UserView UserToUserView(User user);
 
 	List<UserView> UsersToUserViews(List<User> users);
+
+	BasicUserView UserToBasicUserView(User user);
 
 	@Mappings({
 	})

@@ -24,12 +24,8 @@ public class AuthController {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
-		try {
-			if(!guard.validate(info.getUserName(), info.getPassword())) {
-				return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
-			}
-		} catch (JWTException exception) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(exception.getMessage()).build();
+		if(!guard.validate(info.getUserName(), info.getPassword())) {
+			return Response.status(Status.UNAUTHORIZED).entity("Invalid credentials").build();
 		}
 
 		return Response.status(200)

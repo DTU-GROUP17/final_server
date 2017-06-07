@@ -35,16 +35,6 @@ public class App extends ResourceConfig {
 	public static void initConfiguration() {
 		configuration = new Configuration()
 			.configure();
-//			.addAnnotatedClass(User.class)
-//			.addAnnotatedClass(Role.class)
-//			.addAnnotatedClass(Supplier.class)
-//			.addAnnotatedClass(Component.class)
-//			.addAnnotatedClass(Material.class)
-//			.addAnnotatedClass(Ingredient.class)
-//			.addAnnotatedClass(Recipe.class)
-//			.addAnnotatedClass(ProductBatch.class)
-//			.addAnnotatedClass(Weighing.class)
-//			.addAnnotatedClass(Weight.class);
 	}
 
 	public App() {
