@@ -41,16 +41,12 @@ public class WeightController {
 	@GET
 	@Path("{weightId: \\d+}")
 	public Response show(@PathParam("weightId") String weightId) {
-
 		try (Session session = App.factory.openSession()) {
 			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
 			if (weight!=null) {
-				return Response.ok(weight).build();
+				return Response.ok(WeightMapper.INSTANCE.WeightToWeightView(weight)).build();
 			}
 			return Response.status(Response.Status.NOT_FOUND).entity("Weight's ID not found").build();
-		}catch (Exception e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
 		}
 	}
 

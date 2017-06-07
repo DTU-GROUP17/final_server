@@ -219,7 +219,7 @@
                     </packages>
                     <entryPointClassPackage>org.assertj</entryPointClassPackage>
                 </configuration>
-                <!-- generate assertions at every build -->
+                <!-- generate assertions at every build
                 <executions>
                     <execution>
                         <goals>
@@ -227,6 +227,7 @@
                         </goals>
                     </execution>
                 </executions>
+                -->
             </plugin>
             <!--
             <plugin>
