@@ -1,15 +1,20 @@
 package http.controllers.users;
 
+
 import annotations_.http.PATCH;
 import app.App;
-import http.controllers.Controller;
+import exceptions.DeleteUserException;
+import exceptions.UpdateUserException;
+import http.requests.CreateUserInfo;
 import models.api.schemas.UserSchema;
+import models.api.views.UserView;
 import models.db.User;
 import models.mappers.UserMapper;
 import models.mappers.UserUpdater;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
+import services.listener.Interceptor;
 
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
@@ -18,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("users")
-//@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Admin"})
@@ -49,8 +53,9 @@ public class UserController implements Controller {
 	}
 
 	@POST
+	@Authenticated
 	public Response create(@Context Guard guard, UserSchema schema) {
-		try (Session session = App.factory.openSession()) {
+		try (Session session = App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
 			user.setCreatedBy((User)guard.getUser());
