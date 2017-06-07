@@ -3,10 +3,8 @@ package models.api.views;
 
 import lombok.Data;
 import models.api.views.Basic.BasicUserView;
-import models.db.Weight;
-import models.db.User;
+
 import java.sql.Timestamp;
-import java.util.Set;
 
 @Data
 public class WeightView implements View{

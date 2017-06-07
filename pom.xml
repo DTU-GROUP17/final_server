@@ -218,9 +218,7 @@
                         <param>models</param>
                     </packages>
                     <entryPointClassPackage>org.assertj</entryPointClassPackage>
-                    <targetDir>tests/generated-assertions</targetDir>
                 </configuration>
-
                 <!-- generate assertions at every build -->
                 <executions>
                     <execution>

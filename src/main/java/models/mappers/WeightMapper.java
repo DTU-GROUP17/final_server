@@ -1,7 +1,6 @@
 package models.mappers;
 
 import models.api.schemas.WeightSchema;
-import models.api.views.Basic.BasicUserView;
 import models.api.views.WeightView;
 import models.db.Weight;
 import org.mapstruct.Mapper;

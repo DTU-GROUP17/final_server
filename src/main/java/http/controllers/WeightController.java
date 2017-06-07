@@ -8,6 +8,7 @@ import http.requests.CreateWeightInfo;
 
 import models.api.schemas.WeightSchema;
 import models.db.Weight;
+import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,11 +30,15 @@ public class WeightController {
 	@GET
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-					WeightMapper.INSTANCE.WeightsToWeightViews(
-							session.createQuery("FROM Weight").list()
-					)
-			).build();
+			Weight weight = (Weight) session.createQuery("FROM Weight").list().get(0);
+			return Response.ok(UserMapper.INSTANCE.UserToBasicUserView(weight.getCreatedBy())).build();
+
+
+//			return Response.ok(
+//					WeightMapper.INSTANCE.WeightsToWeightViews(
+//							session.createQuery("FROM Weight").list()
+//					)
+//			).build();
 		}
 	}
 
