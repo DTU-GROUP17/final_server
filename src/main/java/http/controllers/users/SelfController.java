@@ -4,6 +4,7 @@ import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
 import models.db.User;
+import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
@@ -21,7 +22,7 @@ public class SelfController {
 
 	@GET
 	public Response show(@Context Guard guard) {
-		return Response.ok(guard.getUser()).build();
+		return Response.ok(UserMapper.INSTANCE.UserToUserView((User) guard.getUser())).build();
 	}
 
 	@PATCH
