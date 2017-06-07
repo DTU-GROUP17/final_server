@@ -1,6 +1,10 @@
 package models.db;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -8,13 +12,10 @@ import java.util.Collection;
 
 @Data
 @Entity
+@SQLDelete(sql = "UPDATE weights SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 @Table(name = "weights")
-public class Weight {
-
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class Weight extends Model{
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -22,13 +23,17 @@ public class Weight {
 	@Basic@Column(name = "uri", nullable = false)
 	private String uri;
 
-	@Basic@Column(name = "created_at", nullable = false)
+	@Basic
+	@CreationTimestamp
+	@Column(name = "created_at", nullable = false)
 	private Timestamp createdAt;
 
-	@Basic@Column(name = "updated_at", nullable = false)
+	@Basic
+	@UpdateTimestamp
+	@Column(name = "updated_at", nullable = false)
 	private Timestamp updatedAt;
 
-	@Basic@Column(name = "deleted_at", nullable = false)
+	@Basic @Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
 	@OneToMany(mappedBy = "weight")

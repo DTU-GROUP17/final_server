@@ -19,7 +19,6 @@ public class WeightView implements View{
     private BasicUserView deletedBy;
     private Timestamp deletedAt;
 
-
     @Override
     public Type getType() {
         return Type.Weight;

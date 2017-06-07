@@ -1,11 +1,14 @@
 package models.db;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Data;
 
-//@JsonTypeInfo(
-//		use = JsonTypeInfo.Id.NAME,
-//		property = "Type"
-//)
+import javax.persistence.*;
+
+@Data
+@MappedSuperclass
 abstract class Model{
-
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 }

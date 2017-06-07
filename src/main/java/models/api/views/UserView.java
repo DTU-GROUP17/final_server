@@ -1,6 +1,7 @@
 package models.api.views;
 
 import lombok.Data;
+import models.api.views.Basic.BasicRoleView;
 import models.db.User;
 
 import java.sql.Timestamp;
@@ -11,7 +12,7 @@ public class UserView implements View {
 	private String name;
 	private String username;
 	private Integer id;
-	private Set<RoleView> roles;
+	private Set<BasicRoleView> roles;
 	private Timestamp createdAt;
 	private User createdBy;
 	private Timestamp updatedAt;

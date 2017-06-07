@@ -9,12 +9,12 @@ import java.util.Collection;
 @Data
 @Entity
 @Table(name = "recipes")
-public class Recipe {
+public class Recipe extends Model{
 
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+//	@Id
+//	@Column(name = "id", nullable = false)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer id;
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;

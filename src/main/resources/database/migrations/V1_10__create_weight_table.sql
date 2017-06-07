@@ -3,7 +3,7 @@ CREATE TABLE weights (
   name VARCHAR(255) NOT NULL,
   uri VARCHAR(255) NOT NULL UNIQUE,
 
-  created_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_by INT UNSIGNED,
   updated_at TIMESTAMP,
   updated_by INT UNSIGNED,

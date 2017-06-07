@@ -3,14 +3,19 @@ package http.controllers.users;
 import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
+import models.api.schemas.SelfSchema;
 import models.db.User;
 import models.mappers.UserMapper;
+import models.mappers.UserUpdater;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
 
 import javax.persistence.PersistenceException;
-import javax.ws.rs.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,21 +31,12 @@ public class SelfController {
 	}
 
 	@PATCH
-	public Response update(@Context Guard guard, User info) {
+	public Response update(@Context Guard guard, SelfSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = (User) guard.getUser();
-
-			if (info.getName()!=null)
-				user.setName(info.getName());
-			if (info.getUsername()!=null)
-				user.setUsername(info.getUsername());
-			if (info.getPassword()!=null)
-				user.setPassword(info.getPassword());
-			
-			session.saveOrUpdate(user);
+			UserUpdater.INSTANCE.updateUserFromSelfSchema(schema, user);
 			transaction.commit();
-
 			return Response.ok().build();
 		} catch (PersistenceException e) {
 			return Response.notModified().build();

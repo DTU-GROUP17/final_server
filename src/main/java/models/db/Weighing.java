@@ -8,12 +8,12 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "weighings")
-public class Weighing {
+public class Weighing extends Model{
 
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+//	@Id
+//	@Column(name = "id", nullable = false)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer id;
 
 	@Basic@Column(name = "amount")
 	private Double amount;

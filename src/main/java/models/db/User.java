@@ -1,24 +1,26 @@
 package models.db;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import services.authentication.Authenticatable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
-//@EqualsAndHashCode(of = "id", callSuper = false)
 @Data
 @Accessors(chain = true)
 @Entity
+@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+@Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
-public class User extends Model implements Authenticatable<User>{
-
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+public class User extends Model implements SoftDeletable, Authenticatable<User>{
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -30,14 +32,15 @@ public class User extends Model implements Authenticatable<User>{
 	private String password;
 
 	@Basic
-	@Column(
-			name = "created_at",
-			insertable = false,
-			columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
-	)
+	@CreationTimestamp
+	@Column(name = "created_at")
+	@Setter(AccessLevel.NONE)
 	private Timestamp createdAt;
 
-	@Basic@Column(name = "updated_at")
+	@Basic
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	@Setter(AccessLevel.NONE)
 	private Timestamp updatedAt;
 
 	@Basic@Column(name = "deleted_at")

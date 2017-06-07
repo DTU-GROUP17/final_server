@@ -4,21 +4,22 @@ import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
 import http.requests.CreateWeightInfo;
-
-
 import models.api.schemas.WeightSchema;
+import models.db.User;
 import models.db.Weight;
 import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
+import models.mappers.WeightUpdater;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import services.authentication.Guard;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Path("weights")
 @Authenticated
@@ -31,9 +32,9 @@ public class WeightController {
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
 			return Response.ok(
-					WeightMapper.INSTANCE.WeightsToWeightViews(
-							session.createQuery("FROM Weight").list()
-					)
+				WeightMapper.INSTANCE.WeightsToWeightViews(
+					session.createQuery("FROM Weight").list()
+				)
 			).build();
 		}
 	}
@@ -46,36 +47,34 @@ public class WeightController {
 			if (weight!=null) {
 				return Response.ok(WeightMapper.INSTANCE.WeightToWeightView(weight)).build();
 			}
-			return Response.status(Response.Status.NOT_FOUND).entity("Weight's ID not found").build();
+			return Response.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
 		}
 	}
 
 	@POST
-	public Response create(WeightSchema schema) {
+	public Response create(@Context Guard guard, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
-			System.out.println("create weight");
 			Transaction transaction = session.beginTransaction();
 			Weight weight = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
+			weight.setCreatedBy((User)guard.getUser());
 			session.persist(weight);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (Exception e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
 		}
 	}
 
 	@PATCH
 	@Path("{weightId: \\d+}")
-	public Response update(@PathParam("weightId") String weightId, CreateWeightInfo info) {
-
+	public Response update(@Context Guard guard, @PathParam("weightId") String weightId, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
-			if (info.getName()!=null)
-				weight.setName(info.getName());
-			if (info.getUri()!=null)
-				weight.setUri(info.getUri());
+			if (weight==null){
+				return Response
+					.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
+			}
+			weight.setUpdatedBy((User)guard.getUser());
+			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);
 			transaction.commit();
 			return Response.ok().build();
@@ -86,11 +85,15 @@ public class WeightController {
 
 	@DELETE
 	@Path("{weightId: \\d+}")
-	public Response delete(@PathParam("weightId") String weightId) {
-
+	public Response delete(@Context Guard guard, @PathParam("weightId") String weightId) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			Weight weight = session.find(Weight.class, Integer.parseInt(weightId));
+			if (weight==null){
+				return Response
+					.status(Response.Status.NOT_FOUND).entity("No weight with that id").build();
+			}
+			weight.setDeletedBy((User)guard.getUser());
 			session.delete(weight);
 			transaction.commit();
 			return Response.ok().build();

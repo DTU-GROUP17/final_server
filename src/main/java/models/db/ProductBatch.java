@@ -9,12 +9,12 @@ import java.util.Collection;
 @Data
 @Entity
 @Table(name = "product_batches")
-public class ProductBatch {
+public class ProductBatch extends Model{
 
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+//	@Id
+//	@Column(name = "id", nullable = false)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer id;
 
 	@Basic@Column(name = "status", nullable = false)
 	private String status;

@@ -3,22 +3,23 @@ package http.controllers.users;
 
 import annotations_.http.PATCH;
 import app.App;
+import exceptions.DeleteUserException;
+import exceptions.UpdateUserException;
 import http.requests.CreateUserInfo;
 import models.api.schemas.UserSchema;
 import models.api.views.UserView;
-import models.db.Role;
 import models.db.User;
 import models.mappers.UserMapper;
+import models.mappers.UserUpdater;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import services.authentication.Guard;
 
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Path("users")
 //@Authenticated
@@ -28,18 +29,17 @@ import java.util.Set;
 public class UserController {
 
 	@GET
-	public Response index() {
+	public Response index(@DefaultValue("false")@QueryParam("withDeleted") boolean withDeleted) {
+		System.out.println("get users");
 		try (Session session = App.factory.openSession()) {
 			return Response.ok(
 					UserMapper.INSTANCE.UsersToUserViews(
 						session
-							.createQuery("from User")
-								.list()
+							.createQuery(
+								"FROM User"
+							).list()
 					)
 			).build();
-		} catch (Exception e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
 		}
 	}
 
@@ -47,22 +47,22 @@ public class UserController {
 	@Path("{userId: \\d+}")
 	public Response show(@PathParam("userId") String userId) {
 		try (Session session = App.factory.openSession()) {
-			User user = session.find(User.class, Integer.parseInt(userId));
-			if (user!=null) {
-				return Response.ok(user).build();
+			UserView view = UserMapper.INSTANCE.UserToUserView(
+				session.find(User.class, Integer.parseInt(userId))
+			);
+			if (view!=null) {
+				return Response.ok(view).build();
 			}
 			return Response.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
-		}catch (Exception e) {
-			System.out.println("e = " + e);
-			return Response.notModified().build();
 		}
 	}
 
 	@POST
-	public Response create(UserSchema schema) {
+	public Response create(@Context Guard guard, UserSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
+			user.setCreatedBy((User)guard.getUser());
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
@@ -73,23 +73,23 @@ public class UserController {
 
 	@PATCH
 	@Path("{userId: \\d+}")
-	public Response update(@PathParam("userId") String userId, CreateUserInfo info) {
+	public Response update(@Context Guard guard, @PathParam("userId") String userId, UserSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = session.find(User.class, Integer.parseInt(userId));
-			if (info.getName()!=null)
-				user.setName(info.getName());
-			if (info.getUsername()!=null)
-				user.setUsername(info.getUsername());
-			if (info.getPassword()!=null)
-				user.setPassword(info.getPassword());
-//			if (info.getRoles()!=null){
-//				user.setRoles(Role.getRolesFomNames(session, info.getRoles()));
-//			}
+			if (user==null){
+				return Response
+					.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
+			}
+			user.setUpdatedBy((User)guard.getUser());
+			UserUpdater.INSTANCE.updateUserFromUserSchema(
+				schema,
+				user
+			);
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException e) {
+		} catch (PersistenceException  e) {
 			return Response.notModified().build();
 		}
 	}
@@ -100,13 +100,14 @@ public class UserController {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = session.find(User.class, Integer.parseInt(userId));
+			if (user==null){
+				return Response
+					.status(Response.Status.NOT_FOUND).entity("No user with that id").build();
+			}
 			session.delete(user);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
 		}
 	}
-
 
 }

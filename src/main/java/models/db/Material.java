@@ -9,12 +9,12 @@ import java.util.Collection;
 @Data
 @Entity
 @Table(name = "materials")
-public class Material {
+public class Material extends Model{
 
-	@Id
-	@Column(name = "id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+//	@Id
+//	@Column(name = "id", nullable = false)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer id;
 
 	@Basic@Column(name = "stocked", nullable = false)
 	private double stocked;

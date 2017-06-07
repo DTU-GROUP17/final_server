@@ -7,15 +7,12 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "ingredients")
-@IdClass(IngredientKey.class)
-public class Ingredient {
+public class Ingredient extends Model {
 
-	@Id
 	@Column(name = "recipe_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer recipeId;
 
-	@Id@Column(name = "component_id", nullable = false)
+	@Column(name = "component_id", nullable = false)
 	private Integer componentId;
 
 	@Basic@Column(name = "amount")
