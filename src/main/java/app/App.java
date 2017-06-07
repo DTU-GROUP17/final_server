@@ -1,8 +1,6 @@
 package app;
 
-import http.controllers.users.RuntimeExceptionMapper;
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import models.*;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -42,8 +40,6 @@ public class App extends ResourceConfig {
 		this.packages(true, "http/middleware");
 
 		this.register(RolesAllowedDynamicFeature.class);
-
-		this.register(RuntimeExceptionMapper.class);
 
 		register(new AbstractBinder(){
 			@Override

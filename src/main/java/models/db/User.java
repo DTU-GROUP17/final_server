@@ -28,6 +28,11 @@ public class User extends Model implements SoftDeletable, Authenticatable<User>{
 	@Basic@Column(name = "username", nullable = false)
 	private String username;
 
+	@PostLoad
+	public void works(){
+		System.out.println("it works!");
+	}
+
 	@Basic@Column(name = "password")
 	private String password;
 

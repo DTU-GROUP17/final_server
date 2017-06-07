@@ -2,6 +2,7 @@ package models.api.views;
 
 import lombok.Data;
 import models.api.views.Basic.BasicRoleView;
+import models.api.views.Basic.BasicUserView;
 import models.db.User;
 
 import java.sql.Timestamp;
@@ -14,11 +15,11 @@ public class UserView implements View {
 	private Integer id;
 	private Set<BasicRoleView> roles;
 	private Timestamp createdAt;
-	private User createdBy;
+	private BasicUserView createdBy;
 	private Timestamp updatedAt;
-	private User updatedBy;
+	private BasicUserView updatedBy;
 	private Timestamp deletedAt;
-	private User deletedBy;
+	private BasicUserView deletedBy;
 
 	@Override
 	public Type getType() {

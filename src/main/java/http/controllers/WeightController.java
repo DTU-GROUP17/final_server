@@ -78,8 +78,6 @@ public class WeightController {
 			session.persist(weight);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
 		}
 	}
 
@@ -95,8 +93,6 @@ public class WeightController {
 			session.delete(weight);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
 		}
 	}
 }
