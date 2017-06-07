@@ -1,11 +1,12 @@
 package http.controllers.users;
 
 
+import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
 import exceptions.DeleteUserException;
 import exceptions.UpdateUserException;
-import http.requests.CreateUserInfo;
+import http.controllers.Controller;
 import models.api.schemas.UserSchema;
 import models.api.views.UserView;
 import models.db.User;
