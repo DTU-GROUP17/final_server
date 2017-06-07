@@ -9,7 +9,6 @@ import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(uses = RoleMapper.class)
 public interface UserMapper {

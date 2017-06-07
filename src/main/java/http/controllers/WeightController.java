@@ -8,6 +8,7 @@ import http.requests.CreateWeightInfo;
 
 import models.api.schemas.WeightSchema;
 import models.db.Weight;
+import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

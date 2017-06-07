@@ -218,9 +218,7 @@
                         <param>models</param>
                     </packages>
                     <entryPointClassPackage>org.assertj</entryPointClassPackage>
-                    <targetDir>tests/generated-assertions</targetDir>
                 </configuration>
-
                 <!-- generate assertions at every build -->
                 <executions>
                     <execution>
@@ -230,8 +228,9 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
             <plugin>
-                <!-- Build an executable JAR -->
+
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
@@ -279,6 +278,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
         <defaultGoal>install</defaultGoal>
     </build>
