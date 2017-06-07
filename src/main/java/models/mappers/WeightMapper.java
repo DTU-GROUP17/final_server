@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = UserMapper.class)
+@Mapper(uses = WeightMapper.class)
 public interface WeightMapper {
 	WeightMapper INSTANCE = Mappers.getMapper(WeightMapper.class);
 
@@ -17,7 +17,7 @@ public interface WeightMapper {
 	})
 	WeightView WeightToWeightView(Weight weight);
 
-	List<WeightView> WeightsToWeightViews(List<Weight> users);
+	List<WeightView> WeightsToWeightViews(List<Weight> weights);
 
 	@Mappings({
 	})
