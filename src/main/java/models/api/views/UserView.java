@@ -21,6 +21,7 @@ public class UserView implements View {
 	private Timestamp deletedAt;
 	private BasicUserView deletedBy;
 
+	
 	@Override
 	public Type getType() {
 		return Type.User;
