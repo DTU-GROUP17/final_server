@@ -2,9 +2,16 @@ package http.controllers;
 
 import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
+import app.App;
 import models.api.schemas.IngredientSchema;
 import models.api.schemas.RecipeSchema;
 import models.api.schemas.Schema;
+import models.db.Recipe;
+import models.db.User;
+import models.db.Weight;
+import models.mappers.WeightMapper;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
@@ -33,13 +40,14 @@ public class RecipeController {
 
 	@POST
 	public Response create(RecipeSchema schema) {
-
-        HashSet<IngredientSchema> ingredients = (HashSet<IngredientSchema>) schema.getIngredients();
-
-        System.out.println(ingredients);
-
-
-        return Response.serverError().build(); //TODO: create
+        try (Session session = App.factory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            Recipe recipe = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
+            weight.setCreatedBy((User)guard.getUser());
+            session.persist(weight);
+            transaction.commit();
+            return Response.ok().build();
+        }
 	}
 
 	@DELETE

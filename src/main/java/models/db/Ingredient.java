@@ -20,7 +20,7 @@ public class Ingredient extends Model {
 	@Basic@Column(name = "amount")
 	private Double amount;
 
-	@Basic@Column(name = "tolerence")
-	private Double tolerence;
+	@Basic@Column(name = "tolerance")
+	private Double tolerance;
 
 }

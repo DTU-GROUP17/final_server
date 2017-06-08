@@ -3,7 +3,7 @@ CREATE TABLE ingredients (
   recipe_id INT UNSIGNED NOT NULL,
   component_id INT UNSIGNED NOT NULL,
   amount DOUBLE CHECK (amount > 0),
-  tolerence DOUBLE CHECK (tolerence > 0),
+  tolerance DOUBLE CHECK (tolerance > 0),
 
   PRIMARY Key (id)
 )

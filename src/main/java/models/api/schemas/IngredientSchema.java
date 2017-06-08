@@ -7,5 +7,5 @@ import lombok.Data;
 public class IngredientSchema implements Schema {
     private Integer component;
     private Double amount;
-    private Double tolerence;
+    private Double tolerance;
 }
