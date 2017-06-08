@@ -6,6 +6,7 @@ import models.api.views.Basic.BasicComponentView;
 import models.api.views.ComponentView;
 import models.db.Component;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -22,4 +23,8 @@ public interface ComponentMapper {
 	List<ComponentView> CompoinentsToComponentViews(List<Component> components);
 
 	BasicComponentView ComponentToBasicComponent(Component component);
+
+	@Mapping(target = "id", expression = "java(integer)")
+	Component IntegerToComponent(Integer integer);
+
 }

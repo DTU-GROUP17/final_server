@@ -5,8 +5,6 @@ import models.api.views.Basic.BasicUserView;
 
 import java.sql.Timestamp;
 
-import static models.api.views.View.Type.Component;
-
 @Data
 public class ComponentView implements View{
 	private String name;
