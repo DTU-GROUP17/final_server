@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {User.class, Supplier.class, Component.class})
+@Mapper(uses = {UserMapper.class, SupplierMapper.class, ComponentMapper.class})
 public interface MaterialMapper {
 
 	MaterialMapper INSTANCE = Mappers.getMapper(MaterialMapper.class);
@@ -20,6 +20,6 @@ public interface MaterialMapper {
 
 	MaterialView MaterialToMaterialView(Material material);
 
-	List<MaterialView> MaterialsToMaterialsMapper(List<Material> materials);
+	List<MaterialView> MaterialsToMaterialViews(List<Material> materials);
 
 }
