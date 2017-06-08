@@ -1,7 +1,6 @@
 CREATE TABLE recipes (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
-
   created_at TIMESTAMP NOT NULL,
   created_by INT UNSIGNED,
   deleted_at TIMESTAMP,

@@ -26,9 +26,17 @@ public class Recipe extends Model implements SoftDeletable<Recipe> {
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
-	@OneToMany(mappedBy ="recipe")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+		name="recipes_ingredients",
+		joinColumns = @JoinColumn(
+			name="recipe_id"
+		),
+		inverseJoinColumns = @JoinColumn(
+			name="ingredient_id"
+		)
+
+	)
 	private Set<Ingredient> ingredients;
-
-
 
 }

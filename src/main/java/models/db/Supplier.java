@@ -10,7 +10,7 @@ import java.util.Collection;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name = "supplier")
+@Table(name = "suppliers")
 public class Supplier extends Model implements SoftDeletable<Supplier>, Updateable<Supplier> {
 
 	@Basic@Column(name = "name", nullable = false)

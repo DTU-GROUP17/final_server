@@ -31,32 +31,28 @@ public class RecipeController {
 
 	@GET
 	public Response index() {
-
         try (Session session = App.factory.openSession()) {
             return Response.ok(
-                    RecipeMapper.INSTANCE.RecipesToRecipeViews(
-                            session.createQuery("FROM Recipe").list()
-                    )
+				RecipeMapper.INSTANCE.RecipesToRecipeViews(
+					session.createQuery("FROM Recipe").list()
+				)
             ).build();
         }
-
-
-
-
-//	    return Response.serverError().build(); //TODO: create
 	}
 
 	@GET
 	@Path("{recipeId: \\d+}")
 	public Response show(@PathParam("recipeId") String recipeId) {
-		return Response.serverError().build(); //TODO: create
+		return Response.serverError().build();
 	}
 
 	@POST
 	public Response create(RecipeSchema schema) {
         try (Session session = App.factory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.persist(RecipeMapper.INSTANCE.RecipeSchemaToRecipe(schema));
+            Recipe recipe = RecipeMapper.INSTANCE.RecipeSchemaToRecipe(schema);
+			System.out.println("recipe = " + recipe);
+			session.persist(recipe);
             transaction.commit();
             return Response.ok().build();
         }
@@ -65,6 +61,6 @@ public class RecipeController {
 	@DELETE
 	@Path("{recipeId: \\d+}")
 	public Response delete(@PathParam("recipeId") String recipeId) {
-		return Response.serverError().build(); //TODO: create
+		return Response.serverError().build();
 	}
 }

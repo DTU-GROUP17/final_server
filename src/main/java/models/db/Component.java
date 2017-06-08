@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name = "component")
+@Table(name = "components")
 public class Component extends Model implements SoftDeletable<Component> {
 
 	@Basic@Column(name = "name", nullable = false)

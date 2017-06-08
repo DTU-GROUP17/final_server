@@ -54,9 +54,9 @@ public class User extends Model implements SoftDeletable<User>, Updateable<User>
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
-			name = "users_roles",
-			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
-			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+		name = "users_roles",
+		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false),
+		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
 	)
 	private Set<Role> roles;
 

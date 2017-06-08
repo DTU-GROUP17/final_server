@@ -4,16 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Accessors(chain = true)
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends Model {
-//	@Column(name = "recipe_id", nullable = false)
-//	private Integer recipeId;
-
-
 
 	@Basic@Column(name = "amount")
 	private Double amount;
@@ -21,16 +19,12 @@ public class Ingredient extends Model {
 	@Basic@Column(name = "tolerance")
 	private Double tolerance;
 
-
-    @ManyToOne
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id", nullable = false)
-    private Recipe recipe;
-
     @ManyToOne
     @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
     private Component component;
 
-
-
+//    @ManyToOne
+//	@JoinColumn(name = "recipe_id", referencedColumnName = "id")
+//	private Recipe recipe;
 
 }
