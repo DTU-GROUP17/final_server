@@ -1,5 +1,6 @@
-package models.api.schemas;
+package models.mappers;
 
+import models.api.schemas.SupplierSchema;
 import models.api.views.SupplierView;
 import models.db.Supplier;
 import org.mapstruct.Mapper;
