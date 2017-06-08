@@ -10,5 +10,7 @@ public interface View {
 		Supplier,
 		Component,
 		Material
+		Supplier,
+		Recipe
 	}
 }
