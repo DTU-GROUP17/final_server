@@ -8,9 +8,9 @@ public interface View {
 		Weight,
 		Role,
 		Supplier,
+		Ingredient,
 		Component,
-		Material
-		Supplier,
+		Material,
 		Recipe
 	}
 }

@@ -1,15 +1,18 @@
 package models.api.views;
 
+import lombok.Data;
+import models.api.views.Basic.BasicUserView;
+
 import java.sql.Timestamp;
 
 
-
+@Data
 public class RecipeView implements View{
     private String name;
-    private Timestamp  created_at;
-    private Integer crated_by;
-    private Timestamp deleted_at;
-    private Integer deleted_by;
+    private Timestamp createdAt;
+    private BasicUserView createdBy;
+    private Timestamp deletedAt;
+    private BasicUserView deletedBy;
 
 
     @Override

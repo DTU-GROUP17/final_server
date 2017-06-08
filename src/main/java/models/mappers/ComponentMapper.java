@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = UserMapper.class )
 public interface ComponentMapper {
 
 	ComponentMapper INSTANCE = Mappers.getMapper(ComponentMapper.class);

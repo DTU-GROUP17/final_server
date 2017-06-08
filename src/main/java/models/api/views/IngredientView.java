@@ -1,19 +1,18 @@
 package models.api.views;
 
-import models.api.views.Basic.BasicUserView;
+import lombok.Data;
+import models.api.views.Basic.BasicComponentView;
 
-import java.sql.Timestamp;
 
-/**
- * Created by durankose on 08/06/2017.
- */
-public class IngredientView {
+
+@Data
+public class IngredientView implements View {
     private BasicComponentView component;
     private Double amount;
     private Double tolerance;
 
     @Override
     public View.Type getType() {
-        return View.Type.Weight;
+        return Type.Ingredient;
     }
 }

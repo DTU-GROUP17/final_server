@@ -9,6 +9,8 @@ import models.api.schemas.Schema;
 import models.db.Recipe;
 import models.db.User;
 import models.db.Weight;
+import models.mappers.RecipeMapper;
+import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,7 +31,19 @@ public class RecipeController {
 
 	@GET
 	public Response index() {
-		return Response.serverError().build(); //TODO: create
+
+        try (Session session = App.factory.openSession()) {
+            return Response.ok(
+                    RecipeMapper.INSTANCE.RecipesToRecipeViews(
+                            session.createQuery("FROM Recipe").list()
+                    )
+            ).build();
+        }
+
+
+
+
+//	    return Response.serverError().build(); //TODO: create
 	}
 
 	@GET
@@ -42,9 +56,7 @@ public class RecipeController {
 	public Response create(RecipeSchema schema) {
         try (Session session = App.factory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Recipe recipe = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
-            weight.setCreatedBy((User)guard.getUser());
-            session.persist(weight);
+            session.persist(RecipeMapper.INSTANCE.RecipeSchemaToRecipe(schema));
             transaction.commit();
             return Response.ok().build();
         }

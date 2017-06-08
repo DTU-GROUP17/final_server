@@ -1,29 +1,26 @@
 package models.mappers;
 
-import models.api.schemas.WeightSchema;
-import models.api.views.WeightView;
+import models.api.schemas.IngredientSchema;
+import models.api.views.IngredientView;
 import models.db.Ingredient;
-import models.db.Weight;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 
-/**
- * Created by durankose on 08/06/2017.
- */
-@Mapper
+
+@Mapper(uses = ComponentMapper.class)
 public interface IngredientMapper {
     IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
-    @Mappings({
-    })
-    IngredientView WeightToWeightView(Weight weight);
+    IngredientView IngredientToIngredientView(Ingredient ingredient);
 
-    List<WeightView> WeightsToWeightViews(List<Weight> weights);
+    List<IngredientView> IngredientsToIngredientViews(List<Ingredient> ingredients);
 
-    @Mappings({
-    })
-    Weight WeightSchemaToWeight(WeightSchema schema);
+    Set<Ingredient> IngredientSchemasToIngredients(Set<IngredientSchema> schemas);
+
+    Ingredient IngredientSchemaToIngredient(IngredientSchema schema);
+
+
 }

@@ -20,6 +20,6 @@ public class ComponentView implements View{
 
 	@Override
 	public Type getType() {
-		return Component;
+		return Type.Component;
 	}
 }
