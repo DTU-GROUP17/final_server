@@ -14,6 +14,7 @@ public class Ingredient extends Model {
 	@Column(name = "recipe_id", nullable = false)
 	private Integer recipeId;
 
+
 	@Column(name = "component_id", nullable = false)
 	private Integer componentId;
 
