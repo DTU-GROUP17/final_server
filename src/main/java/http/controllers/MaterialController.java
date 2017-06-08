@@ -29,7 +29,7 @@ public class MaterialController {
 	public Response index() {
 		try (Session session = App.factory.openSession()) {
 			return Response.ok(
-				MaterialMapper.INSTANCE.MaterialsToMaterialsMapper(
+				MaterialMapper.INSTANCE.MaterialsToMaterialViews(
 					session
 						.createQuery(
 							"FROM Material"
