@@ -4,6 +4,7 @@ import lombok.Data;
 import models.api.views.Basic.BasicUserView;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 
 @Data
@@ -13,6 +14,7 @@ public class RecipeView implements View{
     private BasicUserView createdBy;
     private Timestamp deletedAt;
     private BasicUserView deletedBy;
+    private Set<IngredientView> ingredients;
 
 
     @Override

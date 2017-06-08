@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Accessors(chain = true)
@@ -19,10 +20,14 @@ public class Component extends Model implements SoftDeletable<Component> {
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
-	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
+	@ManyToOne
+	@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
 	@OneToMany(mappedBy = "component")
 	private Collection<Material> materials;
+
+	@OneToMany(mappedBy = "component")
+	private Set<Ingredient> ingredients;
 
 }
