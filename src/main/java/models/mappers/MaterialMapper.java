@@ -17,6 +17,6 @@ public interface MaterialMapper {
 
 	MaterialView MaterialToMaterialView(Material material);
 
-	List<MaterialView> MaterialsToMaterialsMapper(List<Material> materials);
+	List<MaterialView> MaterialsToMaterialViews(List<Material> materials);
 
 }
