@@ -3,7 +3,6 @@ package models.api.views;
 import lombok.Data;
 import models.api.views.Basic.BasicRoleView;
 import models.api.views.Basic.BasicUserView;
-import models.db.User;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -21,7 +20,6 @@ public class UserView implements View {
 	private Timestamp deletedAt;
 	private BasicUserView deletedBy;
 
-	
 	@Override
 	public Type getType() {
 		return Type.User;

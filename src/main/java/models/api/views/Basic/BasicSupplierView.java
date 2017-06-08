@@ -4,12 +4,12 @@ import lombok.Data;
 import models.api.views.View;
 
 @Data
-public class BasicRoleView implements View {
-	private String name;
+public class BasicSupplierView implements View {
 	private Integer id;
+	private String name;
 
 	@Override
-	public View.Type getType() {
-		return View.Type.Role;
+	public Type getType() {
+		return Type.Supplier;
 	}
 }

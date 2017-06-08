@@ -2,7 +2,7 @@ package models.db;
 
 import java.sql.Timestamp;
 
-public interface SoftDeletable<T> {
+public interface SoftDeletable<T> extends Deletable{
 
 	Timestamp getDeletedAt();
 

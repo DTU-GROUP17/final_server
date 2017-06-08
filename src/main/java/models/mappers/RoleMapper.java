@@ -5,9 +5,9 @@ import models.api.views.RoleView;
 import models.db.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import javax.persistence.Basic;
 import java.util.Set;
 
 @Mapper

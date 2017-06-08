@@ -1,6 +1,5 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
 import models.api.schemas.WeightSchema;
@@ -13,18 +12,16 @@ import org.hibernate.Transaction;
 import services.authentication.Guard;
 import services.response.ApiResponse;
 
-import javax.annotation.security.RolesAllowed;
-import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("weights")
-@Authenticated
+//@Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RolesAllowed({"Admin"})
+//@RolesAllowed({"Admin"})
 public class WeightController {
 
 	@GET
@@ -67,7 +64,7 @@ public class WeightController {
 	public Response update(@Context Guard guard, @PathParam("weightId") String id, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = Controller.getVerfiedItem(Weight.class, id);
+			Weight weight = Controller.getVerifiedItem(Weight.class, id);
 			weight.setUpdatedBy((User)guard.getUser());
 			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);

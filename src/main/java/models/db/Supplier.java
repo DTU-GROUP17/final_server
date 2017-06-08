@@ -10,7 +10,7 @@ import java.util.Collection;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name = "suppliers")
+@Table(name = "supplier")
 public class Supplier extends Model implements SoftDeletable<Supplier>, Updateable<Supplier> {
 
 	@Basic@Column(name = "name", nullable = false)
@@ -22,7 +22,7 @@ public class Supplier extends Model implements SoftDeletable<Supplier>, Updateab
 	@Basic@Column(name = "deleted_at", nullable = false)
 	private Timestamp deletedAt;
 
-	@OneToMany(mappedBy = "suppliers")
+	@OneToMany(mappedBy = "supplier")
 	private Collection<Material> materials;
 
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")

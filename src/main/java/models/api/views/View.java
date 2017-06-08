@@ -4,9 +4,11 @@ public interface View {
 	Type getType();
 
 	enum Type {
-		User ,
+		User,
 		Weight,
 		Role,
-		Supplier
+		Supplier,
+		Component,
+		Material
 	}
 }

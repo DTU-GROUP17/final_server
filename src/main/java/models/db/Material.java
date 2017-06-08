@@ -1,10 +1,9 @@
 package models.db;
 
-import lombok.*;
+import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Collection;
 
 @Data
@@ -20,10 +19,10 @@ public class Material extends Model {
 	private Double used;
 
 	@ManyToOne@JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
-	private Component components;
+	private Component component;
 
 	@ManyToOne@JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false)
-	private Supplier suppliers;
+	private Supplier supplier;
 
 	@OneToMany(mappedBy = "material")
 	private Collection<Weighing> weighings;

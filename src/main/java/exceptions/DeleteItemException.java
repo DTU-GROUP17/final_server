@@ -3,7 +3,7 @@ package exceptions;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 
-public class DeleteUserException
+public class DeleteItemException
 	extends RuntimeException
 		implements ExceptionMapper<exceptions.model.ModelNotFoundException>
 {

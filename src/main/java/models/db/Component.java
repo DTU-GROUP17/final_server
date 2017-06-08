@@ -10,7 +10,7 @@ import java.util.Collection;
 @Data
 @Accessors(chain = true)
 @Entity
-@Table(name = "components")
+@Table(name = "component")
 public class Component extends Model implements SoftDeletable<Component> {
 
 	@Basic@Column(name = "name", nullable = false)
@@ -22,7 +22,7 @@ public class Component extends Model implements SoftDeletable<Component> {
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 
-	@OneToMany(mappedBy = "components")
+	@OneToMany(mappedBy = "component")
 	private Collection<Material> materials;
 
 }

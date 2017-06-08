@@ -1,7 +1,6 @@
 package http.controllers;
 
 import app.App;
-import exceptions.DeleteUserException;
 import exceptions.model.ModelNotFoundException;
 import models.db.Model;
 import models.db.SoftDeletable;
@@ -13,7 +12,7 @@ import javax.ws.rs.core.Response;
 
 public interface Controller {
 
-	static <T extends Model> T getVerfiedItem(Class<T> klass, String id, Session session){
+	static <T extends Model> T getVerifiedItem(Class<T> klass, String id, Session session){
 		T item = session.find(klass, Integer.parseInt(id));
 		if (item == null) {
 			throw new ModelNotFoundException();
@@ -21,25 +20,25 @@ public interface Controller {
 		return item;
 	}
 
-	static <T extends Model> T getVerfiedItem(Class<T> klass, String id) throws ModelNotFoundException {
+	static <T extends Model> T getVerifiedItem(Class<T> klass, String id) throws ModelNotFoundException {
 		try (Session session = App.factory.openSession()) {
-			return Controller.getVerfiedItem(klass, id, session);
+			return Controller.getVerifiedItem(klass, id, session);
 		}
 	}
 
-	static <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id) throws DeleteUserException {
+	static <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id, Session session) {
+		Transaction transaction = session.beginTransaction();
+		session.delete(
+				Controller.getVerifiedItem(klass, id, session)
+		);
+		transaction.commit();
+		return Response.ok().build();
+
+	}
+
+	static <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id) {
 		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			T item;
-			try {
-				item = klass.newInstance();
-			} catch (IllegalAccessException | InstantiationException e){
-				throw new DeleteUserException();
-			}
-			item.setId(Integer.parseInt(id));
-			session.delete(item);
-			transaction.commit();
-			return Response.ok().build();
+			return Controller.delete(klass, id, session);
 		}
 	}
 

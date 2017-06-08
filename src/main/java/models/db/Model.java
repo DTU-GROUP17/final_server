@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 
 @Data
 @MappedSuperclass
-public abstract class Model{
+public abstract class Model {
 
 	@Id
 	@Column(name = "id", nullable = false)

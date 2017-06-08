@@ -1,6 +1,9 @@
 package models.mappers;
 
 import models.api.schemas.SupplierSchema;
+import models.api.views.Basic.BasicComponentView;
+import models.api.views.Basic.BasicSupplierView;
+import models.api.schemas.SupplierSchema;
 import models.api.views.SupplierView;
 import models.db.Supplier;
 import org.mapstruct.Mapper;
@@ -18,5 +21,7 @@ public interface SupplierMapper {
 	SupplierView SupplierToSupplierView(Supplier supplier);
 
 	List<SupplierView> SuppliersToSupplierViews(List<Supplier> suppliers);
+
+	BasicSupplierView SupplierToBasicSupplierView(Supplier supplier);
 
 }

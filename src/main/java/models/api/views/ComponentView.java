@@ -1,14 +1,16 @@
 package models.api.views;
 
+import lombok.Data;
 import models.api.views.Basic.BasicUserView;
 
 import java.sql.Timestamp;
 
-import static models.api.views.View.Type.Supplier;
+import static models.api.views.View.Type.Component;
 
-public class SupplierView implements View {
-	private Integer id;
+@Data
+public class ComponentView implements View{
 	private String name;
+	private Integer id;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private Timestamp deletedAt;
@@ -18,6 +20,6 @@ public class SupplierView implements View {
 
 	@Override
 	public Type getType() {
-		return Supplier;
+		return Component;
 	}
 }

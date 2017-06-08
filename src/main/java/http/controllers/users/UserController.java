@@ -4,11 +4,8 @@ package http.controllers.users;
 import annotations_.http.Authenticated;
 import annotations_.http.PATCH;
 import app.App;
-import exceptions.DeleteUserException;
-import exceptions.UpdateUserException;
 import http.controllers.Controller;
 import models.api.schemas.UserSchema;
-import models.api.views.UserView;
 import models.db.User;
 import models.mappers.UserMapper;
 import models.mappers.UserUpdater;
@@ -33,11 +30,11 @@ public class UserController implements Controller {
 	public Response index(@DefaultValue("false")@QueryParam("withDeleted") boolean withDeleted) {
 		try (Session session = App.factory.openSession()) {
 			return Response.ok(
-					UserMapper.INSTANCE.UsersToUserViews(
-						session
-							.createQuery(
-								"FROM User"
-							).list()
+				UserMapper.INSTANCE.UsersToUserViews(
+					session
+						.createQuery(
+							"FROM User"
+						).list()
 					)
 			).build();
 		}
@@ -48,7 +45,7 @@ public class UserController implements Controller {
 	public Response show(@PathParam("userId") String id) {
 		return Response.ok(
 			UserMapper.INSTANCE.UserToUserView(
-				Controller.getVerfiedItem(User.class, id)
+				Controller.getVerifiedItem(User.class, id)
 			)
 		).build();
 	}
@@ -59,7 +56,6 @@ public class UserController implements Controller {
 		try (Session session = App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = UserMapper.INSTANCE.UserSchemaToUser(schema);
-			user.setCreatedBy((User)guard.getUser());
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
@@ -73,8 +69,7 @@ public class UserController implements Controller {
 	public Response update(@Context Guard guard, @PathParam("userId") String id, UserSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			User user = Controller.getVerfiedItem(User.class, id, session);
-			user.setUpdatedBy((User)guard.getUser());
+			User user = Controller.getVerifiedItem(User.class, id, session);
 			UserUpdater.INSTANCE.updateUserFromUserSchema(
 				schema,
 				user

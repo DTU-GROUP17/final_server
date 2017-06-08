@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("suppliers")
+@Path("supplier")
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -43,9 +43,10 @@ public class SupplierController {
 	@Path("{supplierId: \\d+}")
 	public Response show(@PathParam("supplierId") String id) {
 		try (Session session = App.factory.openSession()){
-			Supplier supplier = Controller.getVerfiedItem(Supplier.class, id);
 			return Response.ok(
-					SupplierMapper.INSTANCE.SupplierToSupplierView(supplier)
+					SupplierMapper.INSTANCE.SupplierToSupplierView(
+							Controller.getVerifiedItem(Supplier.class, id, session)
+					)
 			).build();
 		}
 	}
@@ -54,9 +55,9 @@ public class SupplierController {
 	public Response create(@Context Guard guard, SupplierSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Supplier supplier = SupplierMapper.INSTANCE.SupplierSchemaToSupplier(schema);
-			supplier.setCreatedBy((User)guard.getUser());
-			session.persist(session);
+			session.persist(
+				SupplierMapper.INSTANCE.SupplierSchemaToSupplier(schema)
+			);
 			transaction.commit();
 			return Response.ok().build();
 		}
@@ -67,7 +68,7 @@ public class SupplierController {
 	public Response update(@Context Guard guard, @PathParam("supplierId") String id, SupplierSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Supplier supplier = Controller.getVerfiedItem(Supplier.class, id);
+			Supplier supplier = Controller.getVerifiedItem(Supplier.class, id);
 			supplier.setUpdatedBy((User)guard.getUser());
 			SupplierUpdater.INSTANCE.updateSupplierFromSupplierSchema(
 					schema,
