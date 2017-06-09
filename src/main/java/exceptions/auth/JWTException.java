@@ -2,7 +2,9 @@ package exceptions.auth;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
+@Provider
 public class JWTException extends RuntimeException implements ExceptionMapper<JWTException>{
 
 	public JWTException() {

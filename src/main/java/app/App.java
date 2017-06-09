@@ -24,6 +24,7 @@ public class App extends ResourceConfig {
 		try{
 			initConfiguration();
 			factory = configuration.buildSessionFactory();
+
 		}catch (Throwable ex) {
 			System.err.println("Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);

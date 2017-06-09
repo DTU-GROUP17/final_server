@@ -83,6 +83,6 @@ public class SupplierController {
 	@DELETE
 	@Path("{supplierId: \\d+}")
 	public Response delete(@Context Guard guard, @PathParam("supplierId") String id) {
-		return Controller.delete(Supplier.class, id);
+		return null;
 	}
 }

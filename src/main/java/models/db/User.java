@@ -17,8 +17,8 @@ import java.util.Set;
 @Data
 @Accessors(chain = true)
 @Entity
-@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_at IS NULL")
+//@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
+//@Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
 public class User extends Model implements SoftDeletable<User>, Updateable<User>, Authenticatable<User>{
 

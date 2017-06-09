@@ -1,16 +1,12 @@
 package http.controllers;
 
 import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
 import app.App;
 import models.api.schemas.ComponentSchema;
 import models.db.Component;
-import models.db.User;
 import models.mappers.ComponentMapper;
-import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import services.listener.Interceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
@@ -65,6 +61,6 @@ public class ComponentController {
 	@DELETE
 	@Path("{componentId: \\d+}")
 	public Response delete(@PathParam("componentId") String id) {
-		return Controller.delete(Component.class, id);
+		return null;
 	}
 }

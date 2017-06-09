@@ -1,16 +1,12 @@
 package http.controllers;
 
 import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
 import app.App;
 import models.api.schemas.MaterialSchema;
 import models.db.Material;
-import models.db.User;
 import models.mappers.MaterialMapper;
-import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import services.listener.Interceptor;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;

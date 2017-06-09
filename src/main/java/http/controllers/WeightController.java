@@ -76,6 +76,7 @@ public class WeightController {
 	@DELETE
 	@Path("{weightId: \\d+}")
 	public Response delete(@Context Guard guard, @PathParam("weightId") String id) {
-		return Controller.delete(Weight.class, id);
+		return null;
+		//return Controller.delete(Weight.class, id);
 	}
 }
