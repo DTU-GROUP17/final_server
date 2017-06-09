@@ -25,6 +25,9 @@
         <mapping class="models.db.ProductBatch"/>
         <mapping class="models.db.Weight"/>
         <mapping class="models.db.Weighing"/>
+        <event type="pre-delete">
+            <listener class="services.observer.SoftDeleteObserver" />
+        </event>
 
     </session-factory>
 </hibernate-configuration>

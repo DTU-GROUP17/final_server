@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
 @Table(name = "weighings")

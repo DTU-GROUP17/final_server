@@ -1,20 +1,19 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
+import annotations.http.Authenticated;
 import app.App;
+import lombok.Getter;
 import models.api.schemas.MaterialSchema;
 import models.db.Material;
-import models.db.User;
 import models.mappers.MaterialMapper;
-import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import services.listener.Interceptor;
+import services.authentication.Guard;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,7 +22,11 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Foreman"})
-public class MaterialController {
+public class MaterialController implements Controller {
+
+	@Context
+	@Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -44,7 +47,7 @@ public class MaterialController {
 	public Response show(@PathParam("foremanId") String id) {
 		return Response.ok(
 			MaterialMapper.INSTANCE.MaterialToMaterialView(
-				Controller.getVerifiedItem(Material.class, id)
+				this.getVerifiedItem(Material.class, id)
 			)
 		).build();
 	}

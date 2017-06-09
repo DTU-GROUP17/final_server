@@ -5,10 +5,12 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import providers.GuardProvider;
 import services.authentication.Guard;
+import services.observer.Interceptor;
 
 import javax.ws.rs.ApplicationPath;
 import java.security.Key;
@@ -24,6 +26,7 @@ public class App extends ResourceConfig {
 		try{
 			initConfiguration();
 			factory = configuration.buildSessionFactory();
+
 		}catch (Throwable ex) {
 			System.err.println("Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);
@@ -35,10 +38,14 @@ public class App extends ResourceConfig {
 			.configure();
 	}
 
+	public static Session openSession(Guard guard) {
+		return App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession();
+	}
+
 	public App() {
+		this.packages(true, "exceptions");
 		this.packages(true, "http/controllers");
 		this.packages(true, "http/middleware");
-		this.packages(true, "exceptions");
 
 		this.register(RolesAllowedDynamicFeature.class);
 

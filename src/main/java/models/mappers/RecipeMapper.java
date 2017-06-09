@@ -1,9 +1,11 @@
 package models.mappers;
 
 import models.api.schemas.RecipeSchema;
+import models.api.views.Basic.BasicRecipeView;
 import models.api.views.RecipeView;
 import models.db.Recipe;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -18,4 +20,10 @@ public interface RecipeMapper {
     List<RecipeView> RecipesToRecipeViews(List<Recipe> recipes);
 
     Recipe RecipeSchemaToRecipe(RecipeSchema schema);
+
+    BasicRecipeView RecipeToBasicRecipeView(Recipe recipe);
+
+    @Mapping(target = "id", expression = "java(integer)")
+    Recipe IntegerToRecipe(Integer integer);
+
 }

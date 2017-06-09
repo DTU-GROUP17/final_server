@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
 @SQLDelete(sql = "UPDATE weights SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
@@ -38,7 +39,7 @@ public class Weight extends Model implements SoftDeletable<Weight>, Updateable<W
 
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
 	private User updatedBy;
-
+	
 	@ManyToOne@JoinColumn(name = "deleted_by", referencedColumnName = "id")
 	private User deletedBy;
 

@@ -1,7 +1,8 @@
 package http.controllers;
 
-import annotations_.http.PATCH;
+import annotations.http.PATCH;
 import app.App;
+import lombok.Getter;
 import models.api.schemas.WeightSchema;
 import models.db.User;
 import models.db.Weight;
@@ -22,7 +23,10 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Admin"})
-public class WeightController {
+public class WeightController implements Controller {
+
+	@Context @Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -51,9 +55,9 @@ public class WeightController {
 	public Response create(@Context Guard guard, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
-			weight.setCreatedBy((User)guard.getUser());
-			session.persist(weight);
+			session.persist(
+				WeightMapper.INSTANCE.WeightSchemaToWeight(schema)
+			);
 			transaction.commit();
 			return Response.ok().build();
 		}
@@ -64,7 +68,7 @@ public class WeightController {
 	public Response update(@Context Guard guard, @PathParam("weightId") String id, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = Controller.getVerifiedItem(Weight.class, id);
+			Weight weight = this.getVerifiedItem(Weight.class, id);
 			weight.setUpdatedBy((User)guard.getUser());
 			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);
@@ -76,6 +80,7 @@ public class WeightController {
 	@DELETE
 	@Path("{weightId: \\d+}")
 	public Response delete(@Context Guard guard, @PathParam("weightId") String id) {
-		return Controller.delete(Weight.class, id);
+		return null;
+		//return Controller.delete(Weight.class, id);
 	}
 }

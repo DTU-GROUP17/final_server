@@ -1,8 +1,9 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
+import annotations.http.Authenticated;
+import annotations.http.PATCH;
 import app.App;
+import lombok.Getter;
 import models.mappers.SupplierMapper;
 import models.api.schemas.SupplierSchema;
 import models.db.Supplier;
@@ -23,7 +24,10 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Pharmaceud"})
-public class SupplierController {
+public class SupplierController implements Controller {
+
+	@Context @Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -68,7 +72,7 @@ public class SupplierController {
 	public Response update(@Context Guard guard, @PathParam("supplierId") String id, SupplierSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Supplier supplier = Controller.getVerifiedItem(Supplier.class, id);
+			Supplier supplier = this.getVerifiedItem(Supplier.class, id);
 			supplier.setUpdatedBy((User)guard.getUser());
 			SupplierUpdater.INSTANCE.updateSupplierFromSupplierSchema(
 					schema,
@@ -83,6 +87,6 @@ public class SupplierController {
 	@DELETE
 	@Path("{supplierId: \\d+}")
 	public Response delete(@Context Guard guard, @PathParam("supplierId") String id) {
-		return Controller.delete(Supplier.class, id);
+		return null;
 	}
 }

@@ -1,8 +1,10 @@
 package http.controllers.users;
 
-import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
+import annotations.http.Authenticated;
+import annotations.http.PATCH;
 import app.App;
+import http.controllers.Controller;
+import lombok.Getter;
 import models.api.schemas.SelfSchema;
 import models.db.User;
 import models.mappers.UserMapper;
@@ -23,7 +25,10 @@ import javax.ws.rs.core.Response;
 @Authenticated
 @Path("self")
 @Produces(MediaType.APPLICATION_JSON)
-public class SelfController {
+public class SelfController implements Controller{
+
+	@Context @Getter
+	public Guard guard;
 
 	@GET
 	public Response show(@Context Guard guard) {

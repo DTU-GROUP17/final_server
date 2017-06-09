@@ -1,20 +1,19 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
+import annotations.http.Authenticated;
 import app.App;
+import lombok.Getter;
 import models.api.schemas.ComponentSchema;
 import models.db.Component;
-import models.db.User;
 import models.mappers.ComponentMapper;
-import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import services.listener.Interceptor;
+import services.authentication.Guard;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,7 +22,11 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Pharmaceud"})
-public class ComponentController {
+public class ComponentController implements Controller {
+
+	@Context
+	@Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -44,7 +47,7 @@ public class ComponentController {
 	public Response show(@PathParam("componentId") String id) {
 		return Response.ok(
 			ComponentMapper.INSTANCE.ComponentToComponentView(
-				Controller.getVerifiedItem(Component.class, id)
+				this.getVerifiedItem(Component.class, id)
 			)
 		).build();
 	}
@@ -65,6 +68,6 @@ public class ComponentController {
 	@DELETE
 	@Path("{componentId: \\d+}")
 	public Response delete(@PathParam("componentId") String id) {
-		return Controller.delete(Component.class, id);
+		return this.delete(Component.class, id);
 	}
 }

@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = UserMapper.class, nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface WeightUpdater {
-
 	WeightUpdater INSTANCE = Mappers.getMapper(WeightUpdater.class);
 
 	void updateWeightFromWeightSchema(WeightSchema schema, @MappingTarget Weight weight);

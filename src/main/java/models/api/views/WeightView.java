@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 
 @Data
 public class WeightView implements View{
-
     private Integer id;
     private String name;
     private String uri;

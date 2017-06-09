@@ -2,6 +2,7 @@ package models.db;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.SQLDelete;
@@ -15,10 +16,10 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
-@SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
-@Where(clause = "deleted_at IS NULL")
+//@Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
 public class User extends Model implements SoftDeletable<User>, Updateable<User>, Authenticatable<User>{
 

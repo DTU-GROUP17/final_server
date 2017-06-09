@@ -7,7 +7,9 @@ import models.db.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mapper(uses = RoleMapper.class)
 public interface UserMapper {
