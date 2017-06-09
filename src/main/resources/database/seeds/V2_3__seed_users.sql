@@ -7,6 +7,6 @@ INSERT INTO users (name, username, password) VALUES
 
 INSERT INTO users_roles (user_id, role_id) VALUES
   (2, 1);
-# farm user role
+--farm user role
 INSERT INTO users_roles (user_id, role_id) VALUES
   (2, 2);

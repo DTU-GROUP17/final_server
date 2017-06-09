@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Accessors(chain = true)
-@ToString(of = "")
+@ToString(of = {})
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends Model {
@@ -19,8 +19,8 @@ public class Ingredient extends Model {
 	@Basic@Column(name = "tolerance")
 	private Double tolerance;
 
-//    @ManyToOne
-//    @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
-//    private Component component;
+    @ManyToOne
+    @JoinColumn(name = "component_id", nullable = false)
+    private Component component;
 
 }
