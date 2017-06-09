@@ -38,6 +38,7 @@ public class App extends ResourceConfig {
 	public App() {
 		this.packages(true, "http/controllers");
 		this.packages(true, "http/middleware");
+		this.packages(true, "exceptions");
 
 		this.register(RolesAllowedDynamicFeature.class);
 
