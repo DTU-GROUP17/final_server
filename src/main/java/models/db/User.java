@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import services.authentication.Authenticatable;
+import services.hash.Hasher;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -62,7 +63,12 @@ public class User extends Model implements SoftDeletable<User>, Updateable<User>
 
 	@Override
 	public String getIdentifier() {
-		return this.username;
+		return this.getUsername();
+	}
+
+	public User setPassword(String password) {
+		this.password = Hasher.hash(password);
+		return this;
 	}
 
 	public String toString(){

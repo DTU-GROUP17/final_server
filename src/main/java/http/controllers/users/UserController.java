@@ -59,15 +59,13 @@ public class UserController implements Controller {
 			session.persist(user);
 			transaction.commit();
 			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
 		}
 	}
 
 	@PATCH
 	@Path("{userId: \\d+}")
 	public Response update(@Context Guard guard, @PathParam("userId") String id, UserSchema schema) {
-		try (Session session = App.factory.openSession()) {
+		try (Session session = App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession()) {
 			Transaction transaction = session.beginTransaction();
 			User user = Controller.getVerifiedItem(User.class, id, session);
 			UserUpdater.INSTANCE.updateUserFromUserSchema(

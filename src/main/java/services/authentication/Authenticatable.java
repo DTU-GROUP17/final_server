@@ -13,6 +13,8 @@ public interface Authenticatable<T extends Authenticatable<T>> extends Principal
 	 */
 	String getIdentifier();
 
+	Integer getId();
+
 	/**
 	 * Get the password for the user.
 	 */
