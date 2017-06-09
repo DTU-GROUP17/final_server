@@ -15,15 +15,15 @@ public abstract class Model {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	protected Integer id;
 
 	@Basic
 	@CreationTimestamp
 	@Column(name = "created_at")
 	@Setter(AccessLevel.NONE)
-	private Timestamp createdAt;
+	protected Timestamp createdAt;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
-	private User createdBy;
+	protected User createdBy;
 
 }

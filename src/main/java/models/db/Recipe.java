@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Data
 @Accessors(chain = true)
+@ToString(of = {})
 @Entity
 @Table(name = "recipes")
 public class Recipe extends Model implements SoftDeletable<Recipe> {
@@ -38,5 +39,7 @@ public class Recipe extends Model implements SoftDeletable<Recipe> {
 
 	)
 	private Set<Ingredient> ingredients;
+
+
 
 }

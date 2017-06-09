@@ -14,6 +14,7 @@ import models.mappers.UserMapper;
 import models.mappers.WeightMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import services.response.ApiResponse;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
@@ -42,8 +43,14 @@ public class RecipeController {
 
 	@GET
 	@Path("{recipeId: \\d+}")
-	public Response show(@PathParam("recipeId") String recipeId) {
-		return Response.serverError().build();
+	public Response show(@PathParam("recipeId") String id) {
+		try (Session session = App.factory.openSession()) {
+			return ApiResponse.item(
+				RecipeMapper.INSTANCE.RecipeToRecipeView(
+					session.find(Recipe.class, Integer.parseInt(id))
+				)
+			).build();
+		}
 	}
 
 	@POST
@@ -51,7 +58,6 @@ public class RecipeController {
         try (Session session = App.factory.openSession()) {
             Transaction transaction = session.beginTransaction();
             Recipe recipe = RecipeMapper.INSTANCE.RecipeSchemaToRecipe(schema);
-			System.out.println("recipe = " + recipe);
 			session.persist(recipe);
             transaction.commit();
             return Response.ok().build();

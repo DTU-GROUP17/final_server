@@ -40,9 +40,9 @@ public class WeightController {
 	public Response show(@PathParam("weightId") String weightId) {
 		try (Session session = App.factory.openSession()) {
 			return ApiResponse.item(
-					WeightMapper.INSTANCE.WeightToWeightView(
-							session.find(Weight.class, Integer.parseInt(weightId))
-					)
+				WeightMapper.INSTANCE.WeightToWeightView(
+					session.find(Weight.class, Integer.parseInt(weightId))
+				)
 			).build();
 		}
 	}

@@ -29,7 +29,7 @@ public interface Controller {
 	static <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id, Session session) {
 		Transaction transaction = session.beginTransaction();
 		session.delete(
-				Controller.getVerifiedItem(klass, id, session)
+			Controller.getVerifiedItem(klass, id, session)
 		);
 		transaction.commit();
 		return Response.ok().build();

@@ -27,7 +27,7 @@ public class Component extends Model implements SoftDeletable<Component> {
 	@OneToMany(mappedBy = "component")
 	private Collection<Material> materials;
 
-	@OneToMany(mappedBy = "component")
-	private Set<Ingredient> ingredients;
+//	@OneToMany(mappedBy = "component")
+//	private Set<Ingredient> ingredients;
 
 }

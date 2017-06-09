@@ -1,14 +1,14 @@
 package models.db;
 
 import lombok.Data;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
 
 @Data
 @Accessors(chain = true)
+@ToString(of = "")
 @Entity
 @Table(name = "ingredients")
 public class Ingredient extends Model {
@@ -19,12 +19,8 @@ public class Ingredient extends Model {
 	@Basic@Column(name = "tolerance")
 	private Double tolerance;
 
-    @ManyToOne
-    @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
-    private Component component;
-
 //    @ManyToOne
-//	@JoinColumn(name = "recipe_id", referencedColumnName = "id")
-//	private Recipe recipe;
+//    @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
+//    private Component component;
 
 }
