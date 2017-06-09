@@ -7,6 +7,11 @@ INSERT INTO users (name, username, password) VALUES
 
 INSERT INTO users_roles (user_id, role_id) VALUES
   (2, 1);
+<<<<<<< Updated upstream
 --farm user role
+=======
+/*
+ farm user role
+>>>>>>> Stashed changes
 INSERT INTO users_roles (user_id, role_id) VALUES
-  (2, 2);
+  (2, 2);*/
