@@ -20,7 +20,7 @@ public interface ComponentMapper {
 
 	ComponentView ComponentToComponentView(Component component);
 
-	List<ComponentView> CompoinentsToComponentViews(List<Component> components);
+	List<ComponentView> ComponentsToComponentViews(List<Component> components);
 
 	BasicComponentView ComponentToBasicComponent(Component component);
 

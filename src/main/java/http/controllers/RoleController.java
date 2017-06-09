@@ -26,24 +26,12 @@ public class RoleController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				RoleMapper.INSTANCE.RolesToRoleViews(
-					session.createQuery("FROM Role").list()
-				)
-			).build();
-		}
+		return this.collection(RoleMapper.INSTANCE::RolesToRoleViews, Role.class);
 	}
 
 	@GET
 	@Path("{roleId: \\d+}")
 	public Response show(@PathParam("roleId") String id) {
-		try (Session session = App.factory.openSession()) {
-			return ApiResponse.item(
-				RoleMapper.INSTANCE.RoleToRoleView(
-					session.find(Role.class, Integer.parseInt(id))
-				)
-			).build();
-		}
+		return this.item(RoleMapper.INSTANCE::RoleToRoleView, Role.class, id);
 	}
 }

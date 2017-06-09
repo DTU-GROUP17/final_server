@@ -3,7 +3,9 @@ package http.controllers;
 import annotations.http.Authenticated;
 import app.App;
 import lombok.Getter;
+import models.db.Weighing;
 import models.mappers.UserMapper;
+import models.mappers.WeighingMapper;
 import org.hibernate.Session;
 import services.authentication.Guard;
 
@@ -26,15 +28,6 @@ public class WeighingController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				UserMapper.INSTANCE.UsersToUserViews(
-					session
-						.createQuery(
-							"FROM Weighings"
-						).list()
-				)
-			).build();
-		}
+		return this.collection(WeighingMapper.INSTANCE::WeighingsToWeighingViews, Weighing.class); //TODO: make it do the correct stuff...
 	}
 }

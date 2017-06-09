@@ -54,7 +54,7 @@ public interface Controller {
 			Transaction transaction = session.beginTransaction();
 			U model = this.getVerifiedItem(modelClass, id);
 			consumer.accept(schema, model);
-			session.persist(model);
+			session.update(model);
 			transaction.commit();
 			return Response.ok().build();
 		}
@@ -70,7 +70,7 @@ public interface Controller {
 	}
 
 	default <T extends Model> T getVerifiedItem(Class<T> klass, String id) {
-		try (Session session = App.openSession(getGuard())) {
+		try (Session session = App.openSession(this.getGuard())) {
 			return Controller.getVerifiedItem(klass, id, session);
 		}
 	}
@@ -86,7 +86,7 @@ public interface Controller {
 	}
 
 	default <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id) {
-		try (Session session = App.factory.withOptions().interceptor(new Interceptor(this.getGuard().getUser())).openSession()) {
+		try (Session session = App.openSession(this.getGuard())) {
 			return Controller.delete(klass, id, session);
 		}
 	}

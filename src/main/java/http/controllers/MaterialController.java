@@ -6,6 +6,7 @@ import lombok.Getter;
 import models.api.schemas.MaterialSchema;
 import models.db.Material;
 import models.mappers.MaterialMapper;
+import models.mappers.UserMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
@@ -30,39 +31,17 @@ public class MaterialController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				MaterialMapper.INSTANCE.MaterialsToMaterialViews(
-					session
-						.createQuery(
-							"FROM Material"
-						).list()
-				)
-			).build();
-		}
+		return this.collection(MaterialMapper.INSTANCE::MaterialsToMaterialViews, Material.class);
 	}
 
 	@GET
 	@Path("{foremanId: \\d+}")
 	public Response show(@PathParam("foremanId") String id) {
-		return Response.ok(
-			MaterialMapper.INSTANCE.MaterialToMaterialView(
-				this.getVerifiedItem(Material.class, id)
-			)
-		).build();
+		return this.item(MaterialMapper.INSTANCE::MaterialToMaterialView, Material.class, id);
 	}
 
 	@POST
 	public Response create(MaterialSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			session.persist(
-				MaterialMapper.INSTANCE.MaterialSchemaToMaterial(schema)
-			);
-			transaction.commit();
-			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
-		}
+		return this.create(MaterialMapper.INSTANCE::MaterialSchemaToMaterial, schema);
 	}
 }

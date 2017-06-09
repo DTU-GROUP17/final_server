@@ -30,57 +30,29 @@ public class WeightController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				WeightMapper.INSTANCE.WeightsToWeightViews(
-					session.createQuery("FROM Weight").list()
-				)
-			).build();
-		}
+		return this.collection(WeightMapper.INSTANCE::WeightsToWeightViews, Weight.class);
 	}
 
 	@GET
 	@Path("{weightId: \\d+}")
 	public Response show(@PathParam("weightId") String weightId) {
-		try (Session session = App.factory.openSession()) {
-			return ApiResponse.item(
-				WeightMapper.INSTANCE.WeightToWeightView(
-					session.find(Weight.class, Integer.parseInt(weightId))
-				)
-			).build();
-		}
+		return this.item(WeightMapper.INSTANCE::WeightToWeightView, Weight.class, weightId);
 	}
 
 	@POST
-	public Response create(@Context Guard guard, WeightSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			session.persist(
-				WeightMapper.INSTANCE.WeightSchemaToWeight(schema)
-			);
-			transaction.commit();
-			return Response.ok().build();
-		}
+	public Response create(WeightSchema schema) {
+		return this.create(WeightMapper.INSTANCE::WeightSchemaToWeight, schema);
 	}
 
 	@PATCH
 	@Path("{weightId: \\d+}")
-	public Response update(@Context Guard guard, @PathParam("weightId") String id, WeightSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			Weight weight = this.getVerifiedItem(Weight.class, id);
-			weight.setUpdatedBy((User)guard.getUser());
-			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
-			session.persist(weight);
-			transaction.commit();
-			return Response.ok().build();
-		}
+	public Response update(@PathParam("weightId") String id, WeightSchema schema) {
+		return this.update(WeightUpdater.INSTANCE::updateWeightFromWeightSchema, Weight.class, schema, id);
 	}
 
 	@DELETE
 	@Path("{weightId: \\d+}")
-	public Response delete(@Context Guard guard, @PathParam("weightId") String id) {
-		return null;
-		//return Controller.delete(Weight.class, id);
+	public Response delete(@PathParam("weightId") String id) {
+		return this.delete(Weight.class, id);
 	}
 }

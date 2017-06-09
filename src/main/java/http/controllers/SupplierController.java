@@ -31,62 +31,29 @@ public class SupplierController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				SupplierMapper.INSTANCE.SuppliersToSupplierViews(
-					session
-						.createQuery(
-								"FROM Suppliers"
-						).list()
-				)
-			).build();
-		}
+		return this.collection(SupplierMapper.INSTANCE::SuppliersToSupplierViews, Supplier.class);
 	}
 
 	@GET
 	@Path("{supplierId: \\d+}")
 	public Response show(@PathParam("supplierId") String id) {
-		try (Session session = App.factory.openSession()){
-			return Response.ok(
-					SupplierMapper.INSTANCE.SupplierToSupplierView(
-							Controller.getVerifiedItem(Supplier.class, id, session)
-					)
-			).build();
-		}
+		return this.item(SupplierMapper.INSTANCE::SupplierToSupplierView, Supplier.class, id);
 	}
 
 	@POST
-	public Response create(@Context Guard guard, SupplierSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			session.persist(
-				SupplierMapper.INSTANCE.SupplierSchemaToSupplier(schema)
-			);
-			transaction.commit();
-			return Response.ok().build();
-		}
+	public Response create(SupplierSchema schema) {
+		return this.create(SupplierMapper.INSTANCE::SupplierSchemaToSupplier, schema);
 	}
 
 	@PATCH
 	@Path("{supplierId: \\d+}")
-	public Response update(@Context Guard guard, @PathParam("supplierId") String id, SupplierSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			Supplier supplier = this.getVerifiedItem(Supplier.class, id);
-			supplier.setUpdatedBy((User)guard.getUser());
-			SupplierUpdater.INSTANCE.updateSupplierFromSupplierSchema(
-					schema,
-					supplier
-			);
-			session.persist(supplier);
-			transaction.commit();
-			return Response.ok().build();
-		}
+	public Response update(@PathParam("supplierId") String id, SupplierSchema schema) {
+		return this.update(SupplierUpdater.INSTANCE::updateSupplierFromSupplierSchema, Supplier.class, schema, id);
 	}
 
 	@DELETE
 	@Path("{supplierId: \\d+}")
-	public Response delete(@Context Guard guard, @PathParam("supplierId") String id) {
-		return null;
+	public Response delete(@PathParam("supplierId") String id) {
+		return this.delete(Supplier.class, id);
 	}
 }

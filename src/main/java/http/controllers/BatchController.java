@@ -30,40 +30,18 @@ public class BatchController implements Controller {
 
 	@GET
 	public Response index() {
-		try (Session session = App.factory.openSession()) {
-			return Response.ok(
-				ProductBatchMapper.INSTANCE.ProductBatchesToProductBatchViews(
-					session
-						.createQuery(
-							"FROM ProductBatch"
-						).list()
-				)
-			).build();
-		}
+		return this.collection(ProductBatchMapper.INSTANCE::ProductBatchesToProductBatchViews, ProductBatch.class);
 	}
 
 	@GET
 	@Path("{batchId: \\d+}")
 	public Response show(@PathParam("batchId") String id) {
-		try (Session session = App.factory.openSession()) {
-			return ApiResponse.item(
-				ProductBatchMapper.INSTANCE.ProductBatchToProductBatchView(
-					session.find(ProductBatch.class, Integer.parseInt(id))
-				)
-			).build();
-		}
+		return this.item(ProductBatchMapper.INSTANCE::ProductBatchToProductBatchView, ProductBatch.class, id);
 	}
 
 	@POST
 	public Response create(ProductBatchSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			session.persist(
-				ProductBatchMapper.INSTANCE.ProductBatchSchemaToProductBatch(schema)
-			);
-			transaction.commit();
-			return Response.ok().build();
-		}
+		return this.create(ProductBatchMapper.INSTANCE::ProductBatchSchemaToProductBatch, schema);
 	}
 
 }
