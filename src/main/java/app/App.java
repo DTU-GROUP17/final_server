@@ -5,10 +5,12 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import providers.GuardProvider;
 import services.authentication.Guard;
+import services.observer.Interceptor;
 
 import javax.ws.rs.ApplicationPath;
 import java.security.Key;
@@ -34,6 +36,10 @@ public class App extends ResourceConfig {
 	public static void initConfiguration() {
 		configuration = new Configuration()
 			.configure();
+	}
+
+	public static Session openSession(Guard guard) {
+		return App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession();
 	}
 
 	public App() {

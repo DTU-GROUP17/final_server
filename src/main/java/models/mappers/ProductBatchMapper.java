@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {RecipeMapper.class, UserMapper.class, })
+@Mapper(uses = {RecipeMapper.class, UserMapper.class})
 public interface ProductBatchMapper {
 	ProductBatchMapper INSTANCE = Mappers.getMapper(ProductBatchMapper.class);
 

@@ -2,15 +2,18 @@ package http.controllers;
 
 import annotations.http.Authenticated;
 import app.App;
+import lombok.Getter;
 import models.api.schemas.ComponentSchema;
 import models.db.Component;
 import models.mappers.ComponentMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import services.authentication.Guard;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -20,6 +23,10 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Pharmaceud"})
 public class ComponentController implements Controller {
+
+	@Context
+	@Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -40,7 +47,7 @@ public class ComponentController implements Controller {
 	public Response show(@PathParam("componentId") String id) {
 		return Response.ok(
 			ComponentMapper.INSTANCE.ComponentToComponentView(
-				Controller.getVerifiedItem(Component.class, id)
+				this.getVerifiedItem(Component.class, id)
 			)
 		).build();
 	}
@@ -61,6 +68,6 @@ public class ComponentController implements Controller {
 	@DELETE
 	@Path("{componentId: \\d+}")
 	public Response delete(@PathParam("componentId") String id) {
-		return Controller.delete(Component.class, id);
+		return this.delete(Component.class, id);
 	}
 }

@@ -2,11 +2,14 @@ package http.controllers;
 
 import annotations.http.Authenticated;
 import app.App;
+import lombok.Getter;
 import models.mappers.UserMapper;
 import org.hibernate.Session;
+import services.authentication.Guard;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -16,6 +19,10 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Lab Technician"})
 public class WeighingController implements Controller {
+
+	@Context
+	@Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {

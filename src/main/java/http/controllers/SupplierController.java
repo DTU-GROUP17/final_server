@@ -3,6 +3,7 @@ package http.controllers;
 import annotations.http.Authenticated;
 import annotations.http.PATCH;
 import app.App;
+import lombok.Getter;
 import models.mappers.SupplierMapper;
 import models.api.schemas.SupplierSchema;
 import models.db.Supplier;
@@ -24,6 +25,9 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Pharmaceud"})
 public class SupplierController implements Controller {
+
+	@Context @Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -68,7 +72,7 @@ public class SupplierController implements Controller {
 	public Response update(@Context Guard guard, @PathParam("supplierId") String id, SupplierSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Supplier supplier = Controller.getVerifiedItem(Supplier.class, id);
+			Supplier supplier = this.getVerifiedItem(Supplier.class, id);
 			supplier.setUpdatedBy((User)guard.getUser());
 			SupplierUpdater.INSTANCE.updateSupplierFromSupplierSchema(
 					schema,

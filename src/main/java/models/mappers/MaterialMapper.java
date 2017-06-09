@@ -1,6 +1,7 @@
 package models.mappers;
 
 import models.api.schemas.MaterialSchema;
+import models.api.views.Basic.BasicMaterialView;
 import models.api.views.MaterialView;
 import models.db.Material;
 import org.mapstruct.Mapper;
@@ -21,4 +22,5 @@ public interface MaterialMapper {
 
 	List<MaterialView> MaterialsToMaterialViews(List<Material> materials);
 
+	BasicMaterialView MaterialToBasicMaterialView(Material material);
 }

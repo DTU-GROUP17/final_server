@@ -1,6 +1,7 @@
 package models.mappers;
 
 import models.api.schemas.WeightSchema;
+import models.api.views.Basic.BasicWeightView;
 import models.api.views.WeightView;
 import models.db.Weight;
 import org.mapstruct.Mapper;
@@ -18,5 +19,7 @@ public interface WeightMapper {
 	List<WeightView> WeightsToWeightViews(List<Weight> weights);
 
 	Weight WeightSchemaToWeight(WeightSchema schema);
+
+	BasicWeightView WeightToBasicWeightView(Weight weight);
 
 }

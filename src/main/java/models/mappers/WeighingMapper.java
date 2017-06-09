@@ -7,12 +7,13 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {ProductBatchMapper.class, MaterialMapper.class, WeighingMapper.class})
+@Mapper(uses = {ProductBatchMapper.class, MaterialMapper.class, WeightMapper.class})
 public interface WeighingMapper {
+
 	WeighingMapper INSTANCE = Mappers.getMapper(WeighingMapper.class);
 
 	WeighingView WeighingToWeighingView(Weighing weighing);
 
-	List<WeighingView> WeighingsToWeighingViews(Weighing weighing);
+	List<WeighingView> WeighingsToWeighingViews(List<Weighing> weighing);
 
 }

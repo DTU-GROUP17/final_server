@@ -1,14 +1,17 @@
 package http.controllers;
 
 import app.App;
+import lombok.Getter;
 import models.api.schemas.RecipeSchema;
 import models.db.Recipe;
 import models.mappers.RecipeMapper;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import services.authentication.Guard;
 import services.response.ApiResponse;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -18,6 +21,10 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Pharmaceud"})
 public class RecipeController implements Controller {
+
+	@Context
+	@Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -56,6 +63,6 @@ public class RecipeController implements Controller {
 	@DELETE
 	@Path("{recipeId: \\d+}")
 	public Response delete(@PathParam("recipeId") String id) {
-		return Controller.delete(Recipe.class, id);
+		return this.delete(Recipe.class, id);
 	}
 }

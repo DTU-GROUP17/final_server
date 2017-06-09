@@ -14,7 +14,7 @@ import java.util.Collection;
 @Table(name = "product_batches")
 public class ProductBatch extends Model {
 
-	enum Status {
+	public enum Status {
 		QUEUED,
 		ACTIVE,
 		COMPLETE

@@ -2,6 +2,7 @@ package http.controllers;
 
 import annotations.http.PATCH;
 import app.App;
+import lombok.Getter;
 import models.api.schemas.WeightSchema;
 import models.db.User;
 import models.db.Weight;
@@ -23,6 +24,9 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Admin"})
 public class WeightController implements Controller {
+
+	@Context @Getter
+	public Guard guard;
 
 	@GET
 	public Response index() {
@@ -64,7 +68,7 @@ public class WeightController implements Controller {
 	public Response update(@Context Guard guard, @PathParam("weightId") String id, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = Controller.getVerifiedItem(Weight.class, id);
+			Weight weight = this.getVerifiedItem(Weight.class, id);
 			weight.setUpdatedBy((User)guard.getUser());
 			WeightUpdater.INSTANCE.updateWeightFromWeightSchema(schema, weight);
 			session.persist(weight);
