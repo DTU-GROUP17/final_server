@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 public interface Controller {
 	Guard getGuard();
 
-	static <T extends Model> T getVerifiedItem(Class<T> klass, String id, Session session){
+	static <T extends Model> T getVerifiedItem(Class<T> klass, String id, Session session) {
 		T item = session.find(klass, Integer.parseInt(id));
 		if (item == null) {
 			throw new ModelNotFoundException();
@@ -23,7 +23,7 @@ public interface Controller {
 		return item;
 	}
 
-	static <T extends Model> T getVerifiedItem(Class<T> klass, String id) throws ModelNotFoundException {
+	static <T extends Model> T getVerifiedItem(Class<T> klass, String id) {
 		try (Session session = App.factory.openSession()) {
 			return Controller.getVerifiedItem(klass, id, session);
 		}

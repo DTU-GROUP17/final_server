@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
 @Table(name = "suppliers")

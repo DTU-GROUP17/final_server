@@ -13,14 +13,10 @@ import java.util.List;
 public interface WeightMapper {
 	WeightMapper INSTANCE = Mappers.getMapper(WeightMapper.class);
 
-	@Mappings({
-	})
 	WeightView WeightToWeightView(Weight weight);
 
 	List<WeightView> WeightsToWeightViews(List<Weight> weights);
 
-	@Mappings({
-	})
 	Weight WeightSchemaToWeight(WeightSchema schema);
 
 }

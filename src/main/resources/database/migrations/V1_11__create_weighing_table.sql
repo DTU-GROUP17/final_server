@@ -10,4 +10,5 @@ CREATE TABLE weighings (
   FOREIGN KEY (weight_id) REFERENCES weights(id),
 
   PRIMARY KEY (id)
+
 )

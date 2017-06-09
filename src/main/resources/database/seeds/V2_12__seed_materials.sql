@@ -1,0 +1,2 @@
+--INSERT INTO materials (stocked, used, created_by, component_id) VALUES
+--  ('2.9', '1.3', 1, 1);

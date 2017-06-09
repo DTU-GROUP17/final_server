@@ -1,6 +1,6 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
+import annotations.http.Authenticated;
 import app.App;
 import models.api.schemas.ComponentSchema;
 import models.db.Component;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Pharmaceud"})
-public class ComponentController {
+public class ComponentController implements Controller {
 
 	@GET
 	public Response index() {
@@ -61,6 +61,6 @@ public class ComponentController {
 	@DELETE
 	@Path("{componentId: \\d+}")
 	public Response delete(@PathParam("componentId") String id) {
-		return null;
+		return Controller.delete(Component.class, id);
 	}
 }

@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
 import java.util.Set;
 
 @Mapper
@@ -17,7 +18,7 @@ public interface RoleMapper {
 
 	RoleView RoleToRoleView(Role role);
 
-	Set<RoleView> RolesToRoleViews(Set<Role> roles);
+	List<RoleView> RolesToRoleViews(List<Role> roles);
 
 	BasicRoleView RoleToBasicRoleView(Role role);
 

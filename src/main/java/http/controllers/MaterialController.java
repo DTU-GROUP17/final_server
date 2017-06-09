@@ -1,6 +1,6 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
+import annotations.http.Authenticated;
 import app.App;
 import models.api.schemas.MaterialSchema;
 import models.db.Material;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RolesAllowed({"Foreman"})
-public class MaterialController {
+public class MaterialController implements Controller {
 
 	@GET
 	public Response index() {

@@ -1,8 +1,8 @@
 package http.controllers.users;
 
 
-import annotations_.http.Authenticated;
-import annotations_.http.PATCH;
+import annotations.http.Authenticated;
+import annotations.http.PATCH;
 import app.App;
 import http.controllers.Controller;
 import lombok.Getter;

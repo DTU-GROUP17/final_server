@@ -11,6 +11,8 @@ public interface View {
 		Ingredient,
 		Component,
 		Material,
-		Recipe
+		Recipe,
+		ProductBatch,
+		Weighing
 	}
 }

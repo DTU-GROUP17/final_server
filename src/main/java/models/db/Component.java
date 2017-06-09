@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
 @Table(name = "components")

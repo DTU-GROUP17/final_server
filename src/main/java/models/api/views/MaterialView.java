@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @Data
 public class MaterialView implements View {
 	private Double stocked;
-	private Double used;
+	private Double inStock;
 	private BasicComponentView component;
 	private BasicSupplierView supplier;
 	private Timestamp createdAt;

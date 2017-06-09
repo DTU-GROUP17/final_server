@@ -1,4 +1,4 @@
-package annotations_.http;
+package annotations.http;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

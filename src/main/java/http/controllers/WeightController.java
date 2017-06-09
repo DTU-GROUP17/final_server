@@ -1,6 +1,6 @@
 package http.controllers;
 
-import annotations_.http.PATCH;
+import annotations.http.PATCH;
 import app.App;
 import models.api.schemas.WeightSchema;
 import models.db.User;
@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Admin"})
-public class WeightController {
+public class WeightController implements Controller {
 
 	@GET
 	public Response index() {
@@ -51,9 +51,9 @@ public class WeightController {
 	public Response create(@Context Guard guard, WeightSchema schema) {
 		try (Session session = App.factory.openSession()) {
 			Transaction transaction = session.beginTransaction();
-			Weight weight = WeightMapper.INSTANCE.WeightSchemaToWeight(schema);
-			weight.setCreatedBy((User)guard.getUser());
-			session.persist(weight);
+			session.persist(
+				WeightMapper.INSTANCE.WeightSchemaToWeight(schema)
+			);
 			transaction.commit();
 			return Response.ok().build();
 		}

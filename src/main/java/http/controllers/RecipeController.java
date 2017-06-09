@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 //@RolesAllowed({"Pharmaceud"})
-public class RecipeController {
+public class RecipeController implements Controller {
 
 	@GET
 	public Response index() {
@@ -55,7 +55,7 @@ public class RecipeController {
 
 	@DELETE
 	@Path("{recipeId: \\d+}")
-	public Response delete(@PathParam("recipeId") String recipeId) {
-		return Response.serverError().build();
+	public Response delete(@PathParam("recipeId") String id) {
+		return Controller.delete(Recipe.class, id);
 	}
 }

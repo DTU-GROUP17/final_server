@@ -1,6 +1,11 @@
 package http.controllers;
 
-import annotations_.http.Authenticated;
+import annotations.http.Authenticated;
+import app.App;
+import models.db.Role;
+import models.mappers.RoleMapper;
+import org.hibernate.Session;
+import services.response.ApiResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,16 +15,28 @@ import javax.ws.rs.core.Response;
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class RoleController {
+public class RoleController implements Controller {
 
 	@GET
 	public Response index() {
-		return Response.serverError().build(); //TODO: create
+		try (Session session = App.factory.openSession()) {
+			return Response.ok(
+				RoleMapper.INSTANCE.RolesToRoleViews(
+					session.createQuery("FROM Role").list()
+				)
+			).build();
+		}
 	}
 
 	@GET
 	@Path("{roleId: \\d+}")
-	public Response show(@PathParam("roleId") String roleId) {
-		return Response.serverError().build(); //TODO: create
+	public Response show(@PathParam("roleId") String id) {
+		try (Session session = App.factory.openSession()) {
+			return ApiResponse.item(
+				RoleMapper.INSTANCE.RoleToRoleView(
+					session.find(Role.class, Integer.parseInt(id))
+				)
+			).build();
+		}
 	}
 }

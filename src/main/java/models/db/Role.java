@@ -2,6 +2,7 @@ package models.db;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,6 +12,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
 @Table(name = "roles")
