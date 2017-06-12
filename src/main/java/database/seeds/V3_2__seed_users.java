@@ -26,6 +26,10 @@ public class V3_2__seed_users extends HibernateMigration {
 		Set<Role> roles = new HashSet<>();
 		Role role = session.find(Role.class, 1);
 		roles.add(role);
+
+		Set<Role> allRoles = new HashSet<>(session.createQuery("FROM Role ").list());
+
+		this.createUser(session, "hax", "hax", "frækfyr69", allRoles);
 		this.createUser(session, "Hans", "rekker", "hemmeligt", roles);
 		this.createUser(session, "Lone", ":)", "frækfyr69", roles);
 		this.createUser(session, "Linda", ":(", "albert.dk", roles);
