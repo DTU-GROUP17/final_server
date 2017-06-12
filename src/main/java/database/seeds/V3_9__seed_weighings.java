@@ -11,21 +11,27 @@ public class V3_9__seed_weighings extends HibernateMigration {
 
 	private void createWeighing(Session session, Integer productBatch, Integer user, Integer weight, Integer material, Double amount){
 		Weighing weighing = new Weighing();
+
 		ProductBatch forBatch = new ProductBatch();
 		forBatch.setId(productBatch);
 		weighing.setProductBatch(forBatch);
+
 		User weighedBy = new User();
 		weighedBy.setId(user);
 		weighing.setWeighedBy(weighedBy);
+
 		Weight usedWeight = new Weight();
 		usedWeight.setId(weight);
 		weighing.setWeight(usedWeight);
+
 		Material usedMaterial = new Material();
 		usedMaterial.setId(material);
 		weighing.setMaterial(usedMaterial);
+
 		weighing.setAmount(amount);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		weighing.setWeighedAt(timestamp);
+
 		session.persist(weighing);
 	}
 

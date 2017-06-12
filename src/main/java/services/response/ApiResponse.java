@@ -12,7 +12,7 @@ public abstract class ApiResponse extends Response{
 		if(view != null) {
 			return Response.ok(view);
 		}
-		throw new ModelNotFoundException();
+		throw new ModelNotFoundException("haardt");
 	}
 
 //	public static void verifyItem(Model model) throws ModelNotFoundException {

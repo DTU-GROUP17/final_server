@@ -8,8 +8,12 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class ModelNotFoundException extends RuntimeException implements ExceptionMapper<ModelNotFoundException> {
 
-	public ModelNotFoundException() {
+	public ModelNotFoundException(){
 		System.out.println(this.getClass().getSimpleName());
+	}
+
+	public ModelNotFoundException(String string) {
+		System.out.println("Model not found: " + string);
 	}
 
 	@Override

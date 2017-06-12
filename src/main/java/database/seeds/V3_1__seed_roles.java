@@ -19,7 +19,7 @@ public class V3_1__seed_roles extends HibernateMigration {
 		this.createRole(session, "Admin");
 		this.createRole(session, "Pharmaceud");
 		this.createRole(session, "Foreman");
-		this.createRole(session, "Lab technician");
+		this.createRole(session, "Lab Technician");
 		transaction.commit();
 	}
 }

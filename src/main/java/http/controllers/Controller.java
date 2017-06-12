@@ -59,7 +59,7 @@ public interface Controller {
 	static <T extends Model> T getVerifiedItem(Class<T> klass, String id, Session session) {
 		T item = session.find(klass, Integer.parseInt(id));
 		if (item == null) {
-			throw new ModelNotFoundException();
+			throw new ModelNotFoundException(klass.getSimpleName());
 		}
 		return item;
 	}
