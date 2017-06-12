@@ -19,7 +19,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Entity
-//@Where(clause = "deleted_at IS NULL")
+@Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
 public class User extends Model implements SoftDeletable<User>, Updateable<User>, Authenticatable<User>{
 

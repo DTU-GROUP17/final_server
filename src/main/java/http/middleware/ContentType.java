@@ -1,6 +1,7 @@
 package http.middleware;
 
 import javax.annotation.Priority;
+import javax.json.Json;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -16,6 +17,10 @@ public class ContentType implements ContainerResponseFilter {
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
 		if(!responseContext.getHeaders().containsKey("Content-Type")) {
 			responseContext.getHeaders().add("Content-Type", MediaType.APPLICATION_JSON);
+		}
+
+		if (responseContext.getEntity() == null) {
+			responseContext.setEntity(Json.createObjectBuilder().build());
 		}
 	}
 }
