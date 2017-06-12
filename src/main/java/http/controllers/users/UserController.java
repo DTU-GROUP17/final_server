@@ -11,6 +11,7 @@ import models.mappers.UserMapper;
 import models.mappers.UserUpdater;
 import services.authentication.Guard;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +21,7 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Authenticated
-//@RolesAllowed({"Admin"})
+@RolesAllowed({"Admin"})
 public class UserController implements Controller {
 
 	@Context @Getter

@@ -10,8 +10,6 @@ public class BasicProductBatchView implements View {
 	private Integer id;
 	private BasicRecipeView recipe;
 	private String status;
-	private BasicUserView weighedBy;
-	private Timestamp weighedAt;
 
 	@Override
 	public Type getType() {

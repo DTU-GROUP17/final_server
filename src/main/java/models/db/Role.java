@@ -1,9 +1,6 @@
 package models.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,6 +11,7 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ToString(of = {})
 @Entity
 @Table(name = "roles")
 public class Role extends Model {
@@ -29,9 +27,5 @@ public class Role extends Model {
 
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	private Collection<User> users;
-
-	public String toString(){
-		return "Role Object";
-	}
 
 }

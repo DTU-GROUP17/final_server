@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @ToString(of = {})
 @Entity
-//@SQLDelete(sql = "SELECT * FROM ingredients")
 @Table(name = "ingredients")
 public class Ingredient extends Model {
 
@@ -25,8 +24,5 @@ public class Ingredient extends Model {
     @ManyToOne
     @JoinColumn(name = "component_id", nullable = false)
     private Component component;
-
-//    @ManyToOne()
-//	private Recipe recipe;
 
 }

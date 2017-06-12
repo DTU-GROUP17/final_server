@@ -2,6 +2,9 @@ package models.db;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import models.db.timestamps.UserCreateable;
+import models.db.timestamps.UserSoftDeleteable;
+import models.db.timestamps.UserUpdateable;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,11 +17,11 @@ import java.util.Collection;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ToString(of = {})
 @Entity
-@SQLDelete(sql = "UPDATE weights SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?")
 @Where(clause = "deleted_at IS NULL")
 @Table(name = "weights")
-public class Weight extends Model implements SoftDeletable<Weight>, Updateable<Weight> {
+public class Weight extends Model implements UserCreateable<Weight>, UserUpdateable<Weight>, UserSoftDeleteable<Weight> {
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -27,11 +30,19 @@ public class Weight extends Model implements SoftDeletable<Weight>, Updateable<W
 	private String uri;
 
 	@Basic
+	@CreationTimestamp
+	@Column(name = "created_at")
+	protected Timestamp createdAt;
+
+	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
+	protected User createdBy;
+
+	@Basic
 	@UpdateTimestamp
-	@Column(name = "updated_at", nullable = false)
+	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@Basic @Column(name = "deleted_at", nullable = false)
+	@Basic @Column(name = "deleted_at")
 	private Timestamp deletedAt;
 
 	@OneToMany(mappedBy = "weight")

@@ -1,11 +1,11 @@
 package models.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.SQLDelete;
+import models.db.timestamps.UserCreateable;
+import models.db.timestamps.UserSoftDeleteable;
+import models.db.timestamps.UserUpdateable;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import services.authentication.Authenticatable;
@@ -18,10 +18,11 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ToString(of = {})
 @Entity
-//@Where(clause = "deleted_at IS NULL")
+@Where(clause = "deleted_at IS NULL")
 @Table(name = "users")
-public class User extends Model implements SoftDeletable<User>, Updateable<User>, Authenticatable<User>{
+public class User extends Model implements UserCreateable<User>, UserUpdateable<User>, UserSoftDeleteable<User>, Authenticatable<User> {
 
 	@Basic@Column(name = "name", nullable = false)
 	private String name;
@@ -38,14 +39,19 @@ public class User extends Model implements SoftDeletable<User>, Updateable<User>
 	private String password;
 
 	@Basic
-	@UpdateTimestamp
+	@CreationTimestamp
+	@Column(name = "created_at")
+	protected Timestamp createdAt;
+
+	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
+	protected User createdBy;
+
+	@Basic
 	@Column(name = "updated_at")
-	@Setter(AccessLevel.NONE)
 	private Timestamp updatedAt;
 
 	@Basic
 	@Column(name = "deleted_at")
-	@Setter(AccessLevel.NONE)
 	private Timestamp deletedAt;
 
 	@ManyToOne@JoinColumn(name = "updated_by", referencedColumnName = "id")
@@ -70,10 +76,6 @@ public class User extends Model implements SoftDeletable<User>, Updateable<User>
 	public User setPassword(String password) {
 		this.password = Hasher.hash(password);
 		return this;
-	}
-
-	public String toString(){
-		return "User Object";
 	}
 
 }

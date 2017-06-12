@@ -1,19 +1,14 @@
 package http.controllers;
 
 import app.App;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import exceptions.model.ModelNotFoundException;
 import models.api.schemas.Schema;
 import models.api.views.View;
 import models.db.Model;
-import models.db.SoftDeletable;
-import models.db.User;
-import models.mappers.UserMapper;
-import models.mappers.UserUpdater;
+import models.db.timestamps.UserSoftDeleteable;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
-import services.observer.Interceptor;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -75,7 +70,7 @@ public interface Controller {
 		}
 	}
 
-	static <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id, Session session) {
+	static <T extends Model & UserSoftDeleteable> Response delete(Class<T> klass, String id, Session session) {
 		Transaction transaction = session.beginTransaction();
 		session.delete(
 			Controller.getVerifiedItem(klass, id, session)
@@ -85,7 +80,7 @@ public interface Controller {
 
 	}
 
-	default <T extends Model & SoftDeletable> Response delete(Class<T> klass, String id) {
+	default <T extends Model & UserSoftDeleteable> Response delete(Class<T> klass, String id) {
 		try (Session session = App.openSession(this.getGuard())) {
 			return Controller.delete(klass, id, session);
 		}

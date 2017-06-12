@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import services.authentication.Guard;
 import services.response.ApiResponse;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +21,7 @@ import javax.ws.rs.core.Response;
 @Authenticated
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-//@RolesAllowed({"Pharmaceud"})
+@RolesAllowed({"Pharmaceud"})
 public class RecipeController implements Controller {
 
 	@Context

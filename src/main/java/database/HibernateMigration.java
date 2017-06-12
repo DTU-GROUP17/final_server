@@ -22,5 +22,5 @@ public abstract class HibernateMigration implements JdbcMigration{
 		}
 	}
 
-	protected abstract void migrate(Session factory) throws Exception;
+	protected abstract void migrate(Session session) throws Exception;
 }

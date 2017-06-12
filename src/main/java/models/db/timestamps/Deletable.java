@@ -1,4 +1,4 @@
-package models.db;
+package models.db.timestamps;
 
 public interface Deletable {
 }
