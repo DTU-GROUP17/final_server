@@ -13,12 +13,13 @@ import java.sql.Timestamp;
 @ToString(of = {})
 @Entity
 @Table(name = "weighings")
-public class Weighing extends Model {
+public class Weighing extends Model{
 
 	@Basic@Column(name = "amount")
 	private Double amount;
 
-	@ManyToOne@JoinColumn(name = "product_batch_id", referencedColumnName = "id", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_batch_id", referencedColumnName = "id")
 	private ProductBatch productBatch;
 
 	@ManyToOne@JoinColumn(name = "material_id", referencedColumnName = "id", nullable = false)
@@ -32,6 +33,5 @@ public class Weighing extends Model {
 
 	@ManyToOne@JoinColumn(name = "weighed_by", referencedColumnName = "id")
 	private User weighedBy;
-
 
 }

@@ -39,6 +39,12 @@ public class ProductBatch extends Model implements UserCreateable<ProductBatch> 
 	@JoinColumn(name = "recipe_id", referencedColumnName = "id", nullable = false)
 	private Recipe recipe;
 
-	@OneToMany(mappedBy = "productBatch")
+	@OneToMany(mappedBy = "productBatch", fetch = FetchType.LAZY)
+//	@JoinColumn(name = "product_batch_id", referencedColumnName = "id")
 	private Set<Weighing> weighings;
+
+//	@OneToMany()
+//	@JoinColumn(name = "product_batch_id")
+//	private Set<Weighing> weighings;
+
 }

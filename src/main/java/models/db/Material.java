@@ -28,9 +28,9 @@ public class Material extends Model implements UserCreateable<Material>{
 	protected User createdBy;
 
 	@Basic@Column(name = "stocked", nullable = false)
-	private double stocked;
+	private Double stocked;
 
-	@Basic@Column(name = "used")
+	@Basic@Column(name = "used", nullable = false)
 	private Double used;
 
 	@ManyToOne@JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)

@@ -1,6 +1,6 @@
 CREATE TABLE weighings (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  product_batch_id INT UNSIGNED NOT NULL,
+  product_batch_id INT UNSIGNED,
   material_id INT UNSIGNED NOT NULL,
   weight_id INT UNSIGNED NOT NULL,
   amount DOUBLE CHECK (amount > 0),
