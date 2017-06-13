@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
 
+import javax.json.Json;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.function.*;
@@ -38,9 +39,14 @@ public interface Controller {
 	default <T extends Schema> Response create(Function<T, Model> function, T schema) {
 		try (Session session = App.openSession(this.getGuard())) {
 			Transaction transaction = session.beginTransaction();
-			session.persist(function.apply(schema));
+			Model model = function.apply(schema);
+			session.persist(model);
 			transaction.commit();
-			return Response.status(Response.Status.CREATED).build();
+			return Response.status(Response.Status.CREATED)
+				.entity(
+					Json.createObjectBuilder()
+						.add("id", model.getId())
+				).build();
 		}
 	}
 
