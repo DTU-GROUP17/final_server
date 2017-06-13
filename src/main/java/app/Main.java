@@ -11,6 +11,7 @@ import models.mappers.UserMapper;
 import org.flywaydb.core.Flyway;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import weighting.WeightConnectionManager;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,6 +42,8 @@ public class Main {
 		URI endpoint = new URI(App.endpoint+":"+port+"/");
 		HttpServer server = JdkHttpServerFactory.createHttpServer(endpoint, rc);
 
+		WeightConnectionManager manager = new WeightConnectionManager();
+		manager.refresh();
 
 		System.out.println("Server running");
 		System.out.println("Visit on: "+endpoint.toString());

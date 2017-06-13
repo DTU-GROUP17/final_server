@@ -22,6 +22,7 @@ public class WeightConnectionManager implements Runnable {
 	}
 
 	public void refresh(){
+		System.out.println("refreshed");
 		List<Weight> weights;
 		try (Session session = App.factory.openSession()) {
 			weights = session.createQuery("FROM Weight").list();
@@ -31,6 +32,7 @@ public class WeightConnectionManager implements Runnable {
 				!this.connections.containsKey(weight.getUri())
 				|| !this.connections.get(weight.getUri()).isRunning()
 			){
+				System.out.println("adding: "+weight.getUri());
 				WeightConnection connection = new WeightConnection(weight.getUri());
 				this.connections.put(weight.getUri(), connection);
 				connection.start();
