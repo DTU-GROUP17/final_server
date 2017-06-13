@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 public class MaterialView implements View {
+	private Integer id;
 	private Double stocked;
 	private Double inStock;
 	private BasicComponentView component;
