@@ -42,7 +42,7 @@ public class Recipe extends Model implements UserCreateable<Recipe>, UserSoftDel
 	@OneToMany(mappedBy = "recipe")
 	private Collection<ProductBatch> productBatches;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "recipe_id")
 	private Set<Ingredient> ingredients;
 
