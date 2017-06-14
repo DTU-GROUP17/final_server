@@ -33,7 +33,7 @@ public class WeightConnectionManager implements Runnable {
 				|| !this.connections.get(weight.getUri()).isRunning()
 			){
 				System.out.println("adding: "+weight.getUri());
-				WeightConnection connection = new WeightConnection(weight.getUri());
+				WeightConnection connection = new WeightConnection(weight.getUri(), weight);
 				this.connections.put(weight.getUri(), connection);
 				connection.start();
 			}

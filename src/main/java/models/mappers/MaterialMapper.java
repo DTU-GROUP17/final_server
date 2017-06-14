@@ -15,10 +15,10 @@ public interface MaterialMapper {
 
 	MaterialMapper INSTANCE = Mappers.getMapper(MaterialMapper.class);
 
-	@Mapping(target = "used", expression = "java(0.0)")
+//	@Mapping(target = "used", expression = "java(0.0)")
 	Material MaterialSchemaToMaterial(MaterialSchema schema);
 
-	@Mapping(target = "inStock", expression = "java(material.getStocked()-material.getUsed())")
+//	@Mapping(target = "inStock", expression = "java(material.getStocked()-material.getUsed())")
 	MaterialView MaterialToMaterialView(Material material);
 
 	List<MaterialView> MaterialsToMaterialViews(List<Material> materials);

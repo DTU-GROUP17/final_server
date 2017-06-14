@@ -5,12 +5,15 @@ import exceptions.model.ModelNotFoundException;
 import models.api.schemas.Schema;
 import models.api.views.View;
 import models.db.Model;
+import models.db.timestamps.SoftDeletable;
 import models.db.timestamps.UserSoftDeleteable;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import services.authentication.Guard;
 
 import javax.json.Json;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.function.*;
@@ -22,8 +25,19 @@ public interface Controller {
 
 	default <T extends Model> Response collection(Function<List<T>, List<? extends View>> function, Class<T> modelClass) {
 		try (Session session = App.openSession(getGuard())) {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery query = builder.createQuery(modelClass);
+			try {
+				modelClass.getDeclaredField("deletedAt"); //Christian approved
+				query.where(builder.isNull(query.from(modelClass).get("deletedAt")));
+			} catch (NoSuchFieldException e){
+				query.select(query.from(modelClass));
+			}
+
 			return Response.ok(
-				function.apply(session.createQuery("FROM " + modelClass.getSimpleName()).list())
+				function.apply(
+					session.createQuery(query).getResultList()
+				)
 			).build();
 		}
 	}

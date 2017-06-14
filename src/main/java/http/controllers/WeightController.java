@@ -43,18 +43,21 @@ public class WeightController implements Controller {
 
 	@POST
 	public Response create(WeightSchema schema) {
+		App.getWeightConnectionManager().refresh();
 		return this.create(WeightMapper.INSTANCE::WeightSchemaToWeight, schema);
 	}
 
 	@PATCH
 	@Path("{weightId: \\d+}")
 	public Response update(@PathParam("weightId") String id, WeightSchema schema) {
+		App.getWeightConnectionManager().refresh();
 		return this.update(WeightUpdater.INSTANCE::updateWeightFromWeightSchema, Weight.class, schema, id);
 	}
 
 	@DELETE
 	@Path("{weightId: \\d+}")
 	public Response delete(@PathParam("weightId") String id) {
+		App.getWeightConnectionManager().refresh();
 		return this.delete(Weight.class, id);
 	}
 }

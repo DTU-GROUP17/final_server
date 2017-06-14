@@ -10,10 +10,8 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ToString(of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 @Entity
 @Table(name = "product_batches")
 public class ProductBatch extends Model implements UserCreateable<ProductBatch> {
@@ -27,24 +25,19 @@ public class ProductBatch extends Model implements UserCreateable<ProductBatch> 
 	@Basic
 	@CreationTimestamp
 	@Column(name = "created_at")
-	protected Timestamp createdAt;
+	@Getter@Setter private Timestamp createdAt;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
-	protected User createdBy;
+	@Getter@Setter private User createdBy;
 
 	@Basic@Column(name = "status", nullable = false)
-	private Status status;
+	@Getter@Setter private Status status;
 
 	@ManyToOne
 	@JoinColumn(name = "recipe_id", referencedColumnName = "id", nullable = false)
-	private Recipe recipe;
+	@Getter@Setter private Recipe recipe;
 
-	@OneToMany(mappedBy = "productBatch", fetch = FetchType.LAZY)
-//	@JoinColumn(name = "product_batch_id", referencedColumnName = "id")
-	private Set<Weighing> weighings;
-
-//	@OneToMany()
-//	@JoinColumn(name = "product_batch_id")
-//	private Set<Weighing> weighings;
+	@OneToMany(mappedBy = "productBatch")
+	@Getter@Setter private Set<Weighing> weighings;
 
 }

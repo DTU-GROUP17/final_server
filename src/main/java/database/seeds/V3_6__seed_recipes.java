@@ -24,12 +24,12 @@ public class V3_6__seed_recipes extends HibernateMigration {
 		Transaction transaction = session.beginTransaction();
 		IngredientSchema ingredient_1 = new IngredientSchema();
 		ingredient_1.setComponent(1);
-		ingredient_1.setAmount(10.0);
-		ingredient_1.setAmount(20.5);
+		ingredient_1.setAmount(0.184);
+		ingredient_1.setTolerance(20.0);
 		IngredientSchema ingredient_2 = new IngredientSchema();
 		ingredient_2.setComponent(2);
-		ingredient_2.setAmount(2.4);
-		ingredient_2.setTolerance(45.1);
+		ingredient_2.setAmount(0.183);
+		ingredient_2.setTolerance(20.0);
 		Set<IngredientSchema> ingredients = new HashSet<>();
 		ingredients.add(ingredient_1);
 		ingredients.add(ingredient_2);

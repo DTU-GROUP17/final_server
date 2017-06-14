@@ -19,6 +19,9 @@ public abstract class Answer {
 		switch (matcher.group(1)) {
 			case "RM20": return new PromptAnswer(matcher.group(2));
 			case "I4": return new SerialNumberInqueryAnswer(matcher.group(2));
+			case "RM49": return new PopupAnswer(matcher.group(2));
+			case "S": return new LoadAnswer(matcher.group(2));
+			case "T": return new TareAnswer(matcher.group(2));
 			default: throw new ParseAnswerException();
 		}
 	}

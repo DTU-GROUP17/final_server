@@ -8,9 +8,9 @@ import org.hibernate.Transaction;
 public class V3_1__seed_roles extends HibernateMigration {
 
 	private void createRole(Session session, String name) {
-		Role admin = new Role();
-		admin.setName(name);
-		session.persist(admin);
+		Role role = new Role();
+		role.setName(name);
+		session.persist(role);
 	}
 
 	@Override

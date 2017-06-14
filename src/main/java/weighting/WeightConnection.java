@@ -1,5 +1,7 @@
 package weighting;
 
+import models.db.Weight;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -8,22 +10,23 @@ public class WeightConnection extends Thread {
 	private String uri;
 	private boolean running;
 	private boolean status;
-	private WeightController controller;
+	private Weight weight;
+	private WeightManager controller;
 
-	public WeightConnection(String uri) {
+	public WeightConnection(String uri, Weight weight) {
 		this.uri = uri;
+		this.weight = weight;
 	}
 
 	private void connect(){
 		try {
 			Socket socket = new Socket(this.uri, 8000);
-			socket.setSoTimeout(10 * 1000);
+			socket.setSoTimeout(60 * 1000);
 			System.out.println("new socket");
-			this.controller = new WeightController(socket);
+			this.controller = new WeightManager(socket);
 			this.setStatus(true);
 		} catch (IOException e) {
 			System.out.println("socket failed");
-//			this.stopRunning();
 		}
 
 	}
@@ -35,8 +38,8 @@ public class WeightConnection extends Thread {
 		this.connect();
 		while (this.isRunning()) {
 			try {
-				session = new WeightingSession(controller);
-				System.out.println("session made");
+				session = new WeightingSession(controller, weight);
+				this.controller.reset();
 				session.run();
 			} catch (WeightingSessionException e) {
 				try {
@@ -55,7 +58,6 @@ public class WeightConnection extends Thread {
 	}
 
 	public void stopRunning() {
-		System.out.println("stop running");
 		this.setStatus(false);
 		this.running = false;
 	}

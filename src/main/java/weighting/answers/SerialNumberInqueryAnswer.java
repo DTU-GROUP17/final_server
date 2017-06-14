@@ -24,7 +24,6 @@ public class SerialNumberInqueryAnswer extends Answer {
 	private String content;
 
 	public SerialNumberInqueryAnswer(String values) throws ParseAnswerException {
-		System.out.println(this);
 		Matcher matcher;
 		try {
 			matcher = pattern.matcher(values);
@@ -36,6 +35,5 @@ public class SerialNumberInqueryAnswer extends Answer {
 		if (matcher.groupCount()>2) {
 			this.setContent(matcher.group(2));
 		}
-		System.out.println(this);
 	}
 }

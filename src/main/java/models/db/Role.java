@@ -8,24 +8,18 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ToString(of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 @Entity
 @Table(name = "roles")
 public class Role extends Model {
 
 	@Basic@Column(name = "name", nullable = false)
-	private String name;
+	@Getter@Setter private String name;
 
 	@Basic
 	@CreationTimestamp
-	@Setter(AccessLevel.NONE)
 	@Column(name = "created_at")
-	private Timestamp createdAt;
-
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	private Collection<User> users;
+	@Getter@Setter private Timestamp createdAt;
 
 }

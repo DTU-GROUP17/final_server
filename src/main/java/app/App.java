@@ -1,6 +1,7 @@
 package app;
 
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import lombok.Getter;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -11,6 +12,7 @@ import org.hibernate.cfg.Configuration;
 import providers.GuardProvider;
 import services.authentication.Guard;
 import services.observer.Interceptor;
+import weighting.WeightConnectionManager;
 
 import javax.ws.rs.ApplicationPath;
 import java.security.Key;
@@ -21,6 +23,7 @@ public class App extends ResourceConfig {
 	public static SessionFactory factory;
 	public static Configuration configuration;
 	public final static String endpoint = "http://localhost";
+	@Getter private static WeightConnectionManager weightConnectionManager;
 
 	public static void initHibernate() {
 		try{
@@ -42,6 +45,10 @@ public class App extends ResourceConfig {
 		return App.factory.withOptions().interceptor(new Interceptor(guard.getUser())).openSession();
 	}
 
+	public static Session openSession() {
+		return App.factory.openSession();
+	}
+
 	public App() {
 		this.packages(true, "exceptions");
 		this.packages(true, "http/controllers");
@@ -57,5 +64,7 @@ public class App extends ResourceConfig {
 						.in(RequestScoped.class);
 			}
 		});
+
+		App.weightConnectionManager = new WeightConnectionManager();
 	}
 }

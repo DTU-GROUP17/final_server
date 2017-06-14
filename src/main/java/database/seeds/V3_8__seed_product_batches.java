@@ -20,6 +20,7 @@ public class V3_8__seed_product_batches extends HibernateMigration {
 	protected void migrate(Session session) throws Exception {
 		Transaction transaction = session.beginTransaction();
 		this.createBatch(session, 1);
+		this.createBatch(session, 1);
 		transaction.commit();
 	}
 }

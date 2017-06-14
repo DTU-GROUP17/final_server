@@ -4,9 +4,27 @@ import models.db.Role;
 import services.hash.Hasher;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Set;
 
 public interface Authenticatable<T extends Authenticatable<T>> extends Principal {
+
+	public enum Roles {
+		Admin,
+		Pharmaceud,
+		Foreman,
+		Lab_Technician;
+
+		public int toValue() {
+			switch (this) {
+				case Admin: return 1;
+				case Pharmaceud: return 2;
+				case Foreman: return 3;
+				case Lab_Technician: return 4;
+				default: throw new IllegalArgumentException();
+			}
+		}
+	}
 
 	/**
 	 * Get the unique identifier for the user.
@@ -34,7 +52,10 @@ public interface Authenticatable<T extends Authenticatable<T>> extends Principal
 		return this.getRoles().contains(role);
 	}
 
-	default boolean hasRole(String role) {
-		return this.getRoles().stream().anyMatch(role1 -> role1.getName().equals(role));
+	default boolean hasRole(String target) {
+		System.out.println("has roles check");
+		System.out.println(Arrays.toString(this.getRoles().stream().map(Role::getName).toArray()));
+		return this.getRoles().stream()
+			.anyMatch(role -> role.getId().equals(Roles.valueOf(target).toValue()));
 	}
 }

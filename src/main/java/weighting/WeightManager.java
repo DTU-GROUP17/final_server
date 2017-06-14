@@ -2,22 +2,19 @@ package weighting;
 
 import lombok.Getter;
 import lombok.Setter;
-import weighting.answers.Answer;
-import weighting.answers.ParseAnswerException;
-import weighting.answers.PromptAnswer;
-import weighting.answers.SerialNumberInqueryAnswer;
+import weighting.answers.*;
 import weighting.commands.*;
 
 import java.io.*;
 import java.net.Socket;
 
-public class WeightController {
+public class WeightManager {
 
 	private BufferedReader reader;
 	private PrintWriter writer;
 	@Setter@Getter private int maxTimeoutAttempts = 3;
 
-	public WeightController(Socket connection) throws IOException {
+	public WeightManager(Socket connection) throws IOException {
 		this.reader = new BufferedReader(
 			new InputStreamReader(connection.getInputStream())
 		);
@@ -72,8 +69,8 @@ public class WeightController {
 		this.send(
 			new Prompt()
 				.setAcceptType(Prompt.AcceptType._4)
-					.setPrompt("Operator#")
-						.setDefaultDisplay("")
+					.setPrompt(prompt)
+						.setDefaultDisplay(defaultDisplay)
 		);
 		if (this.getAnswer(PromptAnswer.class).getType() != PromptAnswer.Status.B) {
 			throw new WeightingSessionException();
@@ -85,13 +82,31 @@ public class WeightController {
 		return answer.getContent();
 	}
 
+	public void confirmedMessage(String message) {
+		this.send(
+			new DisplayPopup()
+				.setWindowType(DisplayPopup.WindowType._2)
+					.setDisplay(message)
+		);
+		if (this.getAnswer(PopupAnswer.class).getType() != PopupAnswer.Status.B) {
+			throw new WeightingSessionException();
+		}
+		PopupAnswer answer = this.getAnswer(PopupAnswer.class);
+		if (
+			answer.getType() != PopupAnswer.Status.A
+			|| answer.getContent() == null
+			|| answer.getContent() != PopupAnswer.UserResponse.OK) {
+			throw new WeightingSessionException();
+		}
+	}
+
 	public void reset() {
 		this.send(
 			new Reset()
 		);
 	}
 
-	public void sendMessage(String message) {
+	public void displayMessage(String message) {
 		this.send(
 			new DisplayMessage()
 				.setDisplay(message)
@@ -99,15 +114,42 @@ public class WeightController {
 	}
 
 	public double getStapleLoad() {
-		this.send(
-			new RequestLoad()
-		);
-
-		return 0.0;
+		while (true) {
+			this.send(
+				new RequestLoad()
+			);
+			LoadAnswer answer = this.getAnswer(LoadAnswer.class);
+			switch (answer.getStatus()) {
+				case S: return answer.getLoad();
+				case MINUS:
+					this.confirmedMessage("Weight under minimum load");
+					continue;
+				case PLUS:
+					this.confirmedMessage("Weight over maximum load");
+					continue;
+				default: throw new WeightingSessionException();
+			}
+		}
 	}
 
-	public void tara(){
-
+	public void tare(){
+		while (true) {
+			this.send(
+				new Tare()
+			);
+			TareAnswer answer = this.getAnswer(TareAnswer.class);
+			System.out.println("answer = " + answer);
+			switch (answer.getStatus()) {
+				case S: return;
+				case MINUS:
+					this.confirmedMessage("Weight under minimum load, tare failed");
+					continue;
+				case PLUS:
+					this.confirmedMessage("Weight over maximum load, tare failed");
+					continue;
+				default: throw new WeightingSessionException();
+			}
+		}
 	}
 
 }

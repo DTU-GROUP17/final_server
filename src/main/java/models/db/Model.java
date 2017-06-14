@@ -1,18 +1,20 @@
 package models.db;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Data
 @Accessors(chain = true)
+@EqualsAndHashCode(of = "id")
 @MappedSuperclass
 public abstract class Model {
 
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
+	@Getter@Setter protected Integer id;
 
 }

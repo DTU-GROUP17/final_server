@@ -19,7 +19,7 @@ public class PromptAnswer extends Answer {
 		C,
 	}
 
-	private static final Pattern pattern = Pattern.compile(" (\\w)( \"(.*?)\")?");
+	private static final Pattern pattern = Pattern.compile(" (\\w)( \"((.*?))\")?");
 
 	@Getter@Setter(AccessLevel.PRIVATE)
 	private Status type;
@@ -35,10 +35,9 @@ public class PromptAnswer extends Answer {
 		} catch (IllegalArgumentException | IllegalStateException e) {
 			throw new ParseAnswerException();
 		}
-		if (matcher.groupCount()>2) {
-			this.setContent(matcher.group(2));
+		if (matcher.group(3)!=null) {
+			this.setContent(matcher.group(3));
 		}
-		System.out.println(this);
 	}
 
 }

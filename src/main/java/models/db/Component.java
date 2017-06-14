@@ -1,8 +1,6 @@
 package models.db;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import models.db.timestamps.UserCreateable;
 import models.db.timestamps.UserSoftDeleteable;
@@ -13,34 +11,31 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ToString(of = {})
+@EqualsAndHashCode(callSuper = true, of = {})
 @Entity
-@Where(clause = "deleted_at IS NULL")
 @Table(name = "components")
 public class Component extends Model implements UserCreateable<Component>, UserSoftDeleteable<Component>{
 
 	@Basic@Column(name = "name", nullable = false)
-	private String name;
+	@Getter@Setter private String name;
 
 	@Basic
 	@CreationTimestamp
 	@Column(name = "created_at")
-	protected Timestamp createdAt;
+	@Getter@Setter private Timestamp createdAt;
 
 	@ManyToOne@JoinColumn(name = "created_by", referencedColumnName = "id")
-	protected User createdBy;
+	@Getter@Setter private User createdBy;
 
 	@Basic@Column(name = "deleted_at")
-	private Timestamp deletedAt;
+	@Getter@Setter private Timestamp deletedAt;
 
 	@ManyToOne
 	@JoinColumn(name = "deleted_by", referencedColumnName = "id")
-	private User deletedBy;
+	@Getter@Setter private User deletedBy;
 
 	@OneToMany(mappedBy = "component")
-	private Collection<Material> materials;
+	@Getter@Setter private Collection<Material> materials;
 
 }

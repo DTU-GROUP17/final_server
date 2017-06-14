@@ -15,7 +15,7 @@ public class ProductBatchView implements View {
 	private Integer id;
 	private BasicRecipeView recipe;
 	private String status;
-//	private Set<BasicWeighingView> weighings;
+	private Set<BasicWeighingView> weighings;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private Timestamp deletedAt;
