@@ -194,7 +194,6 @@
                     </locations>
                 </configuration>
             </plugin>
-            <!--
             <plugin>
 
                 <groupId>org.apache.maven.plugins</groupId>
@@ -244,7 +243,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
         </plugins>
         <defaultGoal>install</defaultGoal>
     </build>
