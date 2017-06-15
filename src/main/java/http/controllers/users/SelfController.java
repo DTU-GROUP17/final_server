@@ -31,34 +31,18 @@ public class SelfController implements Controller{
 	public Guard guard;
 
 	@GET
-	public Response show(@Context Guard guard) {
-		return Response.ok(UserMapper.INSTANCE.UserToUserView((User) guard.getUser())).build();
+	public Response show() {
+		return this.item(UserMapper.INSTANCE::UserToUserView, User.class, this.getGuard().getUser().getId().toString());
 	}
 
 	@PATCH
-	public Response update(@Context Guard guard, SelfSchema schema) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			User user = (User) guard.getUser();
-			UserUpdater.INSTANCE.updateUserFromSelfSchema(schema, user);
-			transaction.commit();
-			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
-		}
+	public Response update(SelfSchema schema) {
+		return this.update(UserUpdater.INSTANCE::updateUserFromSelfSchema, User.class, schema, this.getGuard().getUser().getId().toString());
 	}
 
 	@DELETE
-	public Response delete(@Context Guard guard) {
-		try (Session session = App.factory.openSession()) {
-			Transaction transaction = session.beginTransaction();
-			User user = (User) guard.getUser();
-			session.delete(user);
-			transaction.commit();
-			return Response.ok().build();
-		} catch (PersistenceException e) {
-			return Response.notModified().build();
-		}
+	public Response delete() {
+		return this.delete(User.class, this.getGuard().getUser().getId().toString());
 	}
 
 }
