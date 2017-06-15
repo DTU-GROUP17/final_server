@@ -5,6 +5,7 @@ import models.api.views.View;
 
 @Data
 public class BasicMaterialView implements View {
+	private Integer id;
 	private Double stocked;
 	private Double inStock;
 	private BasicComponentView component;
