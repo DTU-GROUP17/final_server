@@ -53,8 +53,6 @@ public interface Authenticatable<T extends Authenticatable<T>> extends Principal
 	}
 
 	default boolean hasRole(String target) {
-		System.out.println("has roles check");
-		System.out.println(Arrays.toString(this.getRoles().stream().map(Role::getName).toArray()));
 		return this.getRoles().stream()
 			.anyMatch(role -> role.getId().equals(Roles.valueOf(target).toValue()));
 	}

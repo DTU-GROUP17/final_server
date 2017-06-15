@@ -24,7 +24,6 @@ public class WeightManager {
 	}
 
 	private void send(String message) {
-		System.out.println("message = " + message);
 		writer.write(message+"\r\n");
 		writer.flush();
 	}
@@ -138,7 +137,6 @@ public class WeightManager {
 				new Tare()
 			);
 			TareAnswer answer = this.getAnswer(TareAnswer.class);
-			System.out.println("answer = " + answer);
 			switch (answer.getStatus()) {
 				case S: return;
 				case MINUS:

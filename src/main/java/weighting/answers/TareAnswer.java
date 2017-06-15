@@ -19,16 +19,11 @@ public class TareAnswer extends Answer {
 	private String unit;
 
 	public TareAnswer(String values) throws ParseAnswerException {
-		System.out.println("this = " + this);
 		Matcher matcher;
 		try {
 			matcher = pattern.matcher(values);
 			matcher.matches();
 			this.setStatus(LoadAnswer.LoadStatus.from(matcher.group(1)));
-			System.out.println(this);
-			for (int i = 0; i < matcher.groupCount(); i++) {
-				System.out.println("\""+matcher.group(i)+"\"");
-			}
 			if (
 				matcher.group(3) != null
 				&& matcher.group(4) != null
@@ -43,7 +38,6 @@ public class TareAnswer extends Answer {
 		} catch (IllegalArgumentException | IllegalStateException e) {
 			throw new ParseAnswerException();
 		}
-		System.out.println(this);
 	}
 
 }

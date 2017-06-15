@@ -17,7 +17,7 @@ public class V3_7__seed_weights extends HibernateMigration {
 	@Override
 	protected void migrate(Session session) throws Exception {
 		Transaction transaction = session.beginTransaction();
-		this.createWeight(session, "Main Lab Weight", "169.254.2.3");
+		this.createWeight(session, "Main Lab Weight", "169.254.2.2");
 //		this.createWeight(session, "Cellar Weight", "192.168.0.3");
 		transaction.commit();
 	}

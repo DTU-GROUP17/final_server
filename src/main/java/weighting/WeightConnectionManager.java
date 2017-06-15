@@ -4,6 +4,8 @@ import app.App;
 import models.db.Weight;
 import org.hibernate.Session;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +24,6 @@ public class WeightConnectionManager implements Runnable {
 	}
 
 	public void refresh(){
-		System.out.println("refreshed");
 		List<Weight> weights;
 		try (Session session = App.factory.openSession()) {
 			weights = session.createQuery("FROM Weight").list();
@@ -32,7 +33,6 @@ public class WeightConnectionManager implements Runnable {
 				!this.connections.containsKey(weight.getUri())
 				|| !this.connections.get(weight.getUri()).isRunning()
 			){
-				System.out.println("adding: "+weight.getUri());
 				WeightConnection connection = new WeightConnection(weight.getUri(), weight);
 				this.connections.put(weight.getUri(), connection);
 				connection.start();

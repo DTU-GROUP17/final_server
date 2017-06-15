@@ -30,11 +30,9 @@ public class WeightingSession {
 					this.controller.prompt("User ID:", "0")
 			);
 			User user;
-			System.out.println("id = " + id);
 			try (Session session = App.openSession()) {
 				user = session.find(User.class, id);
 			}
-			System.out.println("user = " + user);
 			if (user==null){
 				this.controller.confirmedMessage("No user with that id");
 				continue;
@@ -66,7 +64,10 @@ public class WeightingSession {
 				this.controller.confirmedMessage("No batch with that id");
 				continue;
 			}
-			if (batch.getStatus() != ProductBatch.Status.QUEUED) {
+			if (
+				batch.getStatus() != ProductBatch.Status.QUEUED
+				&& batch.getStatus() != ProductBatch.Status.ACTIVE
+			) {
 				this.controller.confirmedMessage(
 					String.format(
 						"Batch is currently %s",
@@ -109,7 +110,6 @@ public class WeightingSession {
 	}
 
 	private void abort() {
-		System.out.println("aborting");
 		if (this.batch == null){
 			return;
 		}
@@ -158,12 +158,7 @@ public class WeightingSession {
 	}
 
 	private boolean recipeCompleted(List<Weighing> weighings, List<Ingredient> ingredients) {
-		System.out.println("recipe complete?");
-		System.out.println("ingredients.size() = " + ingredients.size());
 		for (Ingredient ingredient : ingredients) {
-			System.out.println("ingredient = " + ingredient.getComponent().getName());
-			System.out.println("this.getIngredientSaturation(weighings, ingredient.getComponent()) = " + this.getIngredientSaturation(weighings, ingredient.getComponent()));
-			System.out.println("ingredient.getLowerLimit() = " + ingredient.getLowerLimit());
 			if (
 				this.getIngredientSaturation(
 					weighings,
@@ -181,7 +176,6 @@ public class WeightingSession {
 	private void perform() {
 		User user = this.getVerifiedUser();
 		this.batch = this.getVerifiedBatch();
-		System.out.println("batch verfified");
 		this.begin();
 		this.controller.tare();
 		try (Session session = App.openSession()) {
@@ -195,19 +189,6 @@ public class WeightingSession {
 			List<Ingredient> ingredients = this.batch.getRecipe().getIngredients();
 			while (!this.recipeCompleted(weightings, ingredients)) {
 				Weighing weighing = this.weigh();
-				System.out.println("weighing.getMaterial().getComponent().getName() = " + weighing.getMaterial().getComponent().getName());
-				System.out.println("weighing.getAmount() = " + weighing.getAmount());
-				System.out.println("ingredients.size() = " + ingredients.size());
-				for (Ingredient ingredient : ingredients) {
-					System.out.println("ingredient.getComponent().getName() = " + ingredient.getComponent().getName());
-					System.out.println(ingredient.getComponent().getId());
-					System.out.println(weighing.getMaterial().getComponent().getId());
-					System.out.println(
-						ingredient.getComponent().equals(
-							weighing.getMaterial().getComponent()
-						)
-					);
-				}
 				Optional<Ingredient> filteredIngredients = ingredients.stream()
 					.filter(
 						ingredient ->
@@ -259,11 +240,9 @@ public class WeightingSession {
 	}
 
 	public void run() {
-		System.out.println("session running");
 		try {
 			this.perform();
 		} catch (RuntimeException e) {
-			System.out.println("e = " + e);
 			this.abort();
 			throw new WeightingSessionException();
 		} catch (Exception e) {

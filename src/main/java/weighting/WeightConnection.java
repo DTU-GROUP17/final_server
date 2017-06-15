@@ -4,6 +4,8 @@ import models.db.Weight;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class WeightConnection extends Thread {
 
@@ -20,13 +22,16 @@ public class WeightConnection extends Thread {
 
 	private void connect(){
 		try {
-			Socket socket = new Socket(this.uri, 8000);
+			String string = this.uri.contains("//") ? this.uri : "//" + this.uri;
+			URI uri = new URI(string);
+			Socket socket = new Socket(
+				uri.getHost() + uri.getPath(),
+				uri.getPort() == -1 ? 8000 : uri.getPort()
+			);
 			socket.setSoTimeout(60 * 1000);
-			System.out.println("new socket");
 			this.controller = new WeightManager(socket);
 			this.setStatus(true);
-		} catch (IOException e) {
-			System.out.println("socket failed");
+		} catch (IOException | URISyntaxException e) {
 		}
 
 	}
