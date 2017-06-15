@@ -44,7 +44,11 @@ public class WeightConnection extends Thread {
 		while (this.isRunning()) {
 			try {
 				session = new WeightingSession(controller, weight);
-				this.controller.reset();
+				try{
+					this.controller.reset();
+				} catch (NullPointerException e) {
+					throw new DisconnectedException();
+				}
 				session.run();
 			} catch (WeightingSessionException e) {
 				try {
