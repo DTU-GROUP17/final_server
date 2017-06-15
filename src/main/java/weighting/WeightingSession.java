@@ -136,6 +136,8 @@ public class WeightingSession {
 	}
 
 	private Weighing weigh() {
+		this.controller.confirmedMessage("Place container on weights");
+		this.controller.tare();
 		Weighing weighing = new Weighing();
 		return weighing.setMaterial(
 			this.getVerifiedMaterial()
@@ -177,7 +179,6 @@ public class WeightingSession {
 		User user = this.getVerifiedUser();
 		this.batch = this.getVerifiedBatch();
 		this.begin();
-		this.controller.tare();
 		try (Session session = App.openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Weighing> query = builder.createQuery(Weighing.class);
@@ -223,6 +224,10 @@ public class WeightingSession {
 								.setWeight(this.weight)
 				);
 				Material usedMaterial = weighing.getMaterial();
+				if (weighing.getAmount() <= 0.0) {
+					this.controller.confirmedMessage("Nothing weighed");
+					continue;
+				}
 				try {
 					usedMaterial.take(weighing.getAmount());
 				} catch (MaterialException e) {

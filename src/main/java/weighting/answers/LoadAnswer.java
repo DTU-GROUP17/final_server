@@ -37,7 +37,7 @@ public class LoadAnswer extends Answer {
 		}
 	}
 
-	private static final Pattern pattern = Pattern.compile(" ([^\\s])(\\s+(\\d+\\.?\\d*)\\s+((.*)))?");
+	private static final Pattern pattern = Pattern.compile(" ([^\\s])(\\s+(-?\\d+\\.?\\d*)\\s+((.*)))?");
 
 	@Getter@Setter(AccessLevel.PRIVATE)
 	private LoadStatus status;

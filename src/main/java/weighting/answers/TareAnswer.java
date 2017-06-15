@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class TareAnswer extends Answer {
 
-	private static final Pattern pattern = Pattern.compile(" ([^\\s])(\\s+(\\d+\\.?\\d*)\\s+((.*)))?");
+	private static final Pattern pattern = Pattern.compile(" ([^\\s])(\\s+(-?\\d+\\.?\\d*)\\s+((.*)))?");
 
 	@Getter@Setter(AccessLevel.PRIVATE)
 	private LoadAnswer.LoadStatus status;
