@@ -5,14 +5,10 @@ import annotations.http.PATCH;
 import app.App;
 import lombok.Getter;
 import models.api.schemas.WeightSchema;
-import models.db.User;
 import models.db.Weight;
 import models.mappers.WeightMapper;
 import models.mappers.WeightUpdater;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import services.authentication.Guard;
-import services.response.ApiResponse;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;

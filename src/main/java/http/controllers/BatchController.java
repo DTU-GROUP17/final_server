@@ -1,15 +1,11 @@
 package http.controllers;
 
 import annotations.http.Authenticated;
-import app.App;
 import lombok.Getter;
 import models.api.schemas.ProductBatchSchema;
 import models.db.ProductBatch;
 import models.mappers.ProductBatchMapper;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import services.authentication.Guard;
-import services.response.ApiResponse;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
